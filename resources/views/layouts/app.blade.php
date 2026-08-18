@@ -151,8 +151,7 @@
                 <div>
                     <h4 class="footer-heading">Layanan</h4>
                     <ul class="footer-links">
-                        <li><a href="/paket">Paket Internet Rumah</a></li>
-                        <li><a href="/paket">Paket Internet Bisnis</a></li>
+                        <li><a href="/paket">Paket Internet</a></li>
                         <li><a href="/infrastruktur/colocation">Server Colocation</a></li>
                         <li><a href="/infrastruktur/coverage">Cek Area Coverage</a></li>
                         <li><a href="/speedtest">Uji Kecepatan (Speedtest)</a></li>
