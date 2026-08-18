@@ -132,9 +132,7 @@
             <div class="footer-grid">
                 <div>
                     <a href="/" class="footer-brand mb-6 inline-block">
-                        <div class="bg-white/95 backdrop-blur-sm p-3 md:p-4 rounded-2xl shadow-lg border border-white/20 inline-block transition-transform hover:-translate-y-1">
-                            <img src="{{ asset('images/logo.png') }}" alt="LancarWiFi Logo" class="h-16 md:h-20 w-auto object-contain">
-                        </div>
+                        <img src="{{ asset('images/logoFooter.png') }}" alt="LancarWiFi Logo" class="h-16 md:h-20 w-auto object-contain transition-transform hover:scale-105">
                     </a>
                     <p class="footer-text">Penyedia layanan internet fiber optic ultra cepat, stabil, dan terpercaya untuk mendampingi segala aktivitas digital Anda tanpa batas.</p>
                     <div class="footer-socials">
