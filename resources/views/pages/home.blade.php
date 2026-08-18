@@ -218,7 +218,7 @@
                     </div>
                     
                     <div class="relative z-10 mt-10">
-                        <a href="/hubungi-kami" class="flex items-center justify-center gap-2 w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform group-hover:-translate-y-1 !text-white hover:!text-white {{ $isPopular ? 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 shadow-[0_10px_20px_rgba(59,130,246,0.4)]' : 'bg-slate-900 hover:bg-blue-600 hover:shadow-xl hover:shadow-blue-500/20' }}">
+                        <a href="/hubungi-kami" class="flex items-center justify-center gap-2 w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform group-hover:-translate-y-1 !text-white hover:!text-white {{ $isPopular ? 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 shadow-[0_10px_20px_rgba(59,130,246,0.4)]' : 'bg-slate-900 hover:bg-slate-800 hover:shadow-xl' }}" style="color: white !important;">
                             <span class="!text-white hover:!text-white">Berlangganan Sekarang</span>
                             <i class='bx bx-right-arrow-alt text-xl !text-white group-hover:translate-x-1 transition-transform'></i>
                         </a>
@@ -233,7 +233,7 @@
 </section>
 
 <!-- 4. FULL-WIDTH HORIZONTAL PROMO BANNER SECTION -->
-<section class="py-16 sm:py-20 lg:py-24 bg-white" id="promo">
+<!-- <section class="py-16 sm:py-20 lg:py-24 bg-white" id="promo">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 rounded-3xl p-8 sm:p-12 lg:p-16 text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div class="absolute -right-20 -top-20 w-80 h-80 bg-brand-orange/15 rounded-full blur-3xl pointer-events-none"></div>
@@ -257,7 +257,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 <!-- 5. STORYTELLING WHY LANCARWIFI (SPLIT LAYOUT - NO CARDS) -->
 <section class="py-20 sm:py-24 lg:py-32 bg-white border-t border-slate-100">
@@ -351,7 +351,7 @@
 </section>
 
 <!-- 6. COVERAGE CHECKER (FULL-WIDTH VISUAL CTA SECTION) -->
-<section class="py-20 sm:py-24 lg:py-28 bg-blue-50/70 border-y border-blue-100" id="coverage">
+<!-- <section class="py-20 sm:py-24 lg:py-28 bg-blue-50/70 border-y border-blue-100" id="coverage">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             <div class="lg:col-span-7 space-y-4">
@@ -377,67 +377,176 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
-<!-- 7. FAQ ACCORDION (EDITORIAL ASYMMETRIC LAYOUT) -->
-<section class="py-24 sm:py-28 lg:py-32 bg-white" id="faq">
+<!-- 7. TESTIMONIALS SECTION -->
+<section class="py-16 sm:py-20 lg:py-24 bg-white" id="testimoni">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-            <!-- Left: Editorial Sticky Heading -->
-            <div class="lg:col-span-5 space-y-4">
-                <div class="sticky top-28 space-y-4">
-                    <span class="inline-block px-3.5 py-1 bg-slate-100 text-slate-800 text-xs font-black tracking-widest uppercase rounded-full">
-                        PUSAT BANTUAN
-                    </span>
-                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-tight">
-                        Pertanyaan yang sering ditanyakan.
-                    </h2>
-                    <p class="text-slate-600 text-base leading-relaxed">
-                        Punya pertanyaan seputar cara pendaftaran, batas FUP, atau proses pemasangan internet? Temukan semua jawabannya di sini.
-                    </p>
-                </div>
-            </div>
 
-            <!-- Right: FAQ Accordion -->
-            <div class="lg:col-span-7">
-                <div class="space-y-4" id="faq-accordion">
-                    @if(isset($faqs) && count($faqs) > 0)
-                        @foreach($faqs as $index => $faq)
-                            <div class="faq-item border border-slate-200 rounded-xl bg-white overflow-hidden shadow-sm transition-all cursor-pointer">
-                                <div class="faq-header p-5 font-bold text-slate-900 text-base flex items-center justify-between">
-                                    <span>{{ $faq->question }}</span>
-                                    <i class='bx bx-chevron-down text-xl transition-transform duration-200'></i>
-                                </div>
-                                <div class="faq-body {{ $index === 0 ? '' : 'hidden' }} px-5 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
-                                    <p>{{ $faq->answer }}</p>
-                                </div>
-                            </div>
-                        @endforeach
-                    @else
-                        <div class="faq-item border border-slate-200 rounded-xl bg-white overflow-hidden shadow-sm transition-all cursor-pointer">
-                            <div class="faq-header p-5 font-bold text-slate-900 text-base flex items-center justify-between">
-                                <span>Bagaimana cara mendaftar dan berlangganan LancarWiFi?</span>
-                                <i class='bx bx-chevron-down text-xl transition-transform duration-200'></i>
-                            </div>
-                            <div class="faq-body px-5 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
-                                <p>Anda dapat memilih paket pada halaman ini lalu menekan tombol "Pilih Paket" atau "Cek Lokasi Kamu". Tim kami akan memverifikasi area dan menjadwalkan pemasangan.</p>
-                            </div>
-                        </div>
-                        <div class="faq-item border border-slate-200 rounded-xl bg-white overflow-hidden shadow-sm transition-all cursor-pointer">
-                            <div class="faq-header p-5 font-bold text-slate-900 text-base flex items-center justify-between">
-                                <span>Apakah ada batas FUP (Fair Usage Policy)?</span>
-                                <i class='bx bx-chevron-down text-xl transition-transform duration-200'></i>
-                            </div>
-                            <div class="faq-body hidden px-5 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
-                                <p>Tidak ada FUP sama sekali. Semua paket LancarWiFi bersifat True Unlimited dengan kecepatan konsisten tanpa batas kuota.</p>
-                            </div>
-                        </div>
-                    @endif
-                </div>
+        <!-- Section Header -->
+        <div class="text-center max-w-2xl mx-auto mb-10 space-y-4">
+            <span class="inline-block px-4 py-1.5 bg-brand-blue/10 text-brand-blue text-xs font-black tracking-widest uppercase rounded-full">
+                TESTIMONI PELANGGAN
+            </span>
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-tight">
+                Kata mereka yang sudah pakai LancarWiFi.
+            </h2>
+            <p class="text-slate-500 text-base sm:text-lg leading-relaxed">
+                Lebih dari ratusan pelanggan telah merasakan kecepatan dan stabilitas internet fiber optic LancarWiFi.
+            </p>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="flex flex-wrap justify-center gap-8 sm:gap-16 mb-12">
+            <div class="text-center">
+                <div class="text-4xl font-black text-slate-950">500+</div>
+                <div class="text-sm text-slate-500 mt-1 font-medium">Pelanggan Aktif</div>
+            </div>
+            <div class="w-px bg-slate-200 hidden sm:block"></div>
+            <div class="text-center">
+                <div class="text-4xl font-black text-slate-950">4.9<span class="text-brand-orange">★</span></div>
+                <div class="text-sm text-slate-500 mt-1 font-medium">Rating Kepuasan</div>
+            </div>
+            <div class="w-px bg-slate-200 hidden sm:block"></div>
+            <div class="text-center">
+                <div class="text-4xl font-black text-slate-950">99.9%</div>
+                <div class="text-sm text-slate-500 mt-1 font-medium">Uptime Jaringan</div>
             </div>
         </div>
+
+        <!-- Marquee Track -->
+        <div class="relative overflow-hidden" style="-webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);">
+            <div class="flex gap-5 testimonial-marquee" id="testimonial-track" style="width: max-content;">
+
+                <!-- Card 1 -->
+                <div class="testimonial-card flex-shrink-0 w-80 bg-white border border-slate-200 rounded-2xl p-6 flex flex-col gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+                    <div class="flex items-center justify-between">
+                        <div class="flex gap-0.5 text-amber-400 text-base">★★★★★</div>
+                        <span class="text-xs font-bold text-brand-blue bg-brand-blue/10 px-2.5 py-1 rounded-full">Verified</span>
+                    </div>
+                    <blockquote class="text-slate-700 text-sm leading-relaxed font-medium flex-1">
+                        "Udah 8 bulan pakai LancarWiFi, belum pernah sekali pun ngerasain lemot atau putus. Ping stabil di bawah 10ms. Ga nyesel pindah dari ISP lama!"
+                    </blockquote>
+                    <div class="flex items-center gap-3 pt-2 border-t border-slate-100">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white font-black text-sm shrink-0">R</div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-xs">Rizky Firmansyah</div>
+                            <div class="text-slate-400 text-xs">Gamer · Jan 2026</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="testimonial-card flex-shrink-0 w-80 bg-white border border-slate-200 rounded-2xl p-6 flex flex-col gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+                    <div class="flex gap-0.5 text-amber-400 text-base">★★★★★</div>
+                    <blockquote class="text-slate-700 text-sm leading-relaxed font-medium flex-1">
+                        "WFH selama 2 tahun, baru kali ini nemu internet yang beneran stabil buat video call seharian. Upload sama download, mantap!"
+                    </blockquote>
+                    <div class="flex items-center gap-3 pt-2 border-t border-slate-100">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-black text-sm shrink-0">S</div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-xs">Sari Dewi</div>
+                            <div class="text-slate-400 text-xs">WFH · Mar 2026</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="testimonial-card flex-shrink-0 w-80 bg-white border border-slate-200 rounded-2xl p-6 flex flex-col gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+                    <div class="flex gap-0.5 text-amber-400 text-base">★★★★★</div>
+                    <blockquote class="text-slate-700 text-sm leading-relaxed font-medium flex-1">
+                        "Proses pasangnya cepet banget, teknisi ramah dan sabar. Instalasi selesai kurang dari 2 jam. Highly recommended buat semua!"
+                    </blockquote>
+                    <div class="flex items-center gap-3 pt-2 border-t border-slate-100">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-black text-sm shrink-0">B</div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-xs">Budi Santoso</div>
+                            <div class="text-slate-400 text-xs">Keluarga · Feb 2026</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="testimonial-card flex-shrink-0 w-80 bg-white border border-slate-200 rounded-2xl p-6 flex flex-col gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+                    <div class="flex gap-0.5 text-amber-400 text-base">★★★★★</div>
+                    <blockquote class="text-slate-700 text-sm leading-relaxed font-medium flex-1">
+                        "Anak-anak streaming Netflix 4K sambil gw kerja, tetap lancar tanpa buffering. Harganya masuk akal untuk kualitas sebagus ini."
+                    </blockquote>
+                    <div class="flex items-center gap-3 pt-2 border-t border-slate-100">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white font-black text-sm shrink-0">A</div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-xs">Anita Rahayu</div>
+                            <div class="text-slate-400 text-xs">Ibu RT · Apr 2026</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="testimonial-card flex-shrink-0 w-80 bg-white border border-slate-200 rounded-2xl p-6 flex flex-col gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+                    <div class="flex gap-0.5 text-amber-400 text-base">★★★★★</div>
+                    <blockquote class="text-slate-700 text-sm leading-relaxed font-medium flex-1">
+                        "CS-nya responsif banget, langsung dihubungi kurang dari 1 jam setelah daftar. Jarang ada ISP yang servis pelanggannya secepat ini!"
+                    </blockquote>
+                    <div class="flex items-center gap-3 pt-2 border-t border-slate-100">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white font-black text-sm shrink-0">D</div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-xs">Darmawan Putra</div>
+                            <div class="text-slate-400 text-xs">Wirausaha · Mei 2026</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="testimonial-card flex-shrink-0 w-80 bg-white border border-slate-200 rounded-2xl p-6 flex flex-col gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+                    <div class="flex gap-0.5 text-amber-400 text-base">★★★★★</div>
+                    <blockquote class="text-slate-700 text-sm leading-relaxed font-medium flex-1">
+                        "Sebelumnya sering komplain internet lambat, sekarang buka YouTube, Zoom, dan download file kerja bareng di 1 rumah, semua lancar jaya!"
+                    </blockquote>
+                    <div class="flex items-center gap-3 pt-2 border-t border-slate-100">
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-sky-600 flex items-center justify-center text-white font-black text-sm shrink-0">H</div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-xs">Hendra Wijaya</div>
+                            <div class="text-slate-400 text-xs">Mahasiswa · Jun 2026</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom CTA -->
+        <!-- <div class="mt-12 text-center">
+            <a href="/hubungi-kami" class="inline-flex items-center gap-2 px-8 py-4 bg-slate-950 hover:bg-slate-800 !text-white hover:!text-white font-bold rounded-2xl transition-all shadow-lg hover:-translate-y-0.5" style="color: white !important;">
+                Bergabung Sekarang <i class='bx bx-right-arrow-alt text-xl'></i>
+            </a>
+        </div> -->
+
     </div>
 </section>
+
+<style>
+.testimonial-marquee {
+    animation: marquee-scroll 28s linear infinite;
+}
+.testimonial-marquee:hover {
+    animation-play-state: paused;
+}
+@keyframes marquee-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+</style>
+
+<script>
+(function() {
+    const track = document.getElementById('testimonial-track');
+    if (!track) return;
+    const cards = Array.from(track.children);
+    cards.forEach(card => track.appendChild(card.cloneNode(true)));
+})();
+</script>
+
+
 
 <!-- CAROUSEL & ACCORDION JS SCRIPT -->
 <script>
