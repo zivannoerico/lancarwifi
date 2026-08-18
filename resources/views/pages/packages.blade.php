@@ -18,74 +18,92 @@
 
         @if(isset($packages) && count($packages) > 0)
         <!-- Grid setup for 3 cards max horizontally -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto items-center">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 max-w-6xl mx-auto items-center relative z-20">
             @foreach($packages as $package)
             @php
-                // Highlight the middle card (or 2nd card)
                 $isPopular = $loop->iteration == 2;
+                $deviceCount = '1-3';
+                if($package->speed >= 50) $deviceCount = '4-7';
+                if($package->speed >= 100) $deviceCount = '8+';
             @endphp
-            <div class="relative group rounded-3xl transition-all duration-300 {{ $isPopular ? 'md:scale-105 z-10' : 'hover:-translate-y-2' }}">
+            
+            <div class="relative group rounded-[2.5rem] transition-all duration-500 {{ $isPopular ? 'md:scale-105 z-20' : 'hover:-translate-y-3 z-10' }}">
                 
                 @if($isPopular)
-                <!-- Glow effect behind popular card -->
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-3xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                <!-- Animated magical border glow for popular card -->
+                <div class="absolute -inset-[2px] bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 rounded-[2.6rem] blur-md opacity-70 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
                 @endif
 
-                <div class="relative h-full flex flex-col p-8 sm:p-10 rounded-3xl {{ $isPopular ? 'bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white shadow-2xl border-0' : 'bg-white text-slate-800 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100' }}">
+                <div class="relative h-full flex flex-col p-8 sm:p-10 rounded-[2.5rem] overflow-hidden {{ $isPopular ? 'bg-gradient-to-b from-slate-900 via-blue-900 to-indigo-950 text-white border border-slate-700/50' : 'bg-white text-slate-800 border border-slate-100 shadow-[0_20px_50px_rgb(0,0,0,0.08)]' }}">
                     
+                    <!-- Decorative background elements inside card -->
                     @if($isPopular)
-                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <span class="bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-bold px-6 py-1.5 rounded-full text-sm uppercase tracking-wider shadow-lg whitespace-nowrap">
-                            Paling Laris
-                        </span>
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                        <div class="absolute bottom-0 left-0 w-48 h-48 bg-cyan-500/20 rounded-full blur-3xl -ml-10 -mb-10"></div>
+                        <i class='bx bx-rocket absolute -right-6 top-20 text-[180px] text-white/[0.03] rotate-12 pointer-events-none'></i>
+                    @else
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-slate-100/50 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                        <i class='bx bx-wifi absolute -right-10 top-20 text-[180px] text-slate-900/[0.02] -rotate-12 pointer-events-none'></i>
+                    @endif
+
+                    <!-- Popular Badge -->
+                    @if($isPopular)
+                    <div class="absolute top-0 inset-x-0 flex justify-center -mt-0">
+                        <div class="bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-extrabold px-6 py-2 rounded-b-2xl text-xs uppercase tracking-widest shadow-lg border-x border-b border-blue-400/30 backdrop-blur-sm">
+                            Pilihan Terfavorit
+                        </div>
                     </div>
                     @endif
 
-                    <div class="text-center pb-8 border-b {{ $isPopular ? 'border-white/20' : 'border-slate-100' }} mb-8">
-                        <h3 class="text-xl font-bold mb-4 {{ $isPopular ? 'text-blue-100' : 'text-blue-600' }} uppercase tracking-wider">{{ $package->name }}</h3>
-                        <div class="flex justify-center items-baseline mb-4">
-                            <span class="text-6xl font-extrabold tracking-tight {{ $isPopular ? 'text-white' : 'text-slate-800' }}">{{ $package->speed }}</span>
-                            <span class="text-xl font-medium ml-2 {{ $isPopular ? 'text-blue-200' : 'text-slate-500' }}">Mbps</span>
+                    <div class="relative z-10 flex flex-col mb-8 {{ $isPopular ? 'pt-6' : '' }}">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-black uppercase tracking-wider {{ $isPopular ? 'text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-200' : 'text-slate-800' }}">
+                                {{ $package->name }}
+                            </h3>
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center {{ $isPopular ? 'bg-white/10 text-cyan-300' : 'bg-slate-50 text-blue-600' }}">
+                                <i class='bx {{ $isPopular ? "bx-rocket" : "bx-wifi" }} text-xl'></i>
+                            </div>
                         </div>
-                        <div class="text-lg font-medium flex justify-center items-center gap-1 {{ $isPopular ? 'text-white' : 'text-slate-700' }}">
-                            <span class="text-sm {{ $isPopular ? 'text-blue-200' : 'text-slate-400' }}">Rp</span> 
-                            <span>{{ number_format($package->price, 0, ',', '.') }}</span> 
-                            <span class="text-sm font-normal {{ $isPopular ? 'text-blue-200' : 'text-slate-400' }}">/ {{ $package->duration }}</span>
+
+                        <div class="flex items-start gap-1 mb-2">
+                            <span class="text-sm font-bold tracking-widest uppercase mt-2 {{ $isPopular ? 'text-blue-300' : 'text-slate-400' }}">UP TO</span>
+                            <div class="flex items-baseline">
+                                <span class="text-7xl font-black tracking-tighter leading-none {{ $isPopular ? 'text-white' : 'text-slate-900' }}">{{ $package->speed }}</span>
+                                <span class="text-xl font-bold ml-1 {{ $isPopular ? 'text-blue-200' : 'text-slate-500' }}">Mbps</span>
+                            </div>
+                        </div>
+                        
+                        <div class="inline-flex items-center self-start px-3 py-1 mt-2 rounded-lg text-xs font-bold {{ $isPopular ? 'bg-white/10 text-cyan-100 border border-white/10' : 'bg-slate-100 text-slate-600 border border-slate-200' }}">
+                            <i class='bx bx-devices mr-1.5'></i> Ideal untuk {{ $deviceCount }} Perangkat
                         </div>
                     </div>
+
+                    <div class="relative z-10 py-6 border-y {{ $isPopular ? 'border-white/10' : 'border-slate-100' }} mb-8 flex items-end gap-2">
+                        <span class="text-lg font-bold {{ $isPopular ? 'text-blue-300' : 'text-slate-400' }}">Rp</span> 
+                        <span class="text-4xl font-black leading-none tracking-tight {{ $isPopular ? 'text-white' : 'text-slate-800' }}">{{ number_format($package->price, 0, ',', '.') }}</span> 
+                        <span class="text-sm font-medium {{ $isPopular ? 'text-blue-300' : 'text-slate-500' }}">/ {{ $package->duration }}</span>
+                    </div>
                     
-                    <div class="flex-grow">
-                        <ul class="space-y-5">
-                            @if($package->features)
-                                @php
-                                    $features = is_array(json_decode($package->features, true)) ? json_decode($package->features, true) : explode(',', $package->features);
-                                @endphp
-                                @foreach($features as $feature)
-                                <li class="flex items-start">
-                                    <i class='bx bx-check-circle text-xl mr-3 shrink-0 mt-0.5 {{ $isPopular ? 'text-cyan-300' : 'text-blue-500' }}'></i>
-                                    <span class="{{ $isPopular ? 'text-blue-50' : 'text-slate-600' }}">{{ trim($feature) }}</span>
-                                </li>
-                                @endforeach
-                            @else
-                                <li class="flex items-start">
-                                    <i class='bx bx-check-circle text-xl mr-3 shrink-0 mt-0.5 {{ $isPopular ? 'text-cyan-300' : 'text-blue-500' }}'></i>
-                                    <span class="{{ $isPopular ? 'text-blue-50' : 'text-slate-600' }}">Unlimited Kuota, Tanpa FUP</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class='bx bx-check-circle text-xl mr-3 shrink-0 mt-0.5 {{ $isPopular ? 'text-cyan-300' : 'text-blue-500' }}'></i>
-                                    <span class="{{ $isPopular ? 'text-blue-50' : 'text-slate-600' }}">Peminjaman Router Gratis</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class='bx bx-check-circle text-xl mr-3 shrink-0 mt-0.5 {{ $isPopular ? 'text-cyan-300' : 'text-blue-500' }}'></i>
-                                    <span class="{{ $isPopular ? 'text-blue-50' : 'text-slate-600' }}">Support 24/7 Hari</span>
-                                </li>
-                            @endif
+                    <div class="relative z-10 flex-grow">
+                        <ul class="space-y-4">
+                            @php
+                                $features = $package->features ? (is_array(json_decode($package->features, true)) ? json_decode($package->features, true) : explode(',', $package->features)) : ['Unlimited Kuota, Tanpa FUP', 'Peminjaman Router Gratis', 'Support 24/7 Hari'];
+                            @endphp
+                            @foreach($features as $feature)
+                            <li class="flex items-start group/item">
+                                <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 mr-3 transition-colors {{ $isPopular ? 'bg-blue-500/20 text-cyan-300 group-hover/item:bg-cyan-400 group-hover/item:text-slate-900' : 'bg-blue-50 text-blue-600 group-hover/item:bg-blue-600 group-hover/item:text-white' }}">
+                                    <i class='bx bx-check text-sm font-bold'></i>
+                                </div>
+                                <span class="font-medium text-sm leading-relaxed {{ $isPopular ? 'text-blue-50 group-hover/item:text-white' : 'text-slate-600 group-hover/item:text-slate-900' }} transition-colors">{{ trim($feature) }}</span>
+                            </li>
+                            @endforeach
                         </ul>
                     </div>
                     
-                    <div class="mt-10">
-                        <a href="/hubungi-kami" class="block w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform hover:-translate-y-1 {{ $isPopular ? 'bg-white text-blue-700 hover:bg-slate-50 hover:shadow-xl' : 'bg-slate-50 text-blue-600 hover:bg-blue-600 hover:text-white border border-slate-200 hover:border-transparent' }}">
-                            Pilih Paket Ini
+                    <div class="relative z-10 mt-10">
+                        <a href="/hubungi-kami" class="flex items-center justify-center gap-2 w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform group-hover:-translate-y-1 {{ $isPopular ? 'bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-slate-900 shadow-[0_10px_20px_rgba(34,211,238,0.3)]' : 'bg-slate-900 text-white hover:bg-blue-600 hover:shadow-xl hover:shadow-blue-500/20' }}">
+                            <span>Berlangganan Sekarang</span>
+                            <i class='bx bx-right-arrow-alt text-xl group-hover:translate-x-1 transition-transform'></i>
                         </a>
                     </div>
                 </div>
