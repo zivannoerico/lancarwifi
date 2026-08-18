@@ -57,7 +57,7 @@
 
                     <div class="relative z-10 flex flex-col mb-8 {{ $isPopular ? 'pt-6' : '' }}">
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-xl font-black uppercase tracking-wider {{ $isPopular ? 'text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-200' : 'text-slate-800' }}">
+                            <h3 class="text-xl font-black uppercase tracking-wider {{ $isPopular ? 'text-white' : 'text-slate-800' }}">
                                 {{ $package->name }}
                             </h3>
                             <div class="w-10 h-10 rounded-full flex items-center justify-center {{ $isPopular ? 'bg-white/10 text-cyan-300' : 'bg-slate-50 text-blue-600' }}">
@@ -101,7 +101,7 @@
                     </div>
                     
                     <div class="relative z-10 mt-10">
-                        <a href="/hubungi-kami" class="flex items-center justify-center gap-2 w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform group-hover:-translate-y-1 {{ $isPopular ? 'bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-slate-900 shadow-[0_10px_20px_rgba(34,211,238,0.3)]' : 'bg-slate-900 text-white hover:bg-blue-600 hover:shadow-xl hover:shadow-blue-500/20' }}">
+                        <a href="/hubungi-kami" class="flex items-center justify-center gap-2 w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform group-hover:-translate-y-1 {{ $isPopular ? 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white shadow-[0_10px_20px_rgba(59,130,246,0.4)]' : 'bg-slate-900 text-white hover:bg-blue-600 hover:shadow-xl hover:shadow-blue-500/20' }}">
                             <span>Berlangganan Sekarang</span>
                             <i class='bx bx-right-arrow-alt text-xl group-hover:translate-x-1 transition-transform'></i>
                         </a>
