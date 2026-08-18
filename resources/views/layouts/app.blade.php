@@ -41,10 +41,7 @@
                     <a href="/" class="nav-link {{ Request::is('/') ? 'active' : '' }}">Beranda</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Layanan Utama <i class='bx bx-chevron-down'></i></a>
-                    <div class="dropdown-menu">
-                        <a href="/paket" class="dropdown-item"><i class='bx bx-rocket'></i> Paket Internet</a>
-                    </div>
+                    <a href="/paket" class="nav-link {{ Request::is('paket') ? 'active' : '' }}">Paket Internet</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">Infrastruktur <i class='bx bx-chevron-down'></i></a>

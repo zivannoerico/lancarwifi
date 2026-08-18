@@ -3,60 +3,103 @@
 @section('title', 'Paket Internet - LancarWiFi')
 
 @section('content')
-<section class="py-8" style="background-color: var(--color-background);">
-    <div class="container">
-        <div style="text-align: center; margin-bottom: 64px;">
-            <h1 class="section-title">Pilihan Paket Internet</h1>
-            <p class="section-subtitle">Kami menyediakan berbagai macam pilihan paket internet sesuai dengan kebutuhan rumah atau bisnis Anda dengan harga yang transparan.</p>
+<section class="py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+    <!-- Decorative background elements -->
+    <div class="absolute top-0 left-0 w-full h-96 bg-blue-600/5 rounded-b-[100px] -z-10"></div>
+    <div class="absolute top-20 right-10 w-64 h-64 bg-cyan-400/10 rounded-full blur-3xl -z-10"></div>
+    <div class="absolute bottom-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl -z-10"></div>
+
+    <div class="container mx-auto px-4 max-w-7xl relative z-10">
+        <div class="text-center mb-20 max-w-2xl mx-auto">
+            <span class="text-blue-600 font-semibold tracking-wider uppercase text-sm mb-2 block">Harga Transparan</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-800 mb-6 tracking-tight">Pilih Paket <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Internetmu</span></h1>
+            <p class="text-slate-500 text-lg leading-relaxed">Koneksi super cepat dan stabil untuk mendukung segala aktivitas digital di rumah maupun bisnis Anda. Tanpa batasan kuota.</p>
         </div>
 
         @if(isset($packages) && count($packages) > 0)
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+        <!-- Grid setup for 3 cards max horizontally -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 max-w-6xl mx-auto items-center">
             @foreach($packages as $package)
-            <div class="card" style="display: flex; flex-direction: column;">
-                <div style="text-align: center; padding-bottom: 24px; border-bottom: 1px solid #E2E8F0; margin-bottom: 24px;">
-                    <h3 style="font-size: 24px; color: var(--color-primary); margin-bottom: 8px;">{{ $package->name }}</h3>
-                    <div style="font-size: 36px; font-weight: 800; color: var(--color-text);">
-                        {{ $package->speed }} <span style="font-size: 18px; font-weight: 600; color: var(--color-text-muted);">Mbps</span>
+            @php
+                // Highlight the middle card (or 2nd card)
+                $isPopular = $loop->iteration == 2;
+            @endphp
+            <div class="relative group rounded-3xl transition-all duration-300 {{ $isPopular ? 'md:scale-105 z-10' : 'hover:-translate-y-2' }}">
+                
+                @if($isPopular)
+                <!-- Glow effect behind popular card -->
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-3xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                @endif
+
+                <div class="relative h-full flex flex-col p-8 sm:p-10 rounded-3xl {{ $isPopular ? 'bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white shadow-2xl border-0' : 'bg-white text-slate-800 shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100' }}">
+                    
+                    @if($isPopular)
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <span class="bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-bold px-6 py-1.5 rounded-full text-sm uppercase tracking-wider shadow-lg whitespace-nowrap">
+                            Paling Laris
+                        </span>
                     </div>
-                    <div style="font-size: 18px; font-weight: 600; margin-top: 16px;">
-                        Rp {{ number_format($package->price, 0, ',', '.') }} <span style="font-size: 14px; font-weight: 400; color: var(--color-text-muted);">/ {{ $package->duration }}</span>
+                    @endif
+
+                    <div class="text-center pb-8 border-b {{ $isPopular ? 'border-white/20' : 'border-slate-100' }} mb-8">
+                        <h3 class="text-xl font-bold mb-4 {{ $isPopular ? 'text-blue-100' : 'text-blue-600' }} uppercase tracking-wider">{{ $package->name }}</h3>
+                        <div class="flex justify-center items-baseline mb-4">
+                            <span class="text-6xl font-extrabold tracking-tight {{ $isPopular ? 'text-white' : 'text-slate-800' }}">{{ $package->speed }}</span>
+                            <span class="text-xl font-medium ml-2 {{ $isPopular ? 'text-blue-200' : 'text-slate-500' }}">Mbps</span>
+                        </div>
+                        <div class="text-lg font-medium flex justify-center items-center gap-1 {{ $isPopular ? 'text-white' : 'text-slate-700' }}">
+                            <span class="text-sm {{ $isPopular ? 'text-blue-200' : 'text-slate-400' }}">Rp</span> 
+                            <span>{{ number_format($package->price, 0, ',', '.') }}</span> 
+                            <span class="text-sm font-normal {{ $isPopular ? 'text-blue-200' : 'text-slate-400' }}">/ {{ $package->duration }}</span>
+                        </div>
                     </div>
-                </div>
-                <div style="flex-grow: 1;">
-                    <ul style="list-style: none;">
-                        @if($package->features)
-                            @php
-                                // Asumsi features disimpan sebagai array JSON atau dipisahkan koma
-                                $features = is_array(json_decode($package->features, true)) ? json_decode($package->features, true) : explode(',', $package->features);
-                            @endphp
-                            @foreach($features as $feature)
-                            <li style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: var(--color-text-muted);">
-                                <i class='bx bx-check' style="color: var(--color-success); font-size: 20px;"></i>
-                                {{ trim($feature) }}
-                            </li>
-                            @endforeach
-                        @else
-                            <li style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: var(--color-text-muted);">
-                                <i class='bx bx-check' style="color: var(--color-success); font-size: 20px;"></i> Unlimited Kuota
-                            </li>
-                            <li style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: var(--color-text-muted);">
-                                <i class='bx bx-check' style="color: var(--color-success); font-size: 20px;"></i> Router Gratis
-                            </li>
-                        @endif
-                    </ul>
-                </div>
-                <div style="margin-top: 32px;">
-                    <a href="/hubungi-kami" class="btn btn-primary" style="width: 100%;">Berlangganan Sekarang</a>
+                    
+                    <div class="flex-grow">
+                        <ul class="space-y-5">
+                            @if($package->features)
+                                @php
+                                    $features = is_array(json_decode($package->features, true)) ? json_decode($package->features, true) : explode(',', $package->features);
+                                @endphp
+                                @foreach($features as $feature)
+                                <li class="flex items-start">
+                                    <i class='bx bx-check-circle text-xl mr-3 shrink-0 mt-0.5 {{ $isPopular ? 'text-cyan-300' : 'text-blue-500' }}'></i>
+                                    <span class="{{ $isPopular ? 'text-blue-50' : 'text-slate-600' }}">{{ trim($feature) }}</span>
+                                </li>
+                                @endforeach
+                            @else
+                                <li class="flex items-start">
+                                    <i class='bx bx-check-circle text-xl mr-3 shrink-0 mt-0.5 {{ $isPopular ? 'text-cyan-300' : 'text-blue-500' }}'></i>
+                                    <span class="{{ $isPopular ? 'text-blue-50' : 'text-slate-600' }}">Unlimited Kuota, Tanpa FUP</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class='bx bx-check-circle text-xl mr-3 shrink-0 mt-0.5 {{ $isPopular ? 'text-cyan-300' : 'text-blue-500' }}'></i>
+                                    <span class="{{ $isPopular ? 'text-blue-50' : 'text-slate-600' }}">Peminjaman Router Gratis</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class='bx bx-check-circle text-xl mr-3 shrink-0 mt-0.5 {{ $isPopular ? 'text-cyan-300' : 'text-blue-500' }}'></i>
+                                    <span class="{{ $isPopular ? 'text-blue-50' : 'text-slate-600' }}">Support 24/7 Hari</span>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-10">
+                        <a href="/hubungi-kami" class="block w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform hover:-translate-y-1 {{ $isPopular ? 'bg-white text-blue-700 hover:bg-slate-50 hover:shadow-xl' : 'bg-slate-50 text-blue-600 hover:bg-blue-600 hover:text-white border border-slate-200 hover:border-transparent' }}">
+                            Pilih Paket Ini
+                        </a>
+                    </div>
                 </div>
             </div>
             @endforeach
         </div>
         @else
-        <div style="text-align: center; padding: 64px 0;">
-            <i class='bx bx-package' style="font-size: 64px; color: var(--color-text-muted); margin-bottom: 16px;"></i>
-            <h3>Belum ada paket yang tersedia.</h3>
-            <p class="text-muted">Silakan kembali lagi nanti atau hubungi customer service kami.</p>
+        <div class="text-center py-20 bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 max-w-2xl mx-auto">
+            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class='bx bx-package text-5xl text-slate-300'></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-800 mb-3">Paket Belum Tersedia</h3>
+            <p class="text-slate-500 mb-8 max-w-md mx-auto">Saat ini kami sedang memperbarui daftar paket internet. Silakan kembali lagi nanti atau hubungi kami.</p>
+            <a href="/hubungi-kami" class="inline-block py-3 px-8 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">Hubungi CS</a>
         </div>
         @endif
     </div>
