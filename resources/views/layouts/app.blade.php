@@ -79,6 +79,56 @@
         @yield('content')
     </main>
 
+    <!-- Floating WhatsApp Button (Custom CSS applied directly to avoid Tailwind recompilation issues) -->
+    <style>
+        .floating-wa {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            color: white;
+            border-radius: 50%;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .floating-wa:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
+            color: white;
+        }
+        .wa-ping {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #25D366;
+            opacity: 0.5;
+            animation: ping-wa 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+        @keyframes ping-wa {
+            75%, 100% {
+                transform: scale(1.8);
+                opacity: 0;
+            }
+        }
+        .wa-icon {
+            font-size: 38px;
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+    <a href="https://wa.me/6281234567890" target="_blank" aria-label="Chat via WhatsApp" class="floating-wa">
+        <span class="wa-ping"></span>
+        <i class='bx bxl-whatsapp wa-icon'></i>
+    </a>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
