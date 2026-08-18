@@ -29,10 +29,7 @@
     <nav class="navbar" id="main-navbar">
         <div class="container navbar-container">
             <a href="/" class="navbar-brand">
-                <div class="navbar-brand-icon">
-                    <i class='bx bx-wifi'></i>
-                </div>
-                Lancar<span>WiFi</span>
+                <img src="{{ asset('images/logo.png') }}" alt="LancarWiFi Logo" class="h-10 md:h-12 object-contain">
             </a>
             
             <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation">
@@ -134,11 +131,8 @@
         <div class="container">
             <div class="footer-grid">
                 <div>
-                    <a href="/" class="footer-brand">
-                        <div class="navbar-brand-icon">
-                            <i class='bx bx-wifi'></i>
-                        </div>
-                        Lancar<span>WiFi</span>
+                    <a href="/" class="footer-brand mb-4 block">
+                        <img src="{{ asset('images/logo.png') }}" alt="LancarWiFi Logo" class="h-12 object-contain">
                     </a>
                     <p class="footer-text">Penyedia layanan internet fiber optic ultra cepat, stabil, dan terpercaya untuk mendampingi segala aktivitas digital Anda tanpa batas.</p>
                     <div class="footer-socials">
