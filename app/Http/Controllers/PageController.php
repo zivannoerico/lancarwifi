@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 class PageController extends Controller
 {
     public function home() {
-        return view('pages.home');
+        $packages = \App\Models\Package::where('is_active', true)->get();
+        $faqs = \App\Models\Faq::where('is_active', true)->get();
+        $coverages = \App\Models\Coverage::all();
+        $testimonials = \App\Models\Testimonial::all();
+        return view('pages.home', compact('packages', 'faqs', 'coverages', 'testimonials'));
     }
 
     public function packages() {
