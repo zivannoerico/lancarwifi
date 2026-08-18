@@ -97,21 +97,29 @@
         </div>
 
         <!-- Call to action Banner -->
-        <div class="mt-16 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-[2.5rem] p-10 md:p-14 text-center shadow-2xl relative overflow-hidden">
-            <!-- Decorative light bursts -->
-            <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
-            <div class="absolute bottom-0 left-0 w-64 h-64 bg-cyan-400 opacity-20 rounded-full blur-3xl -ml-20 -mb-20 pointer-events-none"></div>
+        <div class="mt-16 relative bg-slate-900 rounded-[2.5rem] p-10 md:p-14 text-center shadow-2xl overflow-hidden border border-slate-800">
+            <!-- Consistent Hero Background Layer -->
+            <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 via-slate-900 to-blue-900"></div>
+            <!-- Animated glowing orbs -->
+            <div class="absolute top-0 right-0 w-72 h-72 bg-blue-500/20 rounded-full blur-[80px] animate-pulse mix-blend-screen"></div>
+            <div class="absolute bottom-0 left-0 w-72 h-72 bg-cyan-400/20 rounded-full blur-[80px] animate-pulse mix-blend-screen" style="animation-delay: 2s;"></div>
+            <!-- Hexagon Pattern -->
+            <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTIwIDBsMjAgMTB2MjBsLTIwIDEwTDAgMzBWMTB6IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==')]"></div>
             
             <div class="relative z-10 flex flex-col items-center">
-                <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-6 border border-white/20 backdrop-blur-sm">
-                    <i class='bx bx-headphone text-3xl text-cyan-300'></i>
+                <!-- Clean Icon -->
+                <div class="w-20 h-20 bg-slate-800/60 rounded-3xl flex items-center justify-center mb-6 border border-slate-700 backdrop-blur-md shadow-lg">
+                    <i class='bx bx-headphone text-4xl text-blue-400'></i>
                 </div>
-                <h3 class="text-3xl md:text-4xl font-extrabold text-white mb-4 tracking-tight">Belum menemukan jawaban?</h3>
-                <p class="text-blue-100 mb-10 max-w-xl mx-auto text-lg font-light leading-relaxed">
-                    Jangan sungkan. Tim *Customer Success* kami selalu standby dan siap membantu Anda kapan pun Anda membutuhkannya.
+                
+                <h3 class="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Belum menemukan jawaban?</h3>
+                
+                <p class="text-slate-300 mb-10 max-w-xl mx-auto text-lg font-light leading-relaxed">
+                    Jangan sungkan. Tim <strong class="text-white font-medium">Customer Success</strong> kami siap membantu Anda kapan pun Anda membutuhkannya.
                 </p>
-                <a href="/hubungi-kami" class="inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 hover:bg-slate-50 font-bold rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 group">
-                    Hubungi Kami Sekarang <i class='bx bx-right-arrow-alt ml-2 text-2xl group-hover:translate-x-1 transition-transform'></i>
+                
+                <a href="/hubungi-kami" class="inline-flex items-center justify-center px-8 py-4 bg-blue-600 text-white hover:bg-blue-500 font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1">
+                    Hubungi Kami Sekarang <i class='bx bx-right-arrow-alt ml-2 text-2xl'></i>
                 </a>
             </div>
         </div>
