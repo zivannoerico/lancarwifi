@@ -133,119 +133,101 @@
             <p class="text-slate-600 text-base sm:text-lg">Dari kebutuhan harian hingga rumah dengan banyak perangkat, pilih paket LancarWifi yang sesuai dengan kebutuhanmu.</p>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-            @if(isset($packages) && count($packages) > 0)
-                @foreach($packages as $index => $package)
-                    @php
-                        $isFeatured = $index === 1 || $package->speed >= 50;
-                        $featuresList = [];
-                        if($package->features) {
-                            $decoded = json_decode($package->features, true);
-                            $featuresList = is_array($decoded) ? $decoded : explode(',', $package->features);
-                        } else {
-                            $featuresList = ['100% Fiber Optic Murni', 'True Unlimited (Tanpa FUP)', 'Gratis Router Wi-Fi 6', 'Gratis Biaya Pemasangan'];
-                        }
+        @if(isset($packages) && count($packages) > 0)
+        <!-- Grid setup for 3 cards max horizontally -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 max-w-6xl mx-auto items-center relative z-20">
+            @foreach($packages as $package)
+            @php
+                $isPopular = $loop->iteration == 2;
+                $deviceCount = '1-3';
+                if($package->speed >= 50) $deviceCount = '4-7';
+                if($package->speed >= 100) $deviceCount = '8+';
+            @endphp
+            
+            <div class="relative group rounded-[2.5rem] transition-all duration-500 {{ $isPopular ? 'md:scale-105 z-20' : 'hover:-translate-y-3 z-10' }}">
+                
+                @if($isPopular)
+                <!-- Animated magical border glow for popular card -->
+                <div class="absolute -inset-[2px] bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 rounded-[2.6rem] blur-md opacity-70 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
+                @endif
 
-                        $pkgDesc = 'Koneksi fiber optic berkualitas tinggi untuk kebutuhan internet rumah Anda.';
-                        if (str_contains(strtolower($package->name), 'stream') || $package->speed <= 30) {
-                            $pkgDesc = 'Cocok untuk penggunaan harian, browsing, belajar, dan streaming.';
-                        } elseif (str_contains(strtolower($package->name), 'family') || ($package->speed > 30 && $package->speed <= 100)) {
-                            $pkgDesc = 'Pilihan ideal untuk keluarga dengan banyak perangkat dan aktivitas online bersamaan.';
-                        } elseif (str_contains(strtolower($package->name), 'ultimate') || $package->speed > 100) {
-                            $pkgDesc = 'Untuk kebutuhan gaming, streaming, kerja, dan banyak perangkat.';
-                        }
-                    @endphp
-                    <div class="bg-white border {{ $isFeatured ? 'border-2 border-brand-orange shadow-xl lg:-translate-y-2' : 'border-slate-200 shadow-sm hover:shadow-lg' }} rounded-2xl p-8 relative flex flex-col justify-between transition-all">
-                        @if($isFeatured)
-                            <div class="absolute -top-3.5 right-6 bg-brand-orange text-white px-4 py-1 rounded-full text-xs font-black tracking-wider uppercase shadow-md">PALING POPULER</div>
-                        @endif
+                <div class="relative h-full flex flex-col p-8 sm:p-10 rounded-[2.5rem] overflow-hidden {{ $isPopular ? 'bg-gradient-to-b from-slate-900 via-blue-900 to-indigo-950 text-white border border-slate-700/50' : 'bg-white text-slate-800 border border-slate-100 shadow-[0_20px_50px_rgb(0,0,0,0.08)]' }}">
+                    
+                    <!-- Decorative background elements inside card -->
+                    @if($isPopular)
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                        <div class="absolute bottom-0 left-0 w-48 h-48 bg-cyan-500/20 rounded-full blur-3xl -ml-10 -mb-10"></div>
+                        <i class='bx bx-rocket absolute -right-6 top-20 text-[180px] text-white/[0.03] rotate-12 pointer-events-none'></i>
+                    @else
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-slate-100/50 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                        <i class='bx bx-wifi absolute -right-10 top-20 text-[180px] text-slate-900/[0.02] -rotate-12 pointer-events-none'></i>
+                    @endif
+
+                    <!-- Popular Badge -->
+                    @if($isPopular)
+                    <div class="absolute top-0 inset-x-0 flex justify-center -mt-0">
+                        <div class="bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-extrabold px-6 py-2 rounded-b-2xl text-xs uppercase tracking-widest shadow-lg border-x border-b border-blue-400/30 backdrop-blur-sm">
+                            Pilihan Terfavorit
+                        </div>
+                    </div>
+                    @endif
+
+                    <div class="relative z-10 flex flex-col mb-8 {{ $isPopular ? 'pt-6' : '' }}">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-black uppercase tracking-wider {{ $isPopular ? 'text-white' : 'text-slate-800' }}">
+                                {{ $package->name }}
+                            </h3>
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center {{ $isPopular ? 'bg-white/10 text-cyan-300' : 'bg-slate-50 text-blue-600' }}">
+                                <i class='bx {{ $isPopular ? "bx-rocket" : "bx-wifi" }} text-xl'></i>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-1 mb-2">
+                            <span class="text-sm font-bold tracking-widest uppercase mt-2 {{ $isPopular ? 'text-blue-300' : 'text-slate-400' }}">UP TO</span>
+                            <div class="flex items-baseline">
+                                <span class="text-7xl font-black tracking-tighter leading-none {{ $isPopular ? 'text-white' : 'text-slate-900' }}">{{ $package->speed }}</span>
+                                <span class="text-xl font-bold ml-1 {{ $isPopular ? 'text-blue-200' : 'text-slate-500' }}">Mbps</span>
+                            </div>
+                        </div>
                         
-                        <div class="space-y-6">
-                            <div>
-                                <h3 class="text-xl font-extrabold text-slate-900 mb-1">{{ $package->name }}</h3>
-                                <p class="text-xs text-slate-500 mb-4">{{ $pkgDesc }}</p>
-                                <div class="flex items-baseline gap-1 text-slate-900">
-                                    <span class="text-4xl font-black text-slate-950">{{ $package->speed }}</span>
-                                    <span class="text-lg font-bold text-slate-500">Mbps</span>
+                        <div class="inline-flex items-center self-start px-3 py-1 mt-2 rounded-lg text-xs font-bold {{ $isPopular ? 'bg-white/10 text-cyan-100 border border-white/10' : 'bg-slate-100 text-slate-600 border border-slate-200' }}">
+                            <i class='bx bx-devices mr-1.5'></i> Ideal untuk {{ $deviceCount }} Perangkat
+                        </div>
+                    </div>
+
+                    <div class="relative z-10 py-6 border-y {{ $isPopular ? 'border-white/10' : 'border-slate-100' }} mb-8 flex items-end gap-2">
+                        <span class="text-lg font-bold {{ $isPopular ? 'text-blue-300' : 'text-slate-400' }}">Rp</span> 
+                        <span class="text-4xl font-black leading-none tracking-tight {{ $isPopular ? 'text-white' : 'text-slate-800' }}">{{ number_format($package->price, 0, ',', '.') }}</span> 
+                        <span class="text-sm font-medium {{ $isPopular ? 'text-blue-300' : 'text-slate-500' }}">/ {{ $package->duration }}</span>
+                    </div>
+                    
+                    <div class="relative z-10 flex-grow">
+                        <ul class="space-y-4">
+                            @php
+                                $features = $package->features ? (is_array(json_decode($package->features, true)) ? json_decode($package->features, true) : explode(',', $package->features)) : ['Unlimited Kuota, Tanpa FUP', 'Peminjaman Router Gratis', 'Support 24/7 Hari'];
+                            @endphp
+                            @foreach($features as $feature)
+                            <li class="flex items-start group/item">
+                                <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 mr-3 transition-colors {{ $isPopular ? 'bg-blue-500/20 text-cyan-300 group-hover/item:bg-cyan-400 group-hover/item:text-slate-900' : 'bg-blue-50 text-blue-600 group-hover/item:bg-blue-600 group-hover/item:text-white' }}">
+                                    <i class='bx bx-check text-sm font-bold'></i>
                                 </div>
-                            </div>
-
-                            <div class="py-4 border-y border-slate-100">
-                                <span class="text-sm font-bold text-slate-400">Rp</span>
-                                <span class="text-3xl font-black text-slate-900">{{ number_format($package->price, 0, ',', '.') }}</span>
-                                <span class="text-xs text-slate-500 font-medium">/{{ $package->duration ?? 'bulan' }}</span>
-                            </div>
-
-                            <ul class="space-y-3 text-sm text-slate-700 font-medium">
-                                @foreach($featuresList as $feature)
-                                    <li class="flex items-center gap-3">
-                                        <i class='bx bx-check text-emerald-500 text-lg'></i> {{ trim($feature) }}
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-
-                        <div class="pt-8">
-                            <a href="/hubungi-kami" class="w-full inline-flex justify-center items-center py-3.5 px-6 rounded-xl font-extrabold text-sm transition-all {{ $isFeatured ? 'bg-brand-orange hover:bg-amber-600 text-white shadow-md shadow-brand-orange/30' : 'bg-white border border-brand-blue text-brand-blue hover:bg-blue-50' }}">
-                                Pilih Paket
-                            </a>
-                        </div>
-                    </div>
-                @endforeach
-            @else
-                <!-- Fallback Packages -->
-                <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm flex flex-col justify-between space-y-6">
-                    <div class="space-y-4">
-                        <div>
-                            <h3 class="text-xl font-extrabold text-slate-900 mb-1">Lancar Stream 30</h3>
-                            <p class="text-xs text-slate-500">Cocok untuk penggunaan harian, browsing, belajar, dan streaming.</p>
-                        </div>
-                        <div class="flex items-baseline gap-1"><span class="text-4xl font-black text-slate-950">30</span><span class="text-lg font-bold text-slate-500">Mbps</span></div>
-                        <div class="py-3 border-y border-slate-100"><span class="text-sm font-bold text-slate-400">Rp</span><span class="text-3xl font-black text-slate-900">175.000</span><span class="text-xs text-slate-500">/bulan</span></div>
-                        <ul class="space-y-2.5 text-sm text-slate-700 font-medium">
-                            <li class="flex items-center gap-2"><i class='bx bx-check text-emerald-500'></i> 100% Fiber Optic Murni</li>
-                            <li class="flex items-center gap-2"><i class='bx bx-check text-emerald-500'></i> True Unlimited (Tanpa FUP)</li>
-                            <li class="flex items-center gap-2"><i class='bx bx-check text-emerald-500'></i> Cocok untuk 1-3 Perangkat</li>
+                                <span class="font-medium text-sm leading-relaxed {{ $isPopular ? 'text-blue-50 group-hover/item:text-white' : 'text-slate-600 group-hover/item:text-slate-900' }} transition-colors">{{ trim($feature) }}</span>
+                            </li>
+                            @endforeach
                         </ul>
                     </div>
-                    <a href="/hubungi-kami" class="w-full inline-flex justify-center py-3 border border-brand-blue text-brand-blue hover:bg-blue-50 font-bold text-sm rounded-xl">Pilih Paket</a>
-                </div>
-
-                <div class="bg-white border-2 border-brand-orange rounded-2xl p-8 shadow-xl relative flex flex-col justify-between space-y-6 lg:-translate-y-2">
-                    <div class="absolute -top-3.5 right-6 bg-brand-orange text-white px-4 py-1 rounded-full text-xs font-black">PALING POPULER</div>
-                    <div class="space-y-4">
-                        <div>
-                            <h3 class="text-xl font-extrabold text-slate-900 mb-1">Lancar Family 100</h3>
-                            <p class="text-xs text-slate-500">Pilihan ideal untuk keluarga dengan banyak perangkat dan aktivitas online bersamaan.</p>
-                        </div>
-                        <div class="flex items-baseline gap-1"><span class="text-4xl font-black text-slate-950">100</span><span class="text-lg font-bold text-slate-500">Mbps</span></div>
-                        <div class="py-3 border-y border-slate-100"><span class="text-sm font-bold text-slate-400">Rp</span><span class="text-3xl font-black text-slate-900">299.000</span><span class="text-xs text-slate-500">/bulan</span></div>
-                        <ul class="space-y-2.5 text-sm text-slate-700 font-medium">
-                            <li class="flex items-center gap-2"><i class='bx bx-check text-emerald-500'></i> Kecepatan Simetris 1:1</li>
-                            <li class="flex items-center gap-2"><i class='bx bx-check text-emerald-500'></i> Cocok untuk 4-8 Perangkat</li>
-                            <li class="flex items-center gap-2"><i class='bx bx-check text-emerald-500'></i> Gratis Wi-Fi 6 Router</li>
-                        </ul>
+                    
+                    <div class="relative z-10 mt-10">
+                        <a href="/hubungi-kami" class="flex items-center justify-center gap-2 w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform group-hover:-translate-y-1 !text-white hover:!text-white {{ $isPopular ? 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 shadow-[0_10px_20px_rgba(59,130,246,0.4)]' : 'bg-slate-900 hover:bg-blue-600 hover:shadow-xl hover:shadow-blue-500/20' }}">
+                            <span class="!text-white hover:!text-white">Berlangganan Sekarang</span>
+                            <i class='bx bx-right-arrow-alt text-xl !text-white group-hover:translate-x-1 transition-transform'></i>
+                        </a>
                     </div>
-                    <a href="/hubungi-kami" class="w-full inline-flex justify-center py-3 bg-brand-orange hover:bg-amber-600 text-white font-bold text-sm rounded-xl shadow-md">Pilih Paket</a>
                 </div>
-
-                <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm flex flex-col justify-between space-y-6">
-                    <div class="space-y-4">
-                        <div>
-                            <h3 class="text-xl font-extrabold text-slate-900 mb-1">Lancar Ultimate 250</h3>
-                            <p class="text-xs text-slate-500">Untuk kebutuhan gaming, streaming, kerja, dan banyak perangkat.</p>
-                        </div>
-                        <div class="flex items-baseline gap-1"><span class="text-4xl font-black text-slate-950">250</span><span class="text-lg font-bold text-slate-500">Mbps</span></div>
-                        <div class="py-3 border-y border-slate-100"><span class="text-sm font-bold text-slate-400">Rp</span><span class="text-3xl font-black text-slate-900">499.000</span><span class="text-xs text-slate-500">/bulan</span></div>
-                        <ul class="space-y-2.5 text-sm text-slate-700 font-medium">
-                            <li class="flex items-center gap-2"><i class='bx bx-check text-emerald-500'></i> Kecepatan Maksimal 250 Mbps</li>
-                            <li class="flex items-center gap-2"><i class='bx bx-check text-emerald-500'></i> Dedicated Gaming Route</li>
-                            <li class="flex items-center gap-2"><i class='bx bx-check text-emerald-500'></i> Support VIP 24/7</li>
-                        </ul>
-                    </div>
-                    <a href="/hubungi-kami" class="w-full inline-flex justify-center py-3 border border-brand-blue text-brand-blue hover:bg-blue-50 font-bold text-sm rounded-xl">Pilih Paket</a>
-                </div>
-            @endif
+            </div>
+            @endforeach
+        </div>
+        @endif
         </div>
     </div>
 </section>

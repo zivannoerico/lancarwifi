@@ -101,9 +101,9 @@
                     </div>
                     
                     <div class="relative z-10 mt-10">
-                        <a href="/hubungi-kami" class="flex items-center justify-center gap-2 w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform group-hover:-translate-y-1 {{ $isPopular ? 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white shadow-[0_10px_20px_rgba(59,130,246,0.4)]' : 'bg-slate-900 text-white hover:bg-blue-600 hover:shadow-xl hover:shadow-blue-500/20' }}">
-                            <span>Berlangganan Sekarang</span>
-                            <i class='bx bx-right-arrow-alt text-xl group-hover:translate-x-1 transition-transform'></i>
+                        <a href="/hubungi-kami" class="flex items-center justify-center gap-2 w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform group-hover:-translate-y-1 !text-white hover:!text-white {{ $isPopular ? 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 shadow-[0_10px_20px_rgba(59,130,246,0.4)]' : 'bg-slate-900 hover:bg-blue-600 hover:shadow-xl hover:shadow-blue-500/20' }}">
+                            <span class="!text-white hover:!text-white">Berlangganan Sekarang</span>
+                            <i class='bx bx-right-arrow-alt text-xl !text-white group-hover:translate-x-1 transition-transform'></i>
                         </a>
                     </div>
                 </div>
