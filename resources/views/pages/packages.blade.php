@@ -101,7 +101,7 @@
                     </div>
                     
                     <div class="relative z-10 mt-10">
-                        <a href="/hubungi-kami" class="flex items-center justify-center gap-2 w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform group-hover:-translate-y-1 bg-slate-900 text-white hover:bg-slate-900 shadow-xl" style="color: white !important;">
+                        <a href="/hubungi-kami" class="flex items-center justify-center gap-2 w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform group-hover:-translate-y-1 {{ $isPopular ? 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 shadow-[0_10px_20px_rgba(59,130,246,0.4)]' : 'bg-slate-900 hover:bg-slate-900 shadow-xl' }}" style="color: white !important;">
                             <span>Berlangganan Sekarang</span>
                             <i class='bx bx-right-arrow-alt text-xl group-hover:translate-x-1 transition-transform'></i>
                         </a>
