@@ -54,7 +54,7 @@
                         @endif
                     </td>
                     <td class="py-4 px-6 text-right">
-                        <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div class="flex items-center justify-end gap-2">
                             <a href="{{ route('packages.edit', $pkg->id) }}" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors tooltip" title="Edit">
                                 <i class='bx bx-edit-alt text-xl'></i>
                             </a>

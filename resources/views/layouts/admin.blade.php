@@ -17,238 +17,261 @@
     <!-- Tailwind CSS (via Vite) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
-    <!-- Alpine.js (for dropdowns and mobile sidebar toggle) -->
+    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
         body { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
-        /* Hide scrollbar for sidebar */
-        .sidebar-scroll::-webkit-scrollbar { width: 6px; }
+        .sidebar-scroll::-webkit-scrollbar { width: 4px; }
         .sidebar-scroll::-webkit-scrollbar-track { background: transparent; }
-        .sidebar-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        .sidebar-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         .sidebar-scroll::-webkit-scrollbar-thumb:hover { background: #475569; }
+        
+        /* Smooth transitions */
+        .nav-item { transition: all 0.2s ease-in-out; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased overflow-hidden" x-data="{ sidebarOpen: false }">
 
     <div class="flex h-screen overflow-hidden">
 
-        <!-- ==========================================
-             MOBILE SIDEBAR OVERLAY
-             ========================================== -->
-        <div x-show="sidebarOpen" x-transition.opacity class="fixed inset-0 z-20 bg-slate-900/50 lg:hidden backdrop-blur-sm" @click="sidebarOpen = false"></div>
+        <!-- Mobile Sidebar Overlay -->
+        <div x-show="sidebarOpen" x-transition.opacity class="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-sm lg:hidden" @click="sidebarOpen = false"></div>
 
         <!-- ==========================================
              SIDEBAR
              ========================================== -->
-        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-30 w-72 bg-slate-900 text-slate-300 transition-transform duration-300 lg:static lg:translate-x-0 flex flex-col border-r border-slate-800 shadow-2xl lg:shadow-none">
+        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-50 w-72 bg-slate-900 text-slate-300 transition-transform duration-300 lg:static lg:translate-x-0 flex flex-col border-r border-slate-800 shadow-2xl lg:shadow-none">
             
             <!-- Sidebar Header -->
-            <div class="flex items-center justify-between h-20 px-6 border-b border-slate-800/50 bg-slate-950/20 shrink-0">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-600/20 group-hover:bg-blue-500 transition-colors">
-                        <i class='bx bx-wifi text-2xl'></i>
+            <div class="flex items-center h-20 px-6 border-b border-slate-800 bg-slate-900 shrink-0">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-4 group w-full">
+                    <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center p-1 shadow-md shadow-blue-500/10 shrink-0">
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-full h-full object-contain">
                     </div>
-                    <div>
-                        <h1 class="text-white font-bold text-lg leading-tight">LancarWiFi</h1>
-                        <p class="text-xs text-slate-400 font-medium tracking-wider">ADMIN PORTAL</p>
+                    <div class="flex-1 overflow-hidden">
+                        <h1 class="text-white font-extrabold text-lg leading-tight tracking-tight truncate">LancarWiFi</h1>
+                        <p class="text-[10px] text-blue-400 font-bold tracking-[0.2em] uppercase mt-0.5">Admin Portal</p>
                     </div>
                 </a>
-                <button @click="sidebarOpen = false" class="lg:hidden p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors">
+                <button @click="sidebarOpen = false" class="lg:hidden p-2 -mr-2 text-slate-400 hover:text-white rounded-lg transition-colors">
                     <i class='bx bx-x text-2xl'></i>
                 </button>
             </div>
 
             <!-- Sidebar Navigation -->
-            <div class="flex-1 overflow-y-auto sidebar-scroll py-6 px-4 space-y-8">
+            <div class="flex-1 overflow-y-auto sidebar-scroll py-6 space-y-8">
                 
-                <!-- Main Menu -->
-                <div>
-                    <p class="px-4 text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Menu Utama</p>
+                <!-- Section: OVERVIEW -->
+                <div class="px-4">
+                    <p class="px-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-3">Overview</p>
                     <ul class="space-y-1">
                         <li>
-                            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ Request::routeIs('admin.dashboard') ? 'bg-blue-600 text-white shadow-md shadow-blue-900/20' : 'hover:bg-slate-800 hover:text-white' }}">
-                                <i class='bx bxs-dashboard text-xl {{ Request::routeIs('admin.dashboard') ? 'text-white' : 'text-slate-400' }}'></i>
-                                <span class="font-medium">Dashboard</span>
+                            <a href="{{ route('admin.dashboard') }}" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl {{ Request::routeIs('admin.dashboard') ? 'bg-blue-600 text-white font-semibold shadow-lg shadow-blue-900/20' : 'hover:bg-slate-800 hover:text-white font-medium text-slate-400' }}">
+                                <i class='bx {{ Request::routeIs('admin.dashboard') ? 'bxs-dashboard' : 'bx-grid-alt' }} text-xl'></i>
+                                <span>Dashboard</span>
                             </a>
                         </li>
                     </ul>
                 </div>
 
-                <!-- Content Management -->
-                <div>
-                    <p class="px-4 text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Konten Website</p>
+                <!-- Section: CONTENT MANAGEMENT -->
+                <div class="px-4">
+                    <p class="px-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-3">Content Management</p>
                     <ul class="space-y-1">
                         <li>
-                            <a href="{{ route('packages.index') }}" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 {{ Request::routeIs('packages.*') ? 'bg-blue-600/10 text-blue-400 font-semibold' : 'hover:bg-slate-800 hover:text-white' }}">
+                            <a href="{{ route('packages.index') }}" class="nav-item flex items-center justify-between px-4 py-3 rounded-xl {{ Request::routeIs('packages.*') ? 'bg-blue-500/10 text-blue-400 font-semibold' : 'hover:bg-slate-800 hover:text-white font-medium text-slate-400' }}">
                                 <div class="flex items-center gap-3">
-                                    <i class='bx bx-package text-xl {{ Request::routeIs('packages.*') ? 'text-blue-400' : 'text-slate-400' }}'></i>
-                                    <span>Paket Internet</span>
+                                    <i class='bx {{ Request::routeIs('packages.*') ? 'bxs-package' : 'bx-package' }} text-xl'></i>
+                                    <span>Paket</span>
                                 </div>
-                                @php $pkgCount = \App\Models\Package::count(); @endphp
-                                @if($pkgCount > 0) <span class="px-2 py-0.5 rounded-full bg-slate-800 text-xs">{{ $pkgCount }}</span> @endif
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('coverages.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ Request::routeIs('coverages.*') ? 'bg-blue-600/10 text-blue-400 font-semibold' : 'hover:bg-slate-800 hover:text-white' }}">
-                                <i class='bx bx-map-alt text-xl {{ Request::routeIs('coverages.*') ? 'text-blue-400' : 'text-slate-400' }}'></i>
-                                <span>Area Coverage</span>
+                            <a href="{{ route('coverages.index') }}" class="nav-item flex items-center justify-between px-4 py-3 rounded-xl {{ Request::routeIs('coverages.*') ? 'bg-blue-500/10 text-blue-400 font-semibold' : 'hover:bg-slate-800 hover:text-white font-medium text-slate-400' }}">
+                                <div class="flex items-center gap-3">
+                                    <i class='bx {{ Request::routeIs('coverages.*') ? 'bxs-map-alt' : 'bx-map-alt' }} text-xl'></i>
+                                    <span>Coverage</span>
+                                </div>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('certifications.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ Request::routeIs('certifications.*') ? 'bg-blue-600/10 text-blue-400 font-semibold' : 'hover:bg-slate-800 hover:text-white' }}">
-                                <i class='bx bx-certification text-xl {{ Request::routeIs('certifications.*') ? 'text-blue-400' : 'text-slate-400' }}'></i>
-                                <span>Sertifikasi</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('faqs.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ Request::routeIs('faqs.*') ? 'bg-blue-600/10 text-blue-400 font-semibold' : 'hover:bg-slate-800 hover:text-white' }}">
-                                <i class='bx bx-question-mark text-xl {{ Request::routeIs('faqs.*') ? 'text-blue-400' : 'text-slate-400' }}'></i>
-                                <span>FAQ</span>
+                            <a href="{{ route('faqs.index') }}" class="nav-item flex items-center justify-between px-4 py-3 rounded-xl {{ Request::routeIs('faqs.*') ? 'bg-blue-500/10 text-blue-400 font-semibold' : 'hover:bg-slate-800 hover:text-white font-medium text-slate-400' }}">
+                                <div class="flex items-center gap-3">
+                                    <i class='bx {{ Request::routeIs('faqs.*') ? 'bxs-message-rounded-dots' : 'bx-message-rounded-dots' }} text-xl'></i>
+                                    <span>FAQ</span>
+                                </div>
                             </a>
                         </li>
                     </ul>
                 </div>
 
-                <!-- Settings -->
-                <div>
-                    <p class="px-4 text-xs font-semibold text-slate-500 uppercase tracking-widest mb-3">Pengaturan</p>
+                <!-- Section: COMMUNICATION -->
+                <div class="px-4">
+                    <p class="px-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-3">Communication</p>
                     <ul class="space-y-1">
                         <li>
-                            <a href="{{ route('settings.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ Request::routeIs('settings.*') ? 'bg-blue-600/10 text-blue-400 font-semibold' : 'hover:bg-slate-800 hover:text-white' }}">
-                                <i class='bx bx-cog text-xl {{ Request::routeIs('settings.*') ? 'text-blue-400' : 'text-slate-400' }}'></i>
-                                <span>Settings Global</span>
+                            <a href="#" class="nav-item flex items-center justify-between px-4 py-3 rounded-xl hover:bg-slate-800 hover:text-white font-medium text-slate-400 group">
+                                <div class="flex items-center gap-3">
+                                    <i class='bx bx-envelope text-xl'></i>
+                                    <span>Pesan</span>
+                                </div>
+                                <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">3</span>
                             </a>
                         </li>
                     </ul>
                 </div>
-            </div>
 
-            <!-- Sidebar Footer (Logout) -->
-            <div class="p-4 shrink-0 border-t border-slate-800/50 bg-slate-950/10">
-                <form action="{{ route('admin.logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-800 hover:bg-red-500/10 hover:text-red-400 text-slate-300 transition-colors border border-slate-700 hover:border-red-500/30">
-                        <i class='bx bx-log-out text-lg'></i>
-                        <span class="font-medium">Logout Admin</span>
-                    </button>
-                </form>
+                <!-- Section: SYSTEM -->
+                <div class="px-4 pb-4">
+                    <p class="px-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-3">System</p>
+                    <ul class="space-y-1">
+                        <li>
+                            <a href="{{ route('settings.index') }}" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl {{ Request::routeIs('settings.*') ? 'bg-blue-500/10 text-blue-400 font-semibold' : 'hover:bg-slate-800 hover:text-white font-medium text-slate-400' }}">
+                                <i class='bx {{ Request::routeIs('settings.*') ? 'bxs-cog' : 'bx-cog' }} text-xl'></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <form action="{{ route('admin.logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="w-full text-left nav-item flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-500/10 hover:text-red-400 font-medium text-slate-400 group">
+                                    <i class='bx bx-log-out text-xl group-hover:text-red-400'></i>
+                                    <span>Logout</span>
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </aside>
 
         <!-- ==========================================
              MAIN CONTENT WRAPPER
              ========================================== -->
-        <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-50">
+        <div class="flex-1 flex flex-col min-w-0 bg-slate-50">
             
             <!-- TOPBAR -->
-            <header class="h-20 bg-white border-b border-slate-200 shadow-sm shadow-slate-100/50 shrink-0 flex items-center justify-between px-6 z-10">
+            <header class="h-20 bg-white border-b border-slate-200 shrink-0 flex items-center justify-between px-6 lg:px-10 z-10 sticky top-0">
                 <div class="flex items-center gap-4">
                     <!-- Mobile Menu Button -->
-                    <button @click="sidebarOpen = true" class="lg:hidden p-2 -ml-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-                        <i class='bx bx-menu text-2xl'></i>
+                    <button @click="sidebarOpen = true" class="lg:hidden p-2 -ml-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors">
+                        <i class='bx bx-menu-alt-left text-2xl'></i>
                     </button>
 
                     <!-- Page Title / Breadcrumb -->
-                    <div class="hidden sm:block">
-                        <h2 class="text-xl font-bold text-slate-800 leading-none">@yield('header', 'Dashboard')</h2>
-                        <div class="text-sm text-slate-500 mt-1 flex items-center gap-2">
-                            <i class='bx bx-home-alt'></i> 
+                    <div class="hidden sm:flex flex-col justify-center">
+                        <h2 class="text-xl font-bold text-slate-800 tracking-tight leading-tight">@yield('header', 'Dashboard')</h2>
+                        <div class="text-[13px] font-medium text-slate-400 mt-0.5 flex items-center gap-1.5">
+                            <i class='bx bx-home-alt text-sm'></i> 
                             <span>/</span> 
-                            <span class="text-blue-600 font-medium">@yield('header', 'Overview')</span>
+                            <span class="text-slate-500">Overview</span>
+                            <span>/</span>
+                            <span class="text-blue-600">@yield('header', 'Dashboard')</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Topbar (Profile) -->
-                <div class="flex items-center gap-4">
-                    <!-- Notification Bell (Example) -->
-                    <button class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-blue-50 hover:text-blue-600 transition-colors relative">
-                        <i class='bx bx-bell text-xl'></i>
-                        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                <!-- Right Topbar -->
+                <div class="flex items-center gap-3 md:gap-5">
+                    
+                    <a href="/" target="_blank" class="hidden md:flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors mr-2">
+                        <i class='bx bx-globe text-lg'></i> View Site
+                    </a>
+
+                    <!-- Notification -->
+                    <button class="relative p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors">
+                        <i class='bx bx-bell text-2xl'></i>
+                        <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
                     </button>
 
-                    <div class="h-8 w-px bg-slate-200"></div>
+                    <div class="h-8 w-px bg-slate-200 hidden md:block"></div>
 
-                    <!-- Profile Dropdown (Alpine) -->
+                    <!-- Profile Dropdown -->
                     <div class="relative" x-data="{ profileOpen: false }">
-                        <button @click="profileOpen = !profileOpen" @click.outside="profileOpen = false" class="flex items-center gap-3 hover:bg-slate-50 p-1.5 pr-3 rounded-full transition-colors border border-transparent hover:border-slate-200">
-                            <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center font-bold shadow-md">
+                        <button @click="profileOpen = !profileOpen" @click.outside="profileOpen = false" class="flex items-center gap-3 p-1 rounded-full hover:bg-slate-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-100">
+                            <div class="text-right hidden md:block mr-1">
+                                <p class="text-sm font-bold text-slate-800 leading-tight">Administrator</p>
+                                <p class="text-[11px] font-medium text-slate-500">Admin System</p>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-sm border-2 border-white ring-1 ring-slate-100">
                                 A
                             </div>
-                            <div class="hidden md:block text-left">
-                                <p class="text-sm font-bold text-slate-700 leading-tight">Admin System</p>
-                                <p class="text-xs text-slate-500 font-medium">Administrator</p>
-                            </div>
-                            <i class='bx bx-chevron-down text-slate-400 hidden md:block'></i>
+                            <i class='bx bx-chevron-down text-slate-400 text-lg hidden md:block'></i>
                         </button>
 
-                        <!-- Dropdown Menu -->
-                        <div x-show="profileOpen" x-transition.opacity.duration.200ms class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50" style="display: none;">
-                            <div class="px-4 py-2 border-b border-slate-100 mb-2 md:hidden">
-                                <p class="text-sm font-bold text-slate-700">Admin System</p>
-                                <p class="text-xs text-slate-500">Administrator</p>
+                        <div x-show="profileOpen" x-transition.opacity.duration.200ms class="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 overflow-hidden z-50" style="display: none;">
+                            <div class="p-4 border-b border-slate-100 bg-slate-50 md:hidden">
+                                <p class="text-sm font-bold text-slate-800">Administrator</p>
+                                <p class="text-xs text-slate-500">Admin System</p>
                             </div>
-                            <a href="/" target="_blank" class="flex items-center gap-2 px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">
-                                <i class='bx bx-globe text-lg'></i> Lihat Website
-                            </a>
-                            <form action="{{ route('admin.logout') }}" method="POST" class="mt-1 border-t border-slate-100 pt-1">
-                                @csrf
-                                <button type="submit" class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors text-left">
-                                    <i class='bx bx-log-out text-lg'></i> Keluar
-                                </button>
-                            </form>
+                            <div class="p-2">
+                                <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-xl transition-colors">
+                                    <i class='bx bx-user text-lg'></i> Profile Info
+                                </a>
+                                <a href="{{ route('settings.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-xl transition-colors">
+                                    <i class='bx bx-cog text-lg'></i> Account Settings
+                                </a>
+                            </div>
+                            <div class="p-2 border-t border-slate-100">
+                                <form action="{{ route('admin.logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl transition-colors text-left">
+                                        <i class='bx bx-log-out text-lg'></i> Keluar Aplikasi
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </header>
 
             <!-- MAIN CONTENT AREA -->
-            <main class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+            <main class="flex-1 overflow-y-auto p-6 md:p-8 lg:p-10">
                 <div class="max-w-7xl mx-auto">
                     
-                    <!-- Mobile Page Title (visible only on mobile) -->
-                    <div class="sm:hidden mb-6">
-                        <h2 class="text-2xl font-bold text-slate-800">@yield('header', 'Dashboard')</h2>
+                    <!-- Mobile Page Title -->
+                    <div class="sm:hidden mb-6 flex flex-col">
+                        <h2 class="text-2xl font-bold text-slate-800 tracking-tight">@yield('header', 'Dashboard')</h2>
+                        <div class="w-10 h-1 bg-blue-600 mt-2 rounded-full"></div>
                     </div>
 
                     <!-- Flash Messages -->
                     @if(session('success'))
-                        <div class="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-r-xl shadow-sm flex items-start gap-3" x-data="{ show: true }" x-show="show" x-transition>
-                            <i class='bx bxs-check-circle text-green-500 text-xl mt-0.5'></i>
-                            <div class="flex-1">
-                                <h3 class="text-green-800 font-bold text-sm">Berhasil!</h3>
-                                <p class="text-green-700 text-sm mt-1">{{ session('success') }}</p>
+                        <div class="mb-8 bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex items-start gap-3 shadow-sm" x-data="{ show: true }" x-show="show" x-transition>
+                            <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                                <i class='bx bx-check text-xl'></i>
                             </div>
-                            <button @click="show = false" class="text-green-500 hover:text-green-700">
+                            <div class="flex-1 pt-1">
+                                <h3 class="text-emerald-800 font-bold text-sm tracking-wide">SUKSES</h3>
+                                <p class="text-emerald-700 text-sm mt-0.5">{{ session('success') }}</p>
+                            </div>
+                            <button @click="show = false" class="text-emerald-400 hover:text-emerald-600 p-1">
                                 <i class='bx bx-x text-xl'></i>
                             </button>
                         </div>
                     @endif
                     
                     @if(session('error'))
-                        <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-xl shadow-sm flex items-start gap-3" x-data="{ show: true }" x-show="show" x-transition>
-                            <i class='bx bxs-error-circle text-red-500 text-xl mt-0.5'></i>
-                            <div class="flex-1">
-                                <h3 class="text-red-800 font-bold text-sm">Terjadi Kesalahan</h3>
-                                <p class="text-red-700 text-sm mt-1">{{ session('error') }}</p>
+                        <div class="mb-8 bg-red-50 border border-red-200 p-4 rounded-2xl flex items-start gap-3 shadow-sm" x-data="{ show: true }" x-show="show" x-transition>
+                            <div class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center shrink-0 mt-0.5">
+                                <i class='bx bx-error text-xl'></i>
                             </div>
-                            <button @click="show = false" class="text-red-500 hover:text-red-700">
+                            <div class="flex-1 pt-1">
+                                <h3 class="text-red-800 font-bold text-sm tracking-wide">GAGAL</h3>
+                                <p class="text-red-700 text-sm mt-0.5">{{ session('error') }}</p>
+                            </div>
+                            <button @click="show = false" class="text-red-400 hover:text-red-600 p-1">
                                 <i class='bx bx-x text-xl'></i>
                             </button>
                         </div>
                     @endif
 
-                    <!-- The Content Content -->
+                    <!-- Section Content Injection -->
                     @yield('content')
                     
                 </div>
             </main>
-
-            <!-- Copyright Footer -->
-            <footer class="bg-white border-t border-slate-200 p-4 text-center text-sm text-slate-500 shrink-0">
-                &copy; {{ date('Y') }} <strong>LancarWiFi</strong> Admin Panel. All rights reserved.
-            </footer>
 
         </div>
     </div>

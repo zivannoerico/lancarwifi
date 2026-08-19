@@ -42,6 +42,10 @@ class AdminController extends Controller
             'coverages' => \App\Models\Coverage::count(),
             'certifications' => \App\Models\Certification::count(),
         ];
-        return view('admin.dashboard', compact('stats'));
+        
+        $recentPackages = \App\Models\Package::latest()->take(5)->get();
+        $recentFaqs = \App\Models\Faq::latest()->take(5)->get();
+
+        return view('admin.dashboard', compact('stats', 'recentPackages', 'recentFaqs'));
     }
 }
