@@ -3,32 +3,11 @@
 @section('title', 'Speedtest - LancarWiFi')
 
 @section('content')
-<!-- Hero Section -->
-<section class="relative pt-24 pb-40 overflow-hidden bg-slate-900">
-    <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 via-slate-900 to-blue-900"></div>
-        <!-- Animated glowing orbs -->
-        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px] animate-pulse mix-blend-screen"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-400/20 rounded-full blur-[100px] animate-pulse mix-blend-screen" style="animation-delay: 2s;"></div>
-        <!-- Hexagon Pattern -->
-        <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTIwIDBsMjAgMTB2MjBsLTIwIDEwTDAgMzBWMTB6IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==')]"></div>
-    </div>
-
-    <div class="container mx-auto px-4 relative z-10 text-center">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 tracking-tight">
-            Uji Kecepatan <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Internet Anda</span>
-        </h1>
-        <p class="text-xl text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
-            Pastikan Anda mendapatkan kecepatan penuh sesuai dengan paket berlangganan. Alat ukur kami menggunakan server lokal terdekat untuk hasil paling akurat.
-        </p>
-    </div>
-</section>
-
 <!-- Speedtest Dashboard Section -->
-<section class="relative z-20 pb-32 bg-slate-50">
-    <div class="container mx-auto px-4 max-w-5xl -mt-24">
+<section class="relative z-20 pt-24 md:pt-28 pb-20 bg-white min-h-screen">
+    <div class="container mx-auto px-4 max-w-5xl">
         
-        <div class="bg-white rounded-[3rem] p-8 md:p-16 shadow-[0_20px_50px_rgb(0,0,0,0.08)] border border-slate-100 relative overflow-hidden">
+        <div class="bg-white rounded-[3rem] p-8 md:p-16 relative overflow-hidden">
             <!-- Decorative corner glowing -->
             <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-full blur-3xl -z-10 -mr-20 -mt-20"></div>
             

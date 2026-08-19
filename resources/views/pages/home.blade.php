@@ -34,13 +34,6 @@
                 </div>
             </div>
 
-            <!-- Navigation Controls -->
-            <button class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white hover:bg-slate-50 text-slate-900 flex items-center justify-center text-xl sm:text-2xl shadow-xl border border-slate-200 transition-transform hover:scale-110 z-20" id="carousel-prev" aria-label="Previous Slide">
-                <i class='bx bx-chevron-left'></i>
-            </button>
-            <button class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white hover:bg-slate-50 text-slate-900 flex items-center justify-center text-xl sm:text-2xl shadow-xl border border-slate-200 transition-transform hover:scale-110 z-20" id="carousel-next" aria-label="Next Slide">
-                <i class='bx bx-chevron-right'></i>
-            </button>
         </div>
 
         <!-- Dots Pagination Below Banner Carousel -->
@@ -691,9 +684,9 @@
 
             window.addEventListener('resize', () => goToSlide(currentIndex, true));
 
-            // Autoplay (5 seconds)
+            // Autoplay (3 seconds)
             const startAutoplay = () => {
-                slideInterval = setInterval(goToNext, 5000);
+                slideInterval = setInterval(goToNext, 3000);
             };
 
             const stopAutoplay = () => {
