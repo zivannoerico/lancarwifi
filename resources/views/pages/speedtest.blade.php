@@ -60,11 +60,11 @@
                 <!-- Call to Action -->
                 <div class="text-center max-w-lg mx-auto">
                     <h3 class="text-2xl font-bold text-slate-800 mb-4">Siap Mengukur Kecepatan?</h3>
-                    <p class="text-slate-500 leading-relaxed font-light mb-6">
+                    <p class="text-slate-500 leading-relaxed font-light mb-10">
                         Fitur speedtest saat ini sedang dalam tahap integrasi dengan API pengukuran global. Server lokal kami sedang dipersiapkan untuk memberikan hasil paling akurat.
                     </p>
                     
-                    <button onclick="alert('API Speedtest belum terintegrasi. Server sedang dalam persiapan teknis.')" class="relative overflow-hidden group/btn bg-slate-900 text-white font-extrabold text-lg py-4 px-12 rounded-full shadow-[0_10px_30px_rgba(15,23,42,0.3)] hover:shadow-[0_15px_40px_rgba(59,130,246,0.4)] hover:bg-blue-600 transition-all duration-300 transform hover:-translate-y-1">
+                    <button onclick="alert('API Speedtest belum terintegrasi. Server sedang dalam persiapan teknis.')" class="relative overflow-hidden group/btn bg-slate-900 text-white font-extrabold text-lg py-5 px-16 rounded-full shadow-[0_10px_30px_rgba(15,23,42,0.3)] hover:shadow-[0_15px_40px_rgba(59,130,246,0.4)] hover:bg-blue-600 transition-all duration-300 transform hover:-translate-y-1">
                         <!-- Shimmer effect -->
                         <div class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover/btn:animate-[shimmer_1.5s_infinite]"></div>
                         <span class="relative z-10 flex items-center justify-center gap-3">
