@@ -285,7 +285,7 @@
             <div class="lg:col-span-7 space-y-8">
                 <div class="space-y-3">
                     <span class="inline-block px-3.5 py-1 bg-blue-50 text-brand-blue text-xs font-black tracking-widest uppercase rounded-full">
-                        KENAPA LANCAWIFI?
+                        KENAPA LANCARWIFI?
                     </span>
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-tight">
                         Karena internet bukan cuma soal cepat.

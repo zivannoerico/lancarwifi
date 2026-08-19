@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="relative pt-24 pb-48 overflow-hidden bg-slate-900">
+<section class="relative pt-24 pb-32 overflow-hidden bg-slate-900">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 via-slate-900 to-blue-900"></div>
         <!-- Animated glowing orbs -->
@@ -15,11 +15,7 @@
     </div>
 
     <div class="container mx-auto px-4 relative z-10 text-center">
-        <div class="inline-flex items-center justify-center p-2 bg-white/5 border border-white/10 rounded-full mb-8 backdrop-blur-sm">
-            <span class="bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mr-3">24/7 Support</span>
-            <span class="text-slate-300 text-sm pr-3 font-medium">Kami siap membantu Anda kapan saja</span>
-        </div>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 tracking-tight">
+        <h1 class="mt-10     text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 tracking-tight">
             Hubungi <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Tim Kami</span>
         </h1>
         <p class="text-xl text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
@@ -29,19 +25,19 @@
 </section>
 
 <!-- Content Section -->
-<section class="relative z-20 pb-32 bg-slate-50">
-    <div class="container mx-auto px-4 max-w-7xl -mt-32">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+<section class="mt-10 relative z-20 pb-32 bg-slate-50">
+    <div class="container mx-auto px-4 max-w-7xl -mt-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
             
             <!-- Contact Information (Left Column) -->
-            <div class="lg:col-span-5 flex flex-col gap-6">
+            <div class="lg:col-span-5 flex flex-col gap-6 h-full">
                 @if(isset($contact) && $contact->value)
-                    <div class="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-[0_10px_40px_rgb(0,0,0,0.08)] border border-slate-100 prose prose-lg prose-blue">
+                    <div class="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-[0_10px_40px_rgb(0,0,0,0.08)] border border-slate-100 prose prose-lg prose-blue h-full">
                         {!! $contact->value !!}
                     </div>
                 @else
                     <!-- WhatsApp Card -->
-                    <div class="bg-white rounded-[2rem] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 border border-slate-100 group relative overflow-hidden transform hover:-translate-y-1">
+                    <div class="flex-1 bg-white rounded-[2rem] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 border border-slate-100 group relative overflow-hidden transform hover:-translate-y-1 flex flex-col justify-center">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-green-50 rounded-bl-[4rem] -z-10 group-hover:scale-125 transition-transform duration-700 ease-out"></div>
                         <div class="flex items-start gap-6">
                             <div class="w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:bg-green-500 group-hover:text-white transition-colors duration-300 group-hover:rotate-6">
@@ -58,7 +54,7 @@
                     </div>
 
                     <!-- Email Card -->
-                    <div class="bg-white rounded-[2rem] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 border border-slate-100 group relative overflow-hidden transform hover:-translate-y-1">
+                    <div class="flex-1 bg-white rounded-[2rem] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 border border-slate-100 group relative overflow-hidden transform hover:-translate-y-1 flex flex-col justify-center">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-[4rem] -z-10 group-hover:scale-125 transition-transform duration-700 ease-out"></div>
                         <div class="flex items-start gap-6">
                             <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 group-hover:rotate-6">
@@ -75,7 +71,7 @@
                     </div>
 
                     <!-- Address Card -->
-                    <div class="bg-white rounded-[2rem] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 border border-slate-100 group relative overflow-hidden transform hover:-translate-y-1">
+                    <div class="flex-1 bg-white rounded-[2rem] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 border border-slate-100 group relative overflow-hidden transform hover:-translate-y-1 flex flex-col justify-center">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-bl-[4rem] -z-10 group-hover:scale-125 transition-transform duration-700 ease-out"></div>
                         <div class="flex items-start gap-6">
                             <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300 group-hover:rotate-6">
