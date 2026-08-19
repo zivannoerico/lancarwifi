@@ -15,9 +15,6 @@
     </div>
 
     <div class="container mx-auto px-4 relative z-10 text-center">
-        <div class="w-20 h-20 bg-blue-500/20 text-blue-400 rounded-3xl flex items-center justify-center mx-auto mb-8 backdrop-blur-md border border-blue-400/30 transform -rotate-3 hover:rotate-0 transition-transform duration-300">
-            <i class='bx bx-message-rounded-dots text-4xl'></i>
-        </div>
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 tracking-tight">
             Frequently Asked <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Questions</span>
         </h1>
@@ -31,7 +28,7 @@
 <section class="relative z-20 pb-32 bg-slate-50">
     <div class="container mx-auto px-4 max-w-4xl -mt-16">
         
-        <div class="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-[0_20px_50px_rgb(0,0,0,0.05)] border border-slate-100">
+        <div class="mt-10">
             <div class="space-y-4">
                 @if(isset($faqs) && count($faqs) > 0)
                     @foreach($faqs as $faq)

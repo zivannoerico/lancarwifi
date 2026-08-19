@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'LancarWiFi - Internet Lancar, Aktivitas Tanpa Batas')</title>
+    <title>LancarWiFi</title>
     <meta name="description" content="@yield('description', 'Penyedia layanan internet fiber optic super cepat dan stabil untuk kebutuhan rumah dan bisnis Anda.')">
-    
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -81,7 +81,7 @@
                         <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm mb-8 border border-white/20">
                             <i class='bx bx-bullseye text-3xl text-cyan-300'></i>
                         </div>
-                        <h3 class="text-4xl font-extrabold mb-6">Visi Kami</h3>
+                        <h3 class="text-4xl text-white font-extrabold mb-6">Visi Kami</h3>
                         <p class="text-xl text-blue-100 leading-relaxed font-light">
                             "Menjadi penyedia layanan telekomunikasi terdepan yang mendorong transformasi digital masyarakat Indonesia melalui infrastruktur handal dan pelayanan prima berkelas dunia."
                         </p>
