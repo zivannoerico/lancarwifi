@@ -7,28 +7,204 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
 <style>
-    /* Custom Leaflet Map Styling */
-    #coverage-map {
+    /* Full Coverage App Layout */
+    .coverage-page {
+        position: relative;
+        display: flex;
+        flex-direction: column;
         width: 100%;
-        height: 100%;
-        min-height: 480px;
-        z-index: 10;
+        height: 100vh;
+        max-height: 100vh;
+        margin-top: 0;
+        background: #f8fafc;
+        overflow: hidden;
     }
-    
+
     @media (min-width: 1024px) {
-        #coverage-map {
-            min-height: 680px;
-            height: 680px;
+        .coverage-page {
+            flex-direction: row;
         }
     }
 
-    /* Custom Leaflet Popup */
+    /* 1. TRUE GLASS SIDEBAR (Translucent Frosted Glass with Map Visible Behind) */
+    .coverage-sidebar {
+        position: relative;
+        width: 100%;
+        padding-top: 92px;
+        padding-bottom: 24px;
+        padding-left: 20px;
+        padding-right: 20px;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px) saturate(140%);
+        -webkit-backdrop-filter: blur(20px) saturate(140%);
+        border-right: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 4px 0 30px rgba(0, 0, 0, 0.08);
+        color: #0f172a;
+        display: flex;
+        flex-direction: column;
+        z-index: 500;
+    }
+
+    @media (min-width: 1024px) {
+        .coverage-sidebar {
+            width: 350px;
+            min-width: 350px;
+            max-width: 350px;
+            height: 100%;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+    }
+
+    /* Subtle Glass Highlight */
+    .coverage-sidebar::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.35),
+            rgba(255, 255, 255, 0.05) 45%,
+            rgba(255, 255, 255, 0.02)
+        );
+        opacity: 0.35;
+        z-index: 0;
+    }
+
+    .sidebar-content-wrapper {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Map fills background and entire area */
+    .map-container {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        background: #e2e8f0;
+    }
+
+    @media (max-width: 1023px) {
+        .map-container {
+            position: relative;
+            height: 420px;
+            inset: auto;
+        }
+    }
+
+    #coverage-map {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Glass Elements */
+    .glass-input {
+        background: rgba(255, 255, 255, 0.22) !important;
+        border: 1px solid rgba(255, 255, 255, 0.45) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+        border-radius: 10px !important;
+        color: #0f172a !important;
+        transition: all 180ms ease !important;
+    }
+    .glass-input::placeholder {
+        color: rgba(15, 23, 42, 0.55) !important;
+    }
+    .glass-input:focus {
+        background: rgba(255, 255, 255, 0.35) !important;
+        border-color: rgba(37, 99, 235, 0.55) !important;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    }
+
+    .glass-btn-primary {
+        background: linear-gradient(135deg, #2563eb, #06b6d4);
+        color: white;
+        border: none;
+        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+        transition: all 180ms ease;
+    }
+    .glass-btn-primary:hover {
+        filter: brightness(1.08);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+    }
+
+    .glass-btn-secondary {
+        background: rgba(255, 255, 255, 0.20);
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        color: #0f172a;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        transition: all 180ms ease;
+    }
+    .glass-btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.35);
+        border-color: rgba(37, 99, 235, 0.35);
+        transform: translateY(-1px);
+    }
+
+    .glass-panel-status {
+        background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 2px 10px rgba(0, 0, 0, 0.02);
+        border-radius: 12px;
+    }
+
+    .glass-panel-info {
+        background: rgba(59, 130, 246, 0.10);
+        border: 1px solid rgba(59, 130, 246, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 12px;
+    }
+
+    /* Glass List Item */
+    .glass-list-item {
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.32);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+        transition: all 180ms ease;
+    }
+    .glass-list-item:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(37, 99, 235, 0.25);
+        transform: translateX(2px);
+    }
+
+    /* Status dot subtle glows */
+    .dot-glow-green {
+        background: #10b981;
+        box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+    }
+    .dot-glow-amber {
+        background: #f59e0b;
+        box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+    }
+    .dot-glow-red {
+        background: #ef4444;
+        box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+    }
+
+    /* Custom Leaflet Popup Light/Glass */
     .leaflet-popup-content-wrapper {
-        border-radius: 1.25rem !important;
+        border-radius: 1rem !important;
         padding: 0.25rem !important;
-        box-shadow: 0 20px 30px -10px rgba(11, 59, 143, 0.2), 0 10px 15px -3px rgba(0, 0, 0, 0.05) !important;
-        border: 1px solid #E2E8F0 !important;
-        background: #ffffff !important;
+        box-shadow: 0 20px 30px -10px rgba(15, 23, 42, 0.2) !important;
+        border: 1px solid rgba(255, 255, 255, 0.8) !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        color: #0f172a !important;
     }
     .leaflet-popup-content {
         margin: 0.85rem 1rem !important;
@@ -36,29 +212,29 @@
         font-family: inherit !important;
     }
     .leaflet-popup-tip {
-        background: #ffffff !important;
+        background: rgba(255, 255, 255, 0.95) !important;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
     }
 
-    /* Pulsing user location marker */
+    /* Pulsing user location radar marker */
     .user-pulse-marker {
         position: relative;
-        width: 22px;
-        height: 22px;
-        background: #0B3B8F;
+        width: 20px;
+        height: 20px;
+        background: #0284c7;
         border: 3px solid #ffffff;
         border-radius: 50%;
-        box-shadow: 0 0 15px rgba(11, 59, 143, 0.6);
+        box-shadow: 0 0 15px rgba(2, 132, 199, 0.8);
     }
     .user-pulse-marker::after {
         content: '';
         position: absolute;
-        top: -8px;
-        left: -8px;
-        width: 32px;
-        height: 32px;
+        top: -6px;
+        left: -6px;
+        width: 26px;
+        height: 26px;
         border-radius: 50%;
-        background: rgba(6, 182, 212, 0.4);
+        background: rgba(2, 132, 199, 0.4);
         animation: radar-pulse 2s infinite ease-out;
         pointer-events: none;
     }
@@ -67,238 +243,207 @@
         100% { transform: scale(2.2); opacity: 0; }
     }
 
-    /* Custom scrollbar for sidebar list */
-    .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
+    /* Custom Scrollbar for Sidebar */
+    .sidebar-scrollbar::-webkit-scrollbar {
+        width: 5px;
     }
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: #F1F5F9;
-        border-radius: 8px;
+    .sidebar-scrollbar::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
     }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #CBD5E1;
-        border-radius: 8px;
+    .sidebar-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(15, 23, 42, 0.15);
+        border-radius: 6px;
     }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #94A3B8;
+    .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(37, 99, 235, 0.35);
     }
 </style>
 
-<!-- Hero / Header Section -->
-<section class="relative mt-10 pt-24 pb-32 overflow-hidden bg-slate-900">
-    <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-indigo-900 via-slate-900 to-blue-900"></div>
-        <!-- Animated glowing orbs -->
-        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px] animate-pulse mix-blend-screen"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-400/20 rounded-full blur-[100px] animate-pulse mix-blend-screen" style="animation-delay: 2s;"></div>
-        <!-- Hexagon Pattern -->
-        <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTIwIDBsMjAgMTB2MjBsLTIwIDEwTDAgMzBWMTB6IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==')]"></div>
-    </div>
-
-    <div class="container mx-auto px-4 relative z-10 text-center">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 tracking-tight">
-            Cek Jangkauan <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Jaringan Kami</span>
-        </h1>
-        <p class="text-xl text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
-            Periksa ketersediaan layanan internet fiber optic super cepat LancarWiFi di wilayah tempat tinggal atau lokasi bisnis Anda secara real-time.
-        </p>
-    </div>
-</section>
-
-<!-- Main Coverage Map & Sidebar Section -->
-<section class="relative z-20 pb-32 bg-slate-50">
-    <div class="container mx-auto px-4 max-w-7xl -mt-16">
+<!-- Coverage Main Page Layout -->
+<div class="coverage-page">
+    
+    <!-- 1. LEFT SIDEBAR (Fixed 350px width, True Frosted Glassmorphism) -->
+    <aside class="coverage-sidebar sidebar-scrollbar p-5 flex flex-col justify-between">
         
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            <!-- LEFT: LEAFLET MAP CONTAINER (Desktop: 68% / 8 Cols) -->
-            <div class="lg:col-span-8 w-full">
-                <div class="relative bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
+        <div class="sidebar-content-wrapper space-y-5">
+            <!-- Header -->
+            <div>
+               
+                <h1 class="text-xl sm:text-2xl font-extrabold text-[#0f172a] tracking-tight leading-tight">Cek Area Jaringan</h1>
+                <p class="text-[rgba(15,23,42,0.68)] text-xs mt-1.5 leading-relaxed font-normal">
+                    Lihat apakah lokasi Anda tercover oleh jaringan Fiber Optic LancarWiFi.
+                </p>
+            </div>
+
+            <!-- Search Section -->
+            <div class="space-y-2.5">
+                <label class="block text-[10px] font-bold text-[rgba(15,23,42,0.65)] uppercase tracking-wider">Cari Lokasi</label>
+                
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                        <i class='bx bx-search text-base'></i>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="coverage-search-input" 
+                        placeholder="Masukkan alamat, kecamatan, kota..." 
+                        class="glass-input w-full pl-9 pr-3 py-2.5 text-xs font-semibold text-[#0f172a] outline-none"
+                    >
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <button 
+                        type="button" 
+                        id="btn-check-availability" 
+                        class="glass-btn-primary w-full py-2 px-2.5 text-[11px] font-bold rounded-xl flex items-center justify-center gap-1.5 active:scale-95"
+                    >
+                        <i class='bx bx-search-alt-2 text-sm'></i>
+                        <span>Cek Ketersediaan</span>
+                    </button>
                     
-                    <!-- Map Box -->
-                    <div id="coverage-map"></div>
-
-                    <!-- Floating Custom Map Controls (Top-Right) -->
-                    <div class="absolute top-4 right-4 z-[500] flex flex-col gap-2">
-                        <button type="button" id="btn-map-zoom-in" title="Perbesar" class="w-10 h-10 bg-white/95 hover:bg-white text-slate-700 hover:text-blue-600 rounded-xl shadow-md border border-slate-200 flex items-center justify-center text-xl font-bold transition-all transform hover:scale-105 active:scale-95 backdrop-blur-sm">
-                            <i class='bx bx-plus'></i>
-                        </button>
-                        <button type="button" id="btn-map-zoom-out" title="Perkecil" class="w-10 h-10 bg-white/95 hover:bg-white text-slate-700 hover:text-blue-600 rounded-xl shadow-md border border-slate-200 flex items-center justify-center text-xl font-bold transition-all transform hover:scale-105 active:scale-95 backdrop-blur-sm">
-                            <i class='bx bx-minus'></i>
-                        </button>
-                        <button type="button" id="btn-map-reset" title="Reset Tampilan" class="w-10 h-10 bg-white/95 hover:bg-white text-slate-700 hover:text-blue-600 rounded-xl shadow-md border border-slate-200 flex items-center justify-center text-xl transition-all transform hover:scale-105 active:scale-95 backdrop-blur-sm">
-                            <i class='bx bx-reset'></i>
-                        </button>
-                        <button type="button" id="btn-map-locate" title="Deteksi Lokasi Saya" class="w-10 h-10 bg-white/95 hover:bg-white text-blue-600 hover:text-blue-700 rounded-xl shadow-md border border-blue-200 flex items-center justify-center text-xl transition-all transform hover:scale-105 active:scale-95 backdrop-blur-sm">
-                            <i class='bx bx-target-lock'></i>
-                        </button>
-                    </div>
-
-                    <!-- Floating Map Info Badge (Bottom-Left) -->
-                    <div class="absolute bottom-4 left-4 z-[500] hidden sm:flex items-center gap-2 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-slate-200 text-xs font-semibold text-slate-600 shadow-sm pointer-events-none">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                        <span>Sistem Coverage Interaktif LancarWiFi</span>
-                    </div>
+                    <button 
+                        type="button" 
+                        id="btn-use-my-location" 
+                        class="glass-btn-secondary w-full py-2 px-2.5 text-[11px] font-bold rounded-xl flex items-center justify-center gap-1.5 active:scale-95"
+                    >
+                        <i class='bx bx-current-location text-sm text-blue-600'></i>
+                        <span>Gunakan Lokasi Saya</span>
+                    </button>
                 </div>
             </div>
 
-            <!-- RIGHT: SIDEBAR COVERAGE PANEL (Desktop: 32% / 4 Cols) -->
-            <div class="lg:col-span-4 w-full">
-                <div class="bg-white rounded-3xl border border-slate-200 shadow-xl p-6 sm:p-7 flex flex-col gap-6">
-                    
-                    <!-- Sidebar Header -->
-                    <div>
-                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
-                            <i class='bx bx-broadcast'></i> Coverage Checker
-                        </div>
-                        <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Cek Area Jaringan</h2>
-                        <p class="text-slate-500 text-sm mt-1 leading-relaxed">
-                            Lihat apakah lokasi Anda tercover oleh jaringan Fiber Optic LancarWiFi.
-                        </p>
-                    </div>
-
-                    <!-- Search Input Box -->
-                    <div class="space-y-2.5">
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Cari Lokasi</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                                <i class='bx bx-search text-lg'></i>
-                            </div>
-                            <input 
-                                type="text" 
-                                id="coverage-search-input" 
-                                placeholder="Masukkan alamat, kecamatan, atau kota..." 
-                                class="w-full pl-10 pr-4 py-3 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 rounded-xl text-sm font-medium text-slate-800 placeholder-slate-400 transition-all outline-none"
-                            >
-                        </div>
-                        
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-                            <button 
-                                type="button" 
-                                id="btn-check-availability" 
-                                class="w-full py-2.5 px-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-blue-500/20 flex items-center justify-center gap-1.5"
-                            >
-                                <i class='bx bx-search-alt-2 text-base'></i>
-                                <span>Cek Ketersediaan</span>
-                            </button>
-                            <button 
-                                type="button" 
-                                id="btn-use-my-location" 
-                                class="w-full py-2.5 px-3 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 active:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-all border border-slate-200 hover:border-blue-200 flex items-center justify-center gap-1.5"
-                            >
-                                <i class='bx bx-current-location text-base text-blue-600'></i>
-                                <span>Gunakan Lokasi Saya</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Coverage Legend -->
-                    <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-                        <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Status Jaringan</div>
-                        <div class="flex items-center justify-between text-xs font-semibold text-slate-700">
-                            <span class="inline-flex items-center gap-1.5">
-                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm"></span> Tersedia
-                            </span>
-                            <span class="inline-flex items-center gap-1.5">
-                                <span class="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-sm"></span> Perencanaan
-                            </span>
-                            <span class="inline-flex items-center gap-1.5">
-                                <span class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-sm"></span> Maintenance
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Dynamic Coverage Result Box -->
-                    <div id="coverage-result-box" class="transition-all duration-300">
-                        <!-- Default Hint (When no check active) -->
-                        <div id="result-initial" class="p-4 rounded-2xl bg-blue-50/60 border border-blue-100/80 text-blue-900 flex items-start gap-3">
-                            <i class='bx bx-info-circle text-2xl text-blue-600 shrink-0 mt-0.5'></i>
-                            <div class="text-xs leading-relaxed text-slate-600">
-                                <strong class="font-bold text-slate-800 block mb-0.5">Pilih Area atau Lokasi</strong>
-                                Klik salah satu wilayah di daftar bawah atau gunakan pencarian untuk memeriksa coverage.
-                            </div>
-                        </div>
-
-                        <!-- Result AVAILABLE -->
-                        <div id="result-available" class="hidden p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950 space-y-3 animate-fadeIn">
-                            <div class="flex items-start gap-3">
-                                <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                                    <i class='bx bx-check-circle text-2xl'></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-sm font-extrabold text-emerald-900">✓ Jaringan Tersedia</h4>
-                                    <p class="text-xs text-emerald-700 mt-0.5" id="available-area-text">LancarWiFi tersedia di lokasi kamu.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between text-[11px] font-bold text-emerald-800 bg-white/70 py-1.5 px-3 rounded-lg border border-emerald-100">
-                                <span>Fiber Optic 100%</span>
-                                <span>Internet Unlimited</span>
-                            </div>
-                            <a href="/paket" class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2">
-                                <span>Lihat Paket Internet</span>
-                                <i class='bx bx-right-arrow-alt text-base'></i>
-                            </a>
-                        </div>
-
-                        <!-- Result NOT AVAILABLE -->
-                        <div id="result-not-available" class="hidden p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-950 space-y-3 animate-fadeIn">
-                            <div class="flex items-start gap-3">
-                                <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
-                                    <i class='bx bx-map-pin text-2xl'></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-sm font-extrabold text-amber-900">Belum Tersedia</h4>
-                                    <p class="text-xs text-amber-700 mt-0.5">Area ini belum terjangkau jaringan LancarWiFi.</p>
-                                </div>
-                            </div>
-                            <p class="text-xs text-amber-800 leading-relaxed font-light">
-                                Ingin wilayahmu segera terpasang jaringan fiber optic? Kirimkan permohonan jangkauan ke tim kami.
-                            </p>
-                            <a href="/hubungi-kami" class="w-full py-2.5 px-4 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-amber-600/20 flex items-center justify-center gap-2">
-                                <span>Ajukan Request Coverage</span>
-                                <i class='bx bx-send text-base'></i>
-                            </a>
-                        </div>
-
-                        <!-- Result MAINTENANCE -->
-                        <div id="result-maintenance" class="hidden p-4 rounded-2xl bg-red-50 border border-red-200 text-red-950 space-y-3 animate-fadeIn">
-                            <div class="flex items-start gap-3">
-                                <div class="w-9 h-9 rounded-xl bg-red-100 text-red-700 flex items-center justify-center shrink-0">
-                                    <i class='bx bx-error text-2xl'></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-sm font-extrabold text-red-900">⚠ Maintenance Jaringan</h4>
-                                    <p class="text-xs text-red-700 mt-0.5" id="maintenance-area-text">Area sedang dalam pemeliharaan jaringan.</p>
-                                </div>
-                            </div>
-                            <p class="text-xs text-red-800 leading-relaxed font-light">
-                                Tim teknis sedang melakukan optimalisasi berkala untuk kualitas koneksi yang lebih stabil.
-                            </p>
-                            <a href="/hubungi-kami" class="w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2">
-                                <span>Hubungi Support</span>
-                                <i class='bx bx-support text-base'></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Coverage Areas List -->
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Wilayah Terdaftar</h3>
-                            <span class="text-[11px] font-semibold text-slate-400" id="coverage-count-text">Memuat...</span>
-                        </div>
-
-                        <div id="coverage-items-list" class="space-y-2.5 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar">
-                            <!-- Items dynamically rendered by JS -->
-                        </div>
-                    </div>
-
+            <!-- Network Status Legend (Glass Panel) -->
+            <div class="glass-panel-status p-3">
+                <div class="text-[10px] font-bold text-[rgba(15,23,42,0.60)] uppercase tracking-wider mb-2">Status Jaringan</div>
+                <div class="flex items-center justify-between text-[11px] font-semibold text-[#334155]">
+                    <span class="inline-flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full dot-glow-green"></span> Tersedia
+                    </span>
+                    <span class="inline-flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full dot-glow-amber"></span> Perencanaan
+                    </span>
+                    <span class="inline-flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full dot-glow-red"></span> Maintenance
+                    </span>
                 </div>
             </div>
 
+            <!-- Dynamic Coverage Result Box -->
+            <div id="coverage-result-box" class="transition-all duration-300">
+                <!-- Initial Hint (Blue-tinted Glass) -->
+                <div id="result-initial" class="glass-panel-info p-3 text-[#0f172a] flex items-start gap-2.5">
+                    <i class='bx bx-info-circle text-lg text-blue-600 shrink-0 mt-0.5'></i>
+                    <div class="text-[11px] leading-relaxed text-[#1e293b]">
+                        <strong class="font-bold text-[#0f172a] block mb-0.5">Pilih Area atau Lokasi</strong>
+                        Klik wilayah di daftar bawah atau gunakan tombol lokasi untuk memeriksa jangkauan fiber optic.
+                    </div>
+                </div>
+
+                <!-- Result AVAILABLE -->
+                <div id="result-available" class="hidden p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-950 space-y-2.5 backdrop-blur-md">
+                    <div class="flex items-start gap-2.5">
+                        <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-700 flex items-center justify-center shrink-0 border border-emerald-500/30">
+                            <i class='bx bx-check-circle text-lg'></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-extrabold text-emerald-900">✓ Jaringan Tersedia</h4>
+                            <p class="text-[11px] text-emerald-800 mt-0.5" id="available-area-text">LancarWiFi tersedia di lokasi kamu.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between text-[10px] font-bold text-emerald-800 bg-emerald-500/15 py-1 px-2.5 rounded border border-emerald-500/20">
+                        <span>Fiber Optic 100%</span>
+                        <span>Internet Unlimited</span>
+                    </div>
+                    <a href="/paket" class="w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg transition-all shadow-md shadow-emerald-600/20 flex items-center justify-center gap-1.5">
+                        <span>Lihat Paket Internet</span>
+                        <i class='bx bx-right-arrow-alt text-base'></i>
+                    </a>
+                </div>
+
+                <!-- Result NOT AVAILABLE -->
+                <div id="result-not-available" class="hidden p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-950 space-y-2.5 backdrop-blur-md">
+                    <div class="flex items-start gap-2.5">
+                        <div class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-700 flex items-center justify-center shrink-0 border border-amber-500/30">
+                            <i class='bx bx-map-pin text-lg'></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-extrabold text-amber-900">Belum Tersedia</h4>
+                            <p class="text-[11px] text-amber-800 mt-0.5">Area ini belum terjangkau jaringan LancarWiFi.</p>
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-amber-900 leading-relaxed font-normal">
+                        Ajukan request jangkauan agar tim infrastruktur kami segera memprioritaskan area Anda.
+                    </p>
+                    <a href="/hubungi-kami" class="w-full py-2 px-3 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-lg transition-all shadow-md shadow-amber-600/20 flex items-center justify-center gap-1.5">
+                        <span>Ajukan Request Coverage</span>
+                        <i class='bx bx-send text-sm'></i>
+                    </a>
+                </div>
+
+                <!-- Result MAINTENANCE -->
+                <div id="result-maintenance" class="hidden p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-950 space-y-2.5 backdrop-blur-md">
+                    <div class="flex items-start gap-2.5">
+                        <div class="w-7 h-7 rounded-lg bg-red-500/20 text-red-700 flex items-center justify-center shrink-0 border border-red-500/30">
+                            <i class='bx bx-error text-lg'></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-extrabold text-red-900">⚠ Maintenance Jaringan</h4>
+                            <p class="text-[11px] text-red-800 mt-0.5" id="maintenance-area-text">Area sedang dalam pemeliharaan jaringan.</p>
+                        </div>
+                    </div>
+                    <a href="/hubungi-kami" class="w-full py-2 px-3 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-lg transition-all flex items-center justify-center gap-1.5">
+                        <span>Hubungi Support</span>
+                        <i class='bx bx-support text-sm'></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Coverage Areas List (Frosted Glass List Items) -->
+            <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-[10px] font-bold text-[rgba(15,23,42,0.65)] uppercase tracking-wider">Coverage Areas</h3>
+                    <span class="text-[10px] font-bold text-slate-500" id="coverage-count-text">Memuat...</span>
+                </div>
+
+                <div id="coverage-items-list" class="space-y-1.5 max-h-[200px] lg:max-h-[250px] overflow-y-auto pr-1 sidebar-scrollbar">
+                    <!-- Items rendered dynamically by JS -->
+                </div>
+            </div>
         </div>
-    </div>
-</section>
+
+        <!-- 10. BOTTOM REQUEST AREA -->
+        <div class="sidebar-content-wrapper pt-3.5 mt-4 border-t border-[rgba(255,255,255,0.35)] bg-[rgba(255,255,255,0.05)] rounded-lg p-2 flex items-center justify-between text-[11px]">
+            <span class="text-[rgba(15,23,42,0.65)] font-medium">Lokasi belum tercover?</span>
+            <a href="/hubungi-kami" class="text-[#0891b2] hover:text-[#0284c7] font-bold inline-flex items-center gap-0.5 transition-colors">
+                <span>Request Penarikan Jaringan</span>
+                <i class='bx bx-chevron-right text-sm'></i>
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- 2. FULL MAP BEHIND AND RIGHT (Edge-to-Edge) -->
+    <main class="map-container">
+        <div id="coverage-map"></div>
+
+        <!-- Floating Map Custom Controls (Top-Right) -->
+        <div class="absolute top-24 right-4 z-[450] flex flex-col gap-2">
+            <button type="button" id="btn-map-zoom-in" title="Perbesar Peta" class="w-9 h-9 bg-white/90 hover:bg-white text-[#0f172a] rounded-lg shadow-lg border border-slate-200/80 flex items-center justify-center text-lg font-bold transition-all transform hover:scale-105 active:scale-95 backdrop-blur-md">
+                <i class='bx bx-plus'></i>
+            </button>
+            <button type="button" id="btn-map-zoom-out" title="Perkecil Peta" class="w-9 h-9 bg-white/90 hover:bg-white text-[#0f172a] rounded-lg shadow-lg border border-slate-200/80 flex items-center justify-center text-lg font-bold transition-all transform hover:scale-105 active:scale-95 backdrop-blur-md">
+                <i class='bx bx-minus'></i>
+            </button>
+            <button type="button" id="btn-map-reset" title="Reset View" class="w-9 h-9 bg-white/90 hover:bg-white text-slate-700 hover:text-blue-600 rounded-lg shadow-lg border border-slate-200/80 flex items-center justify-center text-lg transition-all transform hover:scale-105 active:scale-95 backdrop-blur-md">
+                <i class='bx bx-reset'></i>
+            </button>
+            <button type="button" id="btn-map-locate" title="Deteksi Lokasi Saya" class="w-9 h-9 bg-white/90 hover:bg-white text-blue-600 hover:text-blue-700 rounded-lg shadow-lg border border-blue-200 flex items-center justify-center text-lg transition-all transform hover:scale-105 active:scale-95 backdrop-blur-md">
+                <i class='bx bx-target-lock'></i>
+            </button>
+        </div>
+    </main>
+
+</div>
 
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -370,7 +515,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let coverageAreas = [];
     if (Array.isArray(dbCoverages) && dbCoverages.length > 0) {
         coverageAreas = dbCoverages.map((item, idx) => {
-            // Coordinate extraction if map_url or area matches
             let matched = defaultCoverageData.find(d => d.area_name.toLowerCase() === item.area_name.toLowerCase());
             let lat = matched ? matched.lat : -7.5460 + (idx * 0.02);
             let lng = matched ? matched.lng : 112.2330 + (idx * 0.02);
@@ -405,25 +549,25 @@ document.addEventListener('DOMContentLoaded', function () {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Color definitions based on LancarWiFi styling
+    // 9. Translucent Glass Badges based on status
     const statusConfig = {
         available: {
-            color: '#22C55E',
+            color: '#10b981',
             label: 'READY',
-            badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-            dotClass: 'bg-emerald-500'
+            badgeStyle: 'background: rgba(16,185,129,0.12); color: #059669; border: 1px solid rgba(16,185,129,0.25);',
+            dotClass: 'dot-glow-green'
         },
         planned: {
-            color: '#F59E0B',
+            color: '#f59e0b',
             label: 'PLANNED',
-            badgeClass: 'bg-amber-50 text-amber-700 border-amber-200',
-            dotClass: 'bg-amber-500'
+            badgeStyle: 'background: rgba(245,158,11,0.12); color: #d97706; border: 1px solid rgba(245,158,11,0.25);',
+            dotClass: 'dot-glow-amber'
         },
         maintenance: {
-            color: '#EF4444',
+            color: '#ef4444',
             label: 'MAINTENANCE',
-            badgeClass: 'bg-red-50 text-red-700 border-red-200',
-            dotClass: 'bg-red-500'
+            badgeStyle: 'background: rgba(239,68,68,0.12); color: #dc2626; border: 1px solid rgba(239,68,68,0.25);',
+            dotClass: 'dot-glow-red'
         }
     };
 
@@ -440,14 +584,14 @@ document.addEventListener('DOMContentLoaded', function () {
             radius: area.radius,
             color: conf.color,
             fillColor: conf.color,
-            fillOpacity: 0.15,
+            fillOpacity: 0.18,
             weight: 2
         }).addTo(map);
 
         // Custom Leaflet Marker Icon
         const markerHtml = `
             <div style="transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center;">
-                <div style="width: 32px; height: 32px; background: #ffffff; border: 2.5px solid ${conf.color}; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-size: 16px; color: ${conf.color};">
+                <div style="width: 32px; height: 32px; background: #ffffff; border: 2px solid ${conf.color}; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15); font-size: 16px; color: ${conf.color};">
                     <i class='bx bx-broadcast'></i>
                 </div>
             </div>
@@ -465,13 +609,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const popupContent = `
             <div style="font-family: inherit; min-width: 170px;">
                 <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: #64748B; margin-bottom: 2px;">Area Coverage</div>
-                <div style="font-size: 15px; font-weight: 800; color: #0F172A; margin-bottom: 6px;">${area.area_name}</div>
-                <div style="display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 700; background: ${conf.color}15; color: ${conf.color}; border: 1px solid ${conf.color}30; margin-bottom: 10px;">
-                    <span style="width: 6px; height: 6px; border-radius: 50%; background: ${conf.color};"></span>
+                <div style="font-size: 14px; font-weight: 800; color: #0F172A; margin-bottom: 5px;">${area.area_name}</div>
+                <div style="display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: 9999px; font-size: 10px; font-weight: 700; ${conf.badgeStyle} margin-bottom: 8px;">
+                    <span style="width: 5px; height: 5px; border-radius: 50%; background: ${conf.color};"></span>
                     ${conf.label}
                 </div>
                 <div>
-                    <a href="${area.status === 'available' ? '/paket' : '/hubungi-kami'}" style="display: block; width: 100%; text-align: center; background: #0B3B8F; color: #ffffff; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; text-decoration: none;">
+                    <a href="${area.status === 'available' ? '/paket' : '/hubungi-kami'}" style="display: block; width: 100%; text-align: center; background: ${area.status === 'available' ? '#0284c7' : '#475569'}; color: #ffffff; padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-decoration: none;">
                         ${area.status === 'available' ? 'Lihat Paket' : 'Hubungi Kami'}
                     </a>
                 </div>
@@ -491,7 +635,7 @@ document.addEventListener('DOMContentLoaded', function () {
         areaLayers[area.id] = { circle, marker, area };
     });
 
-    // 4. Render Sidebar Area List
+    // 4. Render Sidebar Area List (8. Frosted Glass Rows)
     const itemsListContainer = document.getElementById('coverage-items-list');
     const countText = document.getElementById('coverage-count-text');
 
@@ -501,7 +645,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (filteredAreas.length === 0) {
             itemsListContainer.innerHTML = `
-                <div class="p-4 text-center text-xs text-slate-400 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                <div class="p-3 text-center text-xs text-slate-500 glass-panel-status">
                     Tidak ada wilayah yang cocok.
                 </div>
             `;
@@ -511,20 +655,20 @@ document.addEventListener('DOMContentLoaded', function () {
         filteredAreas.forEach(area => {
             const conf = statusConfig[area.status] || statusConfig.available;
             const itemEl = document.createElement('div');
-            itemEl.className = 'group p-3 bg-slate-50 hover:bg-blue-50/60 border border-slate-200/80 hover:border-blue-300 rounded-2xl cursor-pointer transition-all duration-200 flex items-center justify-between';
+            itemEl.className = 'glass-list-item p-2.5 cursor-pointer flex items-center justify-between group';
             itemEl.setAttribute('data-id', area.id);
 
             itemEl.innerHTML = `
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 group-hover:text-blue-600 transition-colors shadow-xs">
-                        <i class='bx bx-map-pin text-lg'></i>
+                <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-lg bg-white/60 border border-white/80 flex items-center justify-center text-slate-700 group-hover:text-blue-600 group-hover:border-blue-300 transition-colors shadow-xs">
+                        <i class='bx bx-map-pin text-sm'></i>
                     </div>
                     <div>
-                        <h4 class="text-xs font-bold text-slate-800 group-hover:text-blue-900 transition-colors">${area.area_name}</h4>
-                        <span class="text-[11px] text-slate-400">${area.region}</span>
+                        <h4 class="text-xs font-bold text-[#0f172a] group-hover:text-blue-600 transition-colors">${area.area_name}</h4>
+                        <span class="text-[10px] font-medium text-slate-500">${area.region}</span>
                     </div>
                 </div>
-                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold ${conf.badgeClass} border">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-bold" style="${conf.badgeStyle}">
                     ● ${conf.label}
                 </span>
             `;
@@ -554,9 +698,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // Highlight circle briefly
         if (areaLayers[area.id] && areaLayers[area.id].circle) {
             const circle = areaLayers[area.id].circle;
-            circle.setStyle({ weight: 4, fillOpacity: 0.3 });
+            circle.setStyle({ weight: 4, fillOpacity: 0.35 });
             setTimeout(() => {
-                circle.setStyle({ weight: 2, fillOpacity: 0.15 });
+                circle.setStyle({ weight: 2, fillOpacity: 0.18 });
             }, 2500);
         }
 
@@ -606,7 +750,6 @@ document.addEventListener('DOMContentLoaded', function () {
             selectCoverageArea(matched);
             renderSidebarList([matched]);
         } else {
-            // Not covered area
             showResultBox('not_available');
             renderSidebarList([]);
         }
@@ -642,7 +785,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const originalBtnText = document.getElementById('btn-use-my-location').innerHTML;
-        document.getElementById('btn-use-my-location').innerHTML = `<i class='bx bx-loader-alt bx-spin text-base'></i><span>Mencari Lokasi...</span>`;
+        document.getElementById('btn-use-my-location').innerHTML = `<i class='bx bx-loader-alt bx-spin text-sm'></i><span>Mencari...</span>`;
 
         navigator.geolocation.getCurrentPosition(
             function (position) {
@@ -658,13 +801,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 const userIcon = L.divIcon({
                     html: '<div class="user-pulse-marker"></div>',
                     className: 'user-location-custom',
-                    iconSize: [22, 22],
-                    iconAnchor: [11, 11]
+                    iconSize: [20, 20],
+                    iconAnchor: [10, 10]
                 });
 
                 userMarker = L.marker([userLat, userLng], { icon: userIcon }).addTo(map);
                 userMarker.bindPopup(`
-                    <div style="font-family: inherit; font-size: 13px; font-weight: 700; color: #0B3B8F; padding: 2px;">
+                    <div style="font-family: inherit; font-size: 12px; font-weight: 700; color: #0284c7; padding: 2px;">
                         📍 Lokasi Kamu
                     </div>
                 `).openPopup();
@@ -726,6 +869,11 @@ document.addEventListener('DOMContentLoaded', function () {
         searchInput.value = '';
         renderSidebarList(coverageAreas);
     });
+
+    // Invalidate map size after render to avoid grey tile issues
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 200);
 });
 </script>
 @endsection

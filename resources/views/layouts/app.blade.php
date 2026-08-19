@@ -15,7 +15,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <!-- Custom CSS (Navbar & Original Component Styles) -->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ filemtime(public_path('css/style.css')) }}">
     
     <!-- Boxicons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -131,8 +131,8 @@
         <div class="container">
             <div class="footer-grid">
                 <div>
-                    <a href="/" class="footer-brand mb-6 inline-block -ml-3">
-                        <img src="{{ asset('images/logoFooter.png') }}" alt="LancarWiFi Logo" class="h-24 md:h-28 w-auto object-contain transition-transform hover:scale-105">
+                    <a href="/" class="footer-brand mb-2 inline-block -ml-3.5 -mt-5 md:-mt-6">
+                        <img src="{{ asset('images/logoFooter.png') }}" alt="LancarWiFi Logo" class="h-16 md:h-18 w-auto object-contain transition-transform hover:scale-105">
                     </a>
                     <p class="footer-text">Penyedia layanan internet fiber optic ultra cepat, stabil, dan terpercaya untuk mendampingi segala aktivitas digital Anda tanpa batas.</p>
                     <div class="footer-socials">
