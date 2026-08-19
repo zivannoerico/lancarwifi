@@ -4,17 +4,17 @@
 
 @section('content')
 <!-- Speedtest Dashboard Section -->
-<section class="relative z-20 pt-24 md:pt-28 pb-20 bg-white min-h-screen">
+<section class="relative z-20 pt-32 md:pt-40 pb-32 md:pb-40 bg-slate-50 min-h-screen">
     <div class="container mx-auto px-4 max-w-5xl">
         
-        <div class="bg-white rounded-[3rem] p-8 md:p-16 relative overflow-hidden">
+        <div class="bg-white rounded-[3rem] p-8 md:p-16 relative overflow-hidden shadow-lg border border-slate-100">
             <!-- Decorative corner glowing -->
             <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-full blur-3xl -z-10 -mr-20 -mt-20"></div>
             
             <div class="flex flex-col items-center">
                 
                 <!-- Speedometer Visual -->
-                <div class="relative w-64 h-64 md:w-80 md:h-80 mb-12 flex items-center justify-center group">
+                <div class="relative w-64 h-64 md:w-80 md:h-80 mb-12 flex items-center justify-center group shrink-0">
                     <!-- Outer pulsating rings -->
                     <div class="absolute inset-0 border-4 border-slate-100 rounded-full group-hover:border-blue-100 transition-colors duration-500 shadow-sm"></div>
                     <div class="absolute inset-4 border-[6px] border-slate-50 rounded-full border-t-blue-500 border-r-cyan-400 transform -rotate-45 group-hover:rotate-[315deg] transition-all duration-[1500ms] ease-in-out"></div>
@@ -30,19 +30,17 @@
                 <!-- Stats Grid -->
                 <div class="grid grid-cols-3 gap-4 md:gap-8 w-full max-w-3xl mx-auto mb-16">
                     <!-- Ping -->
-                    <div class="text-center p-6 bg-slate-50 rounded-[2rem] border border-slate-100 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-slate-400">
+                    <div class="text-center p-6 bg-white rounded-[2rem] border border-slate-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
+                        <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
                             <i class='bx bx-transfer-alt text-2xl'></i>
                         </div>
                         <div class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-2">Ping</div>
                         <div class="text-3xl md:text-4xl font-black text-slate-800">-- <span class="text-base font-normal text-slate-400">ms</span></div>
                     </div>
                     
-                    <!-- Download (Highlighted) -->
-                    <div class="text-center p-6 bg-gradient-to-b from-blue-50 to-white rounded-[2rem] border border-blue-100 shadow-[0_10px_30px_rgb(59,130,246,0.1)] relative overflow-hidden transform md:-translate-y-4">
-                        <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-400 to-cyan-400"></div>
-                        <div class="absolute top-0 right-0 w-24 h-24 bg-white opacity-60 rounded-full blur-xl"></div>
-                        <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-blue-600">
+                    <!-- Download -->
+                    <div class="text-center p-6 bg-white rounded-[2rem] border border-slate-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg relative overflow-hidden">
+                        <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600">
                             <i class='bx bx-down-arrow-circle text-3xl'></i>
                         </div>
                         <div class="text-sm font-bold text-blue-600 uppercase tracking-widest mb-2">Download</div>
@@ -50,8 +48,8 @@
                     </div>
                     
                     <!-- Upload -->
-                    <div class="text-center p-6 bg-slate-50 rounded-[2rem] border border-slate-100 hover:shadow-md transition-shadow">
-                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-slate-400">
+                    <div class="text-center p-6 bg-white rounded-[2rem] border border-slate-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
+                        <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
                             <i class='bx bx-up-arrow-circle text-2xl'></i>
                         </div>
                         <div class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-2">Upload</div>
@@ -62,11 +60,11 @@
                 <!-- Call to Action -->
                 <div class="text-center max-w-lg mx-auto">
                     <h3 class="text-2xl font-bold text-slate-800 mb-4">Siap Mengukur Kecepatan?</h3>
-                    <p class="text-slate-500 leading-relaxed font-light mb-10">
+                    <p class="text-slate-500 leading-relaxed font-light mb-6">
                         Fitur speedtest saat ini sedang dalam tahap integrasi dengan API pengukuran global. Server lokal kami sedang dipersiapkan untuk memberikan hasil paling akurat.
                     </p>
                     
-                    <button onclick="alert('API Speedtest belum terintegrasi. Server sedang dalam persiapan teknis.')" class="relative overflow-hidden group/btn bg-slate-900 text-white font-extrabold text-lg py-5 px-16 rounded-full shadow-[0_10px_30px_rgba(15,23,42,0.3)] hover:shadow-[0_15px_40px_rgba(59,130,246,0.4)] hover:bg-blue-600 transition-all duration-300 transform hover:-translate-y-1">
+                    <button onclick="alert('API Speedtest belum terintegrasi. Server sedang dalam persiapan teknis.')" class="relative overflow-hidden group/btn bg-slate-900 text-white font-extrabold text-lg py-4 px-12 rounded-full shadow-[0_10px_30px_rgba(15,23,42,0.3)] hover:shadow-[0_15px_40px_rgba(59,130,246,0.4)] hover:bg-blue-600 transition-all duration-300 transform hover:-translate-y-1">
                         <!-- Shimmer effect -->
                         <div class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover/btn:animate-[shimmer_1.5s_infinite]"></div>
                         <span class="relative z-10 flex items-center justify-center gap-3">

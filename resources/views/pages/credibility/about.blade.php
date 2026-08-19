@@ -73,29 +73,36 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
                 
                 <!-- Visi Card (Left Side) -->
-                <div class="lg:col-span-5 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[2.5rem] p-10 md:p-14 text-white shadow-xl flex flex-col justify-center relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl group-hover:opacity-10 transition-opacity duration-500"></div>
-                    <div class="absolute bottom-0 left-0 w-32 h-32 bg-cyan-400 opacity-20 rounded-full blur-2xl"></div>
-                    
-                    <div class="relative z-10">
-                        <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm mb-8 border border-white/20">
-                            <i class='bx bx-bullseye text-3xl text-cyan-300'></i>
+                <div class="lg:col-span-5 flex flex-col">
+                    <div class="mb-8 lg:mb-10 shrink-0">
+                        <h3 class="text-3xl font-bold text-slate-800">Visi Kami</h3>
+                        <p class="text-slate-500 mt-2">Tujuan utama dan mimpi besar perusahaan.</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[2.5rem] p-8 md:p-12 text-white shadow-xl flex flex-col justify-center relative overflow-hidden group flex-1">
+                        <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl group-hover:opacity-10 transition-opacity duration-500"></div>
+                        <div class="absolute bottom-0 left-0 w-32 h-32 bg-cyan-400 opacity-20 rounded-full blur-2xl"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center backdrop-blur-sm mb-8 border border-white/20">
+                                <i class='bx bx-bullseye text-4xl text-cyan-300'></i>
+                            </div>
+                            <p class="text-2xl md:text-3xl text-blue-50 leading-relaxed font-medium italic">
+                                "Menjadi penyedia layanan telekomunikasi terdepan yang mendorong transformasi digital masyarakat Indonesia melalui infrastruktur handal dan pelayanan prima berkelas dunia."
+                            </p>
                         </div>
-                        <h3 class="text-4xl text-white font-extrabold mb-6">Visi Kami</h3>
-                        <p class="text-xl text-blue-100 leading-relaxed font-light">
-                            "Menjadi penyedia layanan telekomunikasi terdepan yang mendorong transformasi digital masyarakat Indonesia melalui infrastruktur handal dan pelayanan prima berkelas dunia."
-                        </p>
                     </div>
                 </div>
 
                 <!-- Misi Cards (Right Side) -->
-                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div class="sm:col-span-2 mb-2">
+                <div class="lg:col-span-7 flex flex-col">
+                    <div class="mb-8 lg:mb-10 shrink-0">
                         <h3 class="text-3xl font-bold text-slate-800">Misi Kami</h3>
                         <p class="text-slate-500 mt-2">Pilar utama yang menopang langkah kami setiap hari.</p>
                     </div>
                     
-                    <!-- Misi Item 1 -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 flex-1">
+                        <!-- Misi Item 1 -->
                     <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-300 group">
                         <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                             <i class='bx bx-rocket text-2xl'></i>
@@ -130,7 +137,9 @@
                         <h4 class="text-lg font-bold text-slate-800 mb-2">Inovasi Berkelanjutan</h4>
                         <p class="text-slate-500 leading-relaxed">Berinovasi secara terus-menerus dalam mengadopsi teknologi jaringan telekomunikasi masa depan.</p>
                     </div>
+                    </div>
                 </div>
+            </div>
             </div>
 
         @endif
