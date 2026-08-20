@@ -45,14 +45,8 @@
             
             <!-- Sidebar Header -->
             <div class="flex items-center h-20 px-6 border-b border-slate-800 bg-slate-900 shrink-0">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-4 group w-full">
-                    <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center p-1 shadow-md shadow-blue-500/10 shrink-0">
-                        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-full h-full object-contain">
-                    </div>
-                    <div class="flex-1 overflow-hidden">
-                        <h1 class="text-white font-extrabold text-lg leading-tight tracking-tight truncate">LancarWiFi</h1>
-                        <p class="text-[10px] text-blue-400 font-bold tracking-[0.2em] uppercase mt-0.5">Admin Portal</p>
-                    </div>
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center group w-full">
+                    <img src="{{ asset('images/logoFooter.png') }}" alt="LancarWiFi Logo" class="h-20 w-auto object-contain scale-125 origin-left -ml-2">
                 </a>
                 <button @click="sidebarOpen = false" class="lg:hidden p-2 -mr-2 text-slate-400 hover:text-white rounded-lg transition-colors">
                     <i class='bx bx-x text-2xl'></i>
@@ -111,12 +105,15 @@
                     <p class="px-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-3">Communication</p>
                     <ul class="space-y-1">
                         <li>
-                            <a href="#" class="nav-item flex items-center justify-between px-4 py-3 rounded-xl hover:bg-slate-800 hover:text-white font-medium text-slate-400 group">
+                            @php $unreadMessages = \App\Models\Message::where('is_read', false)->count(); @endphp
+                            <a href="{{ route('messages.index') }}" class="nav-item flex items-center justify-between px-4 py-3 rounded-xl {{ Request::routeIs('messages.*') ? 'bg-blue-500/10 text-blue-400 font-semibold' : 'hover:bg-slate-800 hover:text-white font-medium text-slate-400' }} group">
                                 <div class="flex items-center gap-3">
-                                    <i class='bx bx-envelope text-xl'></i>
+                                    <i class='bx {{ Request::routeIs('messages.*') ? 'bxs-envelope' : 'bx-envelope' }} text-xl'></i>
                                     <span>Pesan</span>
                                 </div>
-                                <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">3</span>
+                                @if($unreadMessages > 0)
+                                    <span class="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{{ $unreadMessages }}</span>
+                                @endif
                             </a>
                         </li>
                     </ul>
@@ -126,12 +123,6 @@
                 <div class="px-4 pb-4">
                     <p class="px-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-3">System</p>
                     <ul class="space-y-1">
-                        <li>
-                            <a href="{{ route('settings.index') }}" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl {{ Request::routeIs('settings.*') ? 'bg-blue-500/10 text-blue-400 font-semibold' : 'hover:bg-slate-800 hover:text-white font-medium text-slate-400' }}">
-                                <i class='bx {{ Request::routeIs('settings.*') ? 'bxs-cog' : 'bx-cog' }} text-xl'></i>
-                                <span>Settings</span>
-                            </a>
-                        </li>
                         <li>
                             <form action="{{ route('admin.logout') }}" method="POST">
                                 @csrf
@@ -209,9 +200,6 @@
                                 <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-xl transition-colors">
                                     <i class='bx bx-user text-lg'></i> Profile Info
                                 </a>
-                                <a href="{{ route('settings.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-xl transition-colors">
-                                    <i class='bx bx-cog text-lg'></i> Account Settings
-                                </a>
                             </div>
                             <div class="p-2 border-t border-slate-100">
                                 <form action="{{ route('admin.logout') }}" method="POST">
@@ -226,9 +214,8 @@
                 </div>
             </header>
 
-            <!-- MAIN CONTENT AREA -->
             <main class="flex-1 overflow-y-auto p-6 md:p-8 lg:p-10">
-                <div class="max-w-7xl mx-auto">
+                <div class="w-full">
                     
                     <!-- Mobile Page Title -->
                     <div class="sm:hidden mb-6 flex flex-col">

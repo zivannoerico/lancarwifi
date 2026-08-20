@@ -20,8 +20,7 @@ class PageController extends Controller
     }
 
     public function colocation() {
-        $colocation = \App\Models\Setting::where('key', 'colocation')->first();
-        return view('pages.infrastructure.colocation', compact('colocation'));
+        return view('pages.infrastructure.colocation');
     }
 
     public function coverage() {
@@ -30,8 +29,7 @@ class PageController extends Controller
     }
 
     public function about() {
-        $about = \App\Models\Setting::where('key', 'about')->first();
-        return view('pages.credibility.about', compact('about'));
+        return view('pages.credibility.about');
     }
 
     public function certifications() {
@@ -40,8 +38,7 @@ class PageController extends Controller
     }
 
     public function contact() {
-        $contact = \App\Models\Setting::where('key', 'contact')->first();
-        return view('pages.help.contact', compact('contact'));
+        return view('pages.help.contact');
     }
 
     public function faq() {
@@ -51,5 +48,18 @@ class PageController extends Controller
 
     public function speedtest() {
         return view('pages.speedtest');
+    }
+
+    public function submitContact(Request $request) {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'subject' => 'required|string|max:100',
+            'message' => 'required|string',
+        ]);
+
+        \App\Models\Message::create($request->all());
+
+        return redirect()->back()->with('success', 'Pesan Anda berhasil dikirim! Tim kami akan segera menghubungi Anda.');
     }
 }

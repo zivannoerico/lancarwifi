@@ -41,11 +41,6 @@
 <section id="fitur" class="relative z-20 -mt-24 lg:-mt-32 pb-24 px-4">
     <div class="container mx-auto max-w-7xl">
         
-        @if(isset($colocation) && $colocation->value)
-            <div class="bg-white/90 backdrop-blur-xl rounded-[2.5rem] shadow-2xl border border-white/40 p-8 md:p-16 text-slate-800 leading-relaxed text-lg lg:text-xl">
-                {!! $colocation->value !!}
-            </div>
-        @else
             <!-- The Spectacular Feature Grid -->
             <div class="bg-white/80 backdrop-blur-2xl rounded-[2.5rem] shadow-[0_20px_50px_rgb(0,0,0,0.15)] border border-white p-4 md:p-10">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10">
@@ -92,7 +87,6 @@
                     <span class="flex items-center"><i class='bx bxs-server text-blue-500 mr-2 text-2xl'></i> Full Rack (42U)</span>
                 </div>
             </div>
-        @endif
     </div>
 </section>
 @endsection

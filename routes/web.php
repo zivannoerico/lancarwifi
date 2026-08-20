@@ -22,6 +22,7 @@ Route::get('/infrastruktur/coverage', [PageController::class, 'coverage'])->name
 Route::get('/tentang-kami', [PageController::class, 'about'])->name('about');
 Route::get('/sertifikasi-legalitas', [PageController::class, 'certifications'])->name('certifications');
 Route::get('/hubungi-kami', [PageController::class, 'contact'])->name('contact');
+Route::post('/hubungi-kami', [PageController::class, 'submitContact'])->name('contact.submit');
 Route::get('/faq', [PageController::class, 'faq'])->name('faq');
 Route::get('/speedtest', [PageController::class, 'speedtest'])->name('speedtest');
 
@@ -31,7 +32,7 @@ use App\Http\Controllers\PackageController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\CoverageController;
 use App\Http\Controllers\CertificationController;
-use App\Http\Controllers\SettingController;
+use App\Http\Controllers\MessageController;
 
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
@@ -45,6 +46,6 @@ Route::prefix('admin')->group(function () {
         Route::resource('faqs', FaqController::class);
         Route::resource('coverages', CoverageController::class);
         Route::resource('certifications', CertificationController::class);
-        Route::resource('settings', SettingController::class);
+        Route::resource('messages', MessageController::class);
     });
 });

@@ -30,12 +30,6 @@
 <section class="py-20 lg:py-32 bg-slate-50 relative -mt-10 rounded-t-[3rem] z-20 shadow-[0_-20px_50px_rgba(0,0,0,0.1)]">
     <div class="container mx-auto px-4 max-w-7xl">
         
-        @if(isset($about) && $about->value)
-            <!-- Dynamically injected content from CMS -->
-            <div class="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-8 md:p-16 max-w-4xl mx-auto prose prose-lg prose-blue prose-slate">
-                {!! $about->value !!}
-            </div>
-        @else
             <!-- Fallback Beautiful Design -->
             
             <!-- Profil Perusahaan -->
@@ -141,8 +135,6 @@
                 </div>
             </div>
             </div>
-
-        @endif
     </div>
 </section>
 @endsection

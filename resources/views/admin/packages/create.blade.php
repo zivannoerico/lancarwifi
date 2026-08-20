@@ -13,7 +13,7 @@
     </div>
 </div>
 
-<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden max-w-4xl">
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
     <form action="{{ route('packages.store') }}" method="POST" class="p-6 md:p-8">
         @csrf
         

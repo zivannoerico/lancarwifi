@@ -31,11 +31,6 @@
             
             <!-- Contact Information (Left Column) -->
             <div class="lg:col-span-5 flex flex-col gap-6 h-full">
-                @if(isset($contact) && $contact->value)
-                    <div class="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-[0_10px_40px_rgb(0,0,0,0.08)] border border-slate-100 prose prose-lg prose-blue h-full">
-                        {!! $contact->value !!}
-                    </div>
-                @else
                     <!-- WhatsApp Card -->
                     <div class="flex-1 bg-white rounded-[2rem] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 border border-slate-100 group relative overflow-hidden transform hover:-translate-y-1 flex flex-col justify-center">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-green-50 rounded-bl-[4rem] -z-10 group-hover:scale-125 transition-transform duration-700 ease-out"></div>
@@ -86,7 +81,6 @@
                             </div>
                         </div>
                     </div>
-                @endif
             </div>
 
             <!-- Contact Form (Right Column) -->
@@ -104,7 +98,16 @@
                         <p class="text-slate-500 text-lg font-light leading-relaxed">Isi formulir di bawah ini dan tim *Customer Success* kami akan segera menghubungi Anda kembali dengan solusi terbaik.</p>
                     </div>
 
-                    <form action="#" method="POST" class="space-y-6 flex-grow flex flex-col">
+                    <form action="{{ route('contact.submit') }}" method="POST" class="space-y-6 flex-grow flex flex-col">
+                        @csrf
+
+                        <!-- Flash Messages -->
+                        @if(session('success'))
+                            <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Name -->
                             <div class="space-y-2">
@@ -113,7 +116,7 @@
                                     <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                                         <i class='bx bx-user text-slate-400 text-xl group-focus-within/input:text-blue-500 transition-colors'></i>
                                     </div>
-                                    <input type="text" placeholder="John Doe" class="w-full pl-14 pr-4 py-4 bg-slate-50 hover:bg-slate-100 border border-transparent focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-500 rounded-2xl transition-all text-slate-700 placeholder-slate-400 font-medium">
+                                    <input type="text" name="name" required placeholder="John Doe" class="w-full pl-14 pr-4 py-4 bg-slate-50 hover:bg-slate-100 border border-transparent focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-500 rounded-2xl transition-all text-slate-700 placeholder-slate-400 font-medium">
                                 </div>
                             </div>
                             
@@ -124,7 +127,7 @@
                                     <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                                         <i class='bx bx-phone text-slate-400 text-xl group-focus-within/input:text-blue-500 transition-colors'></i>
                                     </div>
-                                    <input type="text" placeholder="0812-xxxx-xxxx" class="w-full pl-14 pr-4 py-4 bg-slate-50 hover:bg-slate-100 border border-transparent focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-500 rounded-2xl transition-all text-slate-700 placeholder-slate-400 font-medium">
+                                    <input type="text" name="phone" required placeholder="0812-xxxx-xxxx" class="w-full pl-14 pr-4 py-4 bg-slate-50 hover:bg-slate-100 border border-transparent focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-500 rounded-2xl transition-all text-slate-700 placeholder-slate-400 font-medium">
                                 </div>
                             </div>
                         </div>
@@ -136,7 +139,7 @@
                                 <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                                     <i class='bx bx-layer text-slate-400 text-xl group-focus-within/input:text-blue-500 transition-colors'></i>
                                 </div>
-                                <select class="w-full pl-14 pr-4 py-4 bg-slate-50 hover:bg-slate-100 border border-transparent focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-500 rounded-2xl transition-all text-slate-700 font-medium appearance-none cursor-pointer">
+                                <select name="subject" required class="w-full pl-14 pr-4 py-4 bg-slate-50 hover:bg-slate-100 border border-transparent focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-500 rounded-2xl transition-all text-slate-700 font-medium appearance-none cursor-pointer">
                                     <option value="" disabled selected>Pilih topik yang sesuai...</option>
                                     <option value="pemasangan">Info Pemasangan Baru</option>
                                     <option value="gangguan">Laporan Gangguan Teknis</option>
@@ -156,13 +159,13 @@
                                 <div class="absolute top-5 left-0 pl-5 pointer-events-none">
                                     <i class='bx bx-message-detail text-slate-400 text-xl group-focus-within/input:text-blue-500 transition-colors'></i>
                                 </div>
-                                <textarea placeholder="Ceritakan kebutuhan atau keluhan Anda secara detail di sini..." class="w-full h-full min-h-[150px] pl-14 pr-4 py-5 bg-slate-50 hover:bg-slate-100 border border-transparent focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-500 rounded-2xl transition-all text-slate-700 placeholder-slate-400 font-medium resize-none"></textarea>
+                                <textarea name="message" required placeholder="Ceritakan kebutuhan atau keluhan Anda secara detail di sini..." class="w-full h-full min-h-[150px] pl-14 pr-4 py-5 bg-slate-50 hover:bg-slate-100 border border-transparent focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white focus:border-blue-500 rounded-2xl transition-all text-slate-700 placeholder-slate-400 font-medium resize-none"></textarea>
                             </div>
                         </div>
 
                         <!-- Submit Button -->
                         <div class="pt-4 mt-auto">
-                            <button type="button" onclick="alert('Pesan berhasil dikirim! (Ini adalah simulasi frontend)')" class="w-full py-5 px-8 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold rounded-2xl transition-all duration-300 shadow-xl hover:shadow-blue-500/30 transform hover:-translate-y-1 flex items-center justify-center gap-3 text-lg group/btn">
+                            <button type="submit" class="w-full py-5 px-8 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold rounded-2xl transition-all duration-300 shadow-xl hover:shadow-blue-500/30 transform hover:-translate-y-1 flex items-center justify-center gap-3 text-lg group/btn">
                                 <span>Kirim Pesan Sekarang</span>
                                 <i class='bx bx-send text-2xl group-hover/btn:translate-x-1 group-hover:-translate-y-1 transition-transform'></i>
                             </button>

@@ -3,7 +3,7 @@
 @section('header', 'Tambah Sertifikasi')
 
 @section('content')
-<div class="max-w-2xl bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
     <div class="px-6 py-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
         <h3 class="font-bold text-slate-800 text-lg">Form Tambah Sertifikasi</h3>
         <a href="{{ route('certifications.index') }}" class="text-sm font-semibold text-slate-500 hover:text-slate-700 flex items-center gap-1">

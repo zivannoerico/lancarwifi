@@ -40,7 +40,7 @@ class AdminController extends Controller
             'packages' => \App\Models\Package::count(),
             'faqs' => \App\Models\Faq::count(),
             'coverages' => \App\Models\Coverage::count(),
-            'certifications' => \App\Models\Certification::count(),
+            'messages' => \App\Models\Message::where('is_read', false)->count(),
         ];
         
         $recentPackages = \App\Models\Package::latest()->take(5)->get();
