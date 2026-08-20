@@ -8,5 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Package extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'speed',
+        'price',
+        'duration',
+        'features',
+        'is_active',
+        'is_popular',
+    ];
 }

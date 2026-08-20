@@ -30,7 +30,14 @@
                 @forelse($packages as $pkg)
                 <tr class="hover:bg-slate-50/50 transition-colors group">
                     <td class="py-4 px-6">
-                        <div class="font-bold text-slate-800">{{ $pkg->name }}</div>
+                        <div class="font-bold text-slate-800 flex items-center gap-2">
+                            {{ $pkg->name }}
+                            @if($pkg->is_popular)
+                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-bold uppercase tracking-wider">
+                                <i class='bx bxs-star'></i> Terfavorit
+                            </span>
+                            @endif
+                        </div>
                         <div class="text-xs text-slate-500 mt-0.5 truncate max-w-[200px]" title="{{ $pkg->features }}">{{ $pkg->features ?: 'Tidak ada fitur tercatat' }}</div>
                     </td>
                     <td class="py-4 px-6">

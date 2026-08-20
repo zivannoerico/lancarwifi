@@ -36,6 +36,7 @@ class PackageController extends Controller
             'duration' => 'required|string|in:bulan,tahun',
             'features' => 'nullable|string',
             'is_active' => 'boolean',
+            'is_popular' => 'boolean',
         ], [
             'name.required' => 'Nama paket wajib diisi.',
             'speed.required' => 'Kecepatan wajib diisi.',
@@ -45,6 +46,7 @@ class PackageController extends Controller
         ]);
 
         $validated['is_active'] = $request->has('is_active');
+        $validated['is_popular'] = $request->has('is_popular');
 
         Package::create($validated);
 
@@ -79,6 +81,7 @@ class PackageController extends Controller
             'duration' => 'required|string|in:bulan,tahun',
             'features' => 'nullable|string',
             'is_active' => 'boolean',
+            'is_popular' => 'boolean',
         ], [
             'name.required' => 'Nama paket wajib diisi.',
             'speed.required' => 'Kecepatan wajib diisi.',
@@ -88,6 +91,7 @@ class PackageController extends Controller
         ]);
 
         $validated['is_active'] = $request->has('is_active');
+        $validated['is_popular'] = $request->has('is_popular');
 
         $package->update($validated);
 

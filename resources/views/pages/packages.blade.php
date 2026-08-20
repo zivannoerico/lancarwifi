@@ -21,7 +21,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 max-w-6xl mx-auto items-center relative z-20">
             @foreach($packages as $package)
             @php
-                $isPopular = $loop->iteration == 2;
+                $isPopular = $package->is_popular;
                 $deviceCount = '1-3';
                 if($package->speed >= 50) $deviceCount = '4-7';
                 if($package->speed >= 100) $deviceCount = '8+';

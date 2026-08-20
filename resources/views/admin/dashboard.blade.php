@@ -90,7 +90,14 @@
                     <tbody class="divide-y divide-slate-50 text-sm">
                         @forelse($recentPackages ?? [] as $pkg)
                         <tr class="hover:bg-slate-50 transition-colors">
-                            <td class="px-6 py-4 font-bold text-slate-800">{{ $pkg->name }}</td>
+                            <td class="px-6 py-4 font-bold text-slate-800 flex items-center gap-2">
+                                {{ $pkg->name }}
+                                @if($pkg->is_popular)
+                                <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-indigo-50 text-indigo-600 text-[9px] font-bold uppercase tracking-wider">
+                                    <i class='bx bxs-star'></i>
+                                </span>
+                                @endif
+                            </td>
                             <td class="px-6 py-4 text-slate-600">{{ $pkg->speed }} Mbps</td>
                             <td class="px-6 py-4 text-slate-600">Rp {{ number_format($pkg->price, 0, ',', '.') }}<span class="text-xs text-slate-400">/{{ $pkg->duration }}</span></td>
                             <td class="px-6 py-4 text-right">
