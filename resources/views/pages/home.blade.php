@@ -133,131 +133,215 @@
         </div>
         
         @if(isset($packages) && count($packages) > 0)
-        <!-- Package Carousel Container (5-Slot Premium Showcase) -->
-        <div class="relative w-full max-w-7xl mx-auto px-2 sm:px-4" id="package-carousel-root">
-            
-            <!-- Navigation Buttons (Desktop Floating & Visible) -->
-            <button id="pkg-prev-btn" aria-label="Paket Sebelumnya" class="absolute left-2 sm:left-4 lg:left-6 top-1/2 -translate-y-1/2 z-40 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/95 backdrop-blur shadow-[0_10px_30px_rgba(0,0,0,0.18)] border border-slate-200/80 text-slate-700 hover:text-blue-600 hover:bg-white hover:scale-110 active:scale-95 transition-all flex items-center justify-center cursor-pointer group">
-                <i class='bx bx-chevron-left text-3xl group-hover:-translate-x-0.5 transition-transform'></i>
-            </button>
-            <button id="pkg-next-btn" aria-label="Paket Berikutnya" class="absolute right-2 sm:right-4 lg:right-6 top-1/2 -translate-y-1/2 z-40 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/95 backdrop-blur shadow-[0_10px_30px_rgba(0,0,0,0.18)] border border-slate-200/80 text-slate-700 hover:text-blue-600 hover:bg-white hover:scale-110 active:scale-95 transition-all flex items-center justify-center cursor-pointer group">
-                <i class='bx bx-chevron-right text-3xl group-hover:translate-x-0.5 transition-transform'></i>
-            </button>
-
-            <!-- Viewport with 5-Slot View & Left/Right Gradient Fade Mask -->
-            <div class="w-full overflow-hidden py-12 px-0 select-none [mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)]" id="pkg-viewport">
-                
-                <!-- Carousel Track -->
-                <div class="flex items-center cursor-grab active:cursor-grabbing will-change-transform" id="pkg-track" style="touch-action: pan-y;">
-                    @foreach($packages as $package)
-                    @php
-                        $isFeatured = (bool)($package->is_popular ?? false);
-                        $deviceCount = '1-3';
-                        if($package->speed >= 50) $deviceCount = '4-7';
-                        if($package->speed >= 100) $deviceCount = '8+';
-                    @endphp
-                    
-                    <!-- Package Card Item -->
-                    <div class="pkg-card-item shrink-0 px-2 sm:px-3 md:px-4 transition-[transform,opacity,filter] duration-500 will-change-transform {{ $isFeatured ? 'is-featured' : '' }}" data-pkg-id="{{ $package->id }}" data-is-featured="{{ $isFeatured ? '1' : '0' }}" data-index="{{ $loop->index }}">
-                        
-                        <div class="pkg-card-inner relative rounded-[2.5rem] p-6 sm:p-8 md:p-9 overflow-hidden flex flex-col justify-between transition-all duration-500 bg-white text-slate-800 border border-slate-200/80 shadow-[0_15px_35px_rgba(15,23,42,0.06)] h-full">
-                            
-                            <!-- Magical border glow element (controlled dynamically or in active state) -->
-                            <div class="pkg-active-glow absolute -inset-[2px] bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 rounded-[2.6rem] blur-md opacity-0 pointer-events-none transition-opacity duration-500"></div>
-
-                            <!-- Decorative card background orbs & watermark icons -->
-                            <div class="pkg-dark-bg absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950 opacity-0 transition-opacity duration-500 pointer-events-none"></div>
-                            
-                            <div class="pkg-orb-1 absolute top-0 right-0 w-64 h-64 bg-slate-100/60 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none transition-all duration-500"></div>
-                            <div class="pkg-orb-2 absolute bottom-0 left-0 w-48 h-48 bg-blue-500/0 rounded-full blur-3xl -ml-10 -mb-10 pointer-events-none transition-all duration-500"></div>
-                            
-                            <i class='bx bx-wifi pkg-watermark absolute -right-8 top-16 text-[170px] text-slate-900/[0.03] -rotate-12 pointer-events-none transition-colors duration-500'></i>
-
-                            <!-- Popular / Featured Badge -->
-                            <div class="pkg-badge absolute top-0 inset-x-0 flex justify-center -mt-0 opacity-0 transition-all duration-500 z-20">
-                                <div class="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-white font-black px-6 py-2 rounded-b-2xl text-xs uppercase tracking-widest shadow-lg border-x border-b border-blue-400/30 backdrop-blur-sm">
+            @if(count($packages) <= 3)
+            <!-- Static Grid Layout (When 3 or fewer packages: centered, no sliding/carousel) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 max-w-6xl mx-auto items-stretch relative z-20 pt-4">
+                @foreach($packages as $package)
+                @php
+                    $isFeatured = (bool)($package->is_popular ?? false);
+                    $deviceCount = '1-3';
+                    if($package->speed >= 50) $deviceCount = '4-7';
+                    if($package->speed >= 100) $deviceCount = '8+';
+                @endphp
+                <div class="relative group rounded-[2.5rem] transition-all duration-500 hover:-translate-y-2 z-10 flex flex-col">
+                    @if($isFeatured)
+                    <div class="absolute -inset-[2px] bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 rounded-[2.6rem] blur-md opacity-70 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
+                    @endif
+                    <div class="relative h-full flex flex-col justify-between p-8 sm:p-9 rounded-[2.5rem] overflow-hidden {{ $isFeatured ? 'bg-gradient-to-b from-slate-900 via-blue-900 to-indigo-950 text-white border border-slate-700/50' : 'bg-white text-slate-800 border border-slate-200/80 shadow-[0_15px_35px_rgba(15,23,42,0.06)]' }}">
+                        @if($isFeatured)
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                            <div class="absolute bottom-0 left-0 w-48 h-48 bg-cyan-500/20 rounded-full blur-3xl -ml-10 -mb-10"></div>
+                            <i class='bx bx-wifi absolute -right-8 top-16 text-[170px] text-white/[0.03] -rotate-12 pointer-events-none'></i>
+                            <div class="absolute top-0 inset-x-0 flex justify-center -mt-0">
+                                <div class="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-white font-black px-6 py-2 rounded-b-2xl text-xs uppercase tracking-widest shadow-lg border-x border-blue-400/30 backdrop-blur-sm">
                                     Paket Unggulan
                                 </div>
                             </div>
+                        @else
+                            <div class="absolute top-0 right-0 w-64 h-64 bg-slate-100/60 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                            <i class='bx bx-wifi absolute -right-8 top-16 text-[170px] text-slate-900/[0.03] -rotate-12 pointer-events-none'></i>
+                        @endif
 
-                            <!-- Card Top/Header Area -->
-                            <div class="relative z-10 flex flex-col mb-5 pkg-header-content transition-all duration-500">
-                                <div class="flex items-start justify-between gap-3 mb-4">
-                                    <h3 class="pkg-title font-black uppercase tracking-wider text-slate-800 transition-colors duration-500">
-                                        {{ $package->name }}
-                                    </h3>
-                                    <div class="pkg-icon-wrap w-10 h-10 rounded-full flex items-center justify-center bg-slate-100 text-blue-600 shrink-0 transition-colors duration-500">
-                                        <i class='bx bx-wifi text-xl pkg-icon'></i>
-                                    </div>
-                                </div>
-
-                                <div class="flex flex-col mb-2">
-                                    <span class="pkg-speed-upto text-xs font-bold tracking-widest uppercase mb-1 text-slate-400 transition-colors duration-500">UP TO</span>
-                                    <div class="pkg-speed-value flex items-baseline gap-1.5 flex-nowrap whitespace-nowrap">
-                                        <span class="pkg-speed-val font-black tracking-tighter text-slate-900 transition-colors duration-500">{{ $package->speed }}</span>
-                                        <span class="pkg-speed-unit font-bold text-slate-500 transition-colors duration-500">Mbps</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="pkg-device-pill inline-flex items-center self-start px-3 py-1 mt-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200 transition-colors duration-500 whitespace-nowrap">
-                                    <i class='bx bx-devices mr-1.5 shrink-0'></i> Ideal untuk {{ $deviceCount }} Perangkat
+                        <div class="relative z-10 flex flex-col mb-6 {{ $isFeatured ? 'pt-4' : '' }}">
+                            <div class="flex items-start justify-between gap-3 mb-4">
+                                <h3 class="font-black uppercase tracking-wider {{ $isFeatured ? 'text-white' : 'text-slate-800' }}">
+                                    {{ $package->name }}
+                                </h3>
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center {{ $isFeatured ? 'bg-white/10 text-cyan-300' : 'bg-slate-100 text-blue-600' }} shrink-0">
+                                    <i class='bx bx-wifi text-xl'></i>
                                 </div>
                             </div>
 
-                            <!-- Card Price Row -->
-                            <div class="pkg-price-row relative z-10 py-4 border-y border-slate-100 mb-5 flex items-baseline gap-1.5 flex-nowrap whitespace-nowrap transition-colors duration-500">
-                                <span class="pkg-currency font-bold text-slate-400 transition-colors duration-500">Rp</span> 
-                                <span class="pkg-price-val font-black tracking-tight text-slate-900 transition-colors duration-500">{{ number_format($package->price, 0, ',', '.') }}</span> 
-                                <span class="pkg-duration font-medium text-slate-500 transition-colors duration-500">/ {{ $package->duration }}</span>
+                            <div class="flex flex-col mb-2">
+                                <span class="text-xs font-bold tracking-widest uppercase mb-1 {{ $isFeatured ? 'text-blue-300' : 'text-slate-400' }}">UP TO</span>
+                                <div class="flex items-baseline gap-1.5">
+                                    <span class="text-5xl font-black tracking-tighter {{ $isFeatured ? 'text-white' : 'text-slate-900' }}">{{ $package->speed }}</span>
+                                    <span class="font-bold {{ $isFeatured ? 'text-blue-200' : 'text-slate-500' }}">Mbps</span>
+                                </div>
                             </div>
                             
-                            <!-- Features List (Consistent middle area, clean 2-line wraps) -->
-                            <div class="relative z-10 flex-1 flex flex-col justify-start mb-6 pkg-features-container">
-                                <ul class="space-y-3">
-                                    @php
-                                        $features = $package->features ? (is_array(json_decode($package->features, true)) ? json_decode($package->features, true) : explode(',', $package->features)) : ['Unlimited Kuota, Tanpa FUP', 'Peminjaman Router Gratis', 'Support 24/7 Hari'];
-                                    @endphp
-                                    @foreach($features as $feature)
-                                    <li class="flex items-start group/item">
-                                        <div class="pkg-check-wrap w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 mr-2.5 bg-blue-50 text-blue-600 transition-colors duration-500">
-                                            <i class='bx bx-check text-xs font-bold'></i>
-                                        </div>
-                                        <span class="pkg-feature-text font-medium text-xs sm:text-sm text-slate-600 transition-colors duration-500">{{ trim($feature) }}</span>
-                                    </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            
-                            <!-- CTA Button (Pinned securely to Bottom) -->
-                            <div class="relative z-10 mt-auto pt-2">
-                                <a href="/hubungi-kami" class="pkg-cta-btn flex items-center justify-center gap-2 w-full py-3.5 sm:py-4 px-5 text-center font-bold rounded-2xl transition-all duration-300 transform hover:-translate-y-0.5 bg-slate-900 text-white hover:bg-slate-800 shadow-md">
-                                    <span class="whitespace-nowrap">Berlangganan Sekarang</span>
-                                    <i class='bx bx-right-arrow-alt text-xl group-hover:translate-x-1 transition-transform'></i>
-                                </a>
+                            <div class="inline-flex items-center self-start px-3 py-1 mt-1 rounded-lg text-xs font-bold {{ $isFeatured ? 'bg-white/10 text-cyan-100 border border-white/10' : 'bg-slate-100 text-slate-600 border border-slate-200' }}">
+                                <i class='bx bx-devices mr-1.5'></i> Ideal untuk {{ $deviceCount }} Perangkat
                             </div>
                         </div>
+
+                        <div class="relative z-10 py-4 border-y {{ $isFeatured ? 'border-white/10' : 'border-slate-100' }} mb-5 flex items-baseline gap-1.5">
+                            <span class="font-bold {{ $isFeatured ? 'text-blue-300' : 'text-slate-400' }}">Rp</span> 
+                            <span class="text-3xl font-black tracking-tight {{ $isFeatured ? 'text-white' : 'text-slate-900' }}">{{ number_format($package->price, 0, ',', '.') }}</span> 
+                            <span class="font-medium {{ $isFeatured ? 'text-blue-300' : 'text-slate-500' }}">/ {{ $package->duration }}</span>
+                        </div>
+                        
+                        <div class="relative z-10 flex-1 flex flex-col justify-start mb-6">
+                            <ul class="space-y-3">
+                                @php
+                                    $features = $package->features ? (is_array(json_decode($package->features, true)) ? json_decode($package->features, true) : explode(',', $package->features)) : [];
+                                @endphp
+                                @foreach($features as $feature)
+                                <li class="flex items-start group/item">
+                                    <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 mr-2.5 {{ $isFeatured ? 'bg-blue-500/20 text-cyan-300' : 'bg-blue-50 text-blue-600' }}">
+                                        <i class='bx bx-check text-xs font-bold'></i>
+                                    </div>
+                                    <span class="font-medium text-xs sm:text-sm {{ $isFeatured ? 'text-blue-100' : 'text-slate-600' }}">{{ trim($feature) }}</span>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        
+                        <div class="relative z-10 mt-auto pt-2">
+                            <a href="/hubungi-kami" class="flex items-center justify-center gap-2 w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform hover:-translate-y-0.5 {{ $isFeatured ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/30' : 'bg-slate-900 text-white hover:bg-slate-800 shadow-md' }}">
+                                <span>Berlangganan Sekarang</span>
+                                <i class='bx bx-right-arrow-alt text-xl group-hover:translate-x-1 transition-transform'></i>
+                            </a>
+                        </div>
                     </div>
+                </div>
+                @endforeach
+            </div>
+            @else
+            <!-- Package Carousel Container (For > 3 Packages: Showcase Carousel) -->
+            <div class="relative w-full max-w-7xl mx-auto px-2 sm:px-4" id="package-carousel-root">
+                
+                <!-- Navigation Buttons (Desktop Floating & Visible) -->
+                <button id="pkg-prev-btn" aria-label="Paket Sebelumnya" class="absolute left-2 sm:left-4 lg:left-6 top-1/2 -translate-y-1/2 z-40 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/95 backdrop-blur shadow-[0_10px_30px_rgba(0,0,0,0.18)] border border-slate-200/80 text-slate-700 hover:text-blue-600 hover:bg-white hover:scale-110 active:scale-95 transition-all flex items-center justify-center cursor-pointer group">
+                    <i class='bx bx-chevron-left text-3xl group-hover:-translate-x-0.5 transition-transform'></i>
+                </button>
+                <button id="pkg-next-btn" aria-label="Paket Berikutnya" class="absolute right-2 sm:right-4 lg:right-6 top-1/2 -translate-y-1/2 z-40 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/95 backdrop-blur shadow-[0_10px_30px_rgba(0,0,0,0.18)] border border-slate-200/80 text-slate-700 hover:text-blue-600 hover:bg-white hover:scale-110 active:scale-95 transition-all flex items-center justify-center cursor-pointer group">
+                    <i class='bx bx-chevron-right text-3xl group-hover:translate-x-0.5 transition-transform'></i>
+                </button>
+
+                <!-- Viewport with 5-Slot View & Left/Right Gradient Fade Mask -->
+                <div class="w-full overflow-hidden py-12 px-0 select-none [mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)]" id="pkg-viewport">
+                    
+                    <!-- Carousel Track -->
+                    <div class="flex items-center cursor-grab active:cursor-grabbing will-change-transform" id="pkg-track" style="touch-action: pan-y;">
+                        @foreach($packages as $package)
+                        @php
+                            $isFeatured = (bool)($package->is_popular ?? false);
+                            $deviceCount = '1-3';
+                            if($package->speed >= 50) $deviceCount = '4-7';
+                            if($package->speed >= 100) $deviceCount = '8+';
+                        @endphp
+                        
+                        <!-- Package Card Item -->
+                        <div class="pkg-card-item shrink-0 px-2 sm:px-3 md:px-4 transition-[transform,opacity,filter] duration-500 will-change-transform {{ $isFeatured ? 'is-featured' : '' }}" data-pkg-id="{{ $package->id }}" data-is-featured="{{ $isFeatured ? '1' : '0' }}" data-index="{{ $loop->index }}">
+                            
+                            <div class="pkg-card-inner relative rounded-[2.5rem] p-6 sm:p-8 md:p-9 overflow-hidden flex flex-col justify-between transition-all duration-500 bg-white text-slate-800 border border-slate-200/80 shadow-[0_15px_35px_rgba(15,23,42,0.06)] h-full">
+                                
+                                <div class="pkg-active-glow absolute -inset-[2px] bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 rounded-[2.6rem] blur-md opacity-0 pointer-events-none transition-opacity duration-500"></div>
+                                <div class="pkg-dark-bg absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950 opacity-0 transition-opacity duration-500 pointer-events-none"></div>
+                                
+                                <div class="pkg-orb-1 absolute top-0 right-0 w-64 h-64 bg-slate-100/60 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none transition-all duration-500"></div>
+                                <div class="pkg-orb-2 absolute bottom-0 left-0 w-48 h-48 bg-blue-500/0 rounded-full blur-3xl -ml-10 -mb-10 pointer-events-none transition-all duration-500"></div>
+                                
+                                <i class='bx bx-wifi pkg-watermark absolute -right-8 top-16 text-[170px] text-slate-900/[0.03] -rotate-12 pointer-events-none transition-colors duration-500'></i>
+
+                                <div class="pkg-badge absolute top-0 inset-x-0 flex justify-center -mt-0 opacity-0 transition-all duration-500 z-20">
+                                    <div class="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-white font-black px-6 py-2 rounded-b-2xl text-xs uppercase tracking-widest shadow-lg border-x border-blue-400/30 backdrop-blur-sm">
+                                        Paket Unggulan
+                                    </div>
+                                </div>
+
+                                <div class="relative z-10 flex flex-col mb-5 pkg-header-content transition-all duration-500">
+                                    <div class="flex items-start justify-between gap-3 mb-4">
+                                        <h3 class="pkg-title font-black uppercase tracking-wider text-slate-800 transition-colors duration-500">
+                                            {{ $package->name }}
+                                        </h3>
+                                        <div class="pkg-icon-wrap w-10 h-10 rounded-full flex items-center justify-center bg-slate-100 text-blue-600 shrink-0 transition-colors duration-500">
+                                            <i class='bx bx-wifi text-xl pkg-icon'></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-col mb-2">
+                                        <span class="pkg-speed-upto text-xs font-bold tracking-widest uppercase mb-1 text-slate-400 transition-colors duration-500">UP TO</span>
+                                        <div class="pkg-speed-value flex items-baseline gap-1.5 flex-nowrap whitespace-nowrap">
+                                            <span class="pkg-speed-val font-black tracking-tighter text-slate-900 transition-colors duration-500">{{ $package->speed }}</span>
+                                            <span class="pkg-speed-unit font-bold text-slate-500 transition-colors duration-500">Mbps</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="pkg-device-pill inline-flex items-center self-start px-3 py-1 mt-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200 transition-colors duration-500 whitespace-nowrap">
+                                        <i class='bx bx-devices mr-1.5 shrink-0'></i> Ideal untuk {{ $deviceCount }} Perangkat
+                                    </div>
+                                </div>
+
+                                <div class="pkg-price-row relative z-10 py-4 border-y border-slate-100 mb-5 flex items-baseline gap-1.5 flex-nowrap whitespace-nowrap transition-colors duration-500">
+                                    <span class="pkg-currency font-bold text-slate-400 transition-colors duration-500">Rp</span> 
+                                    <span class="pkg-price-val font-black tracking-tight text-slate-900 transition-colors duration-500">{{ number_format($package->price, 0, ',', '.') }}</span> 
+                                    <span class="pkg-duration font-medium text-slate-500 transition-colors duration-500">/ {{ $package->duration }}</span>
+                                </div>
+                                
+                                <div class="relative z-10 flex-1 flex flex-col justify-start mb-6 pkg-features-container">
+                                    <ul class="space-y-3">
+                                        @php
+                                            $features = $package->features ? (is_array(json_decode($package->features, true)) ? json_decode($package->features, true) : explode(',', $package->features)) : [];
+                                        @endphp
+                                        @foreach($features as $feature)
+                                        <li class="flex items-start group/item">
+                                            <div class="pkg-check-wrap w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 mr-2.5 bg-blue-50 text-blue-600 transition-colors duration-500">
+                                                <i class='bx bx-check text-xs font-bold'></i>
+                                            </div>
+                                            <span class="pkg-feature-text font-medium text-xs sm:text-sm text-slate-600 transition-colors duration-500">{{ trim($feature) }}</span>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                
+                                <div class="relative z-10 mt-auto pt-2">
+                                    <a href="/hubungi-kami" class="pkg-cta-btn flex items-center justify-center gap-2 w-full py-3.5 sm:py-4 px-5 text-center font-bold rounded-2xl transition-all duration-300 transform hover:-translate-y-0.5 bg-slate-900 text-white hover:bg-slate-800 shadow-md">
+                                        <span class="whitespace-nowrap">Berlangganan Sekarang</span>
+                                        <i class='bx bx-right-arrow-alt text-xl group-hover:translate-x-1 transition-transform'></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- Dots Pagination / Indicator Below Carousel -->
+                <div class="flex items-center justify-center gap-2 mt-4" id="pkg-dots">
+                    @foreach($packages as $package)
+                    <button type="button" aria-label="Lihat paket {{ $package->name }}" class="pkg-dot w-3 h-3 rounded-full bg-slate-300 hover:bg-slate-400 transition-all duration-300 cursor-pointer" data-index="{{ $loop->index }}"></button>
                     @endforeach
                 </div>
             </div>
-
-            <!-- Dots Pagination / Indicator Below Carousel -->
-            <div class="flex items-center justify-center gap-2 mt-4" id="pkg-dots">
-                @foreach($packages as $package)
-                <button type="button" aria-label="Lihat paket {{ $package->name }}" class="pkg-dot w-3 h-3 rounded-full bg-slate-300 hover:bg-slate-400 transition-all duration-300 cursor-pointer" data-index="{{ $loop->index }}"></button>
-                @endforeach
-            </div>
-
-        </div>
+            @endif
         @else
-        <div class="text-center py-20 bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 max-w-2xl mx-auto">
-            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class='bx bx-package text-5xl text-slate-300'></i>
+            <!-- Clean Inline Notice (No Card / No Box Container) -->
+            <div class="text-center py-10 max-w-xl mx-auto space-y-3">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-100 text-slate-400 text-2xl mb-1">
+                    <i class='bx bx-info-circle'></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800">Daftar Paket Sedang Disiapkan</h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                    Saat ini kami sedang memperbarui paket internet terbaik. Butuh konsultasi paket atau pemasangan?
+                </p>
+                <div class="pt-2">
+                    <a href="/hubungi-kami" class="inline-flex items-center gap-2 text-sm font-bold text-brand-blue hover:underline">
+                        Hubungi Tim Kami <i class='bx bx-right-arrow-alt text-lg'></i>
+                    </a>
+                </div>
             </div>
-            <h3 class="text-2xl font-bold text-slate-800 mb-3">Paket Belum Tersedia</h3>
-            <p class="text-slate-500 mb-8 max-w-md mx-auto">Saat ini kami sedang memperbarui daftar paket internet. Silakan kembali lagi nanti atau hubungi kami.</p>
-            <a href="/hubungi-kami" class="inline-block py-3 px-8 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">Hubungi CS</a>
-        </div>
         @endif
     </div>
 </section>

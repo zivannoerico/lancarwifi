@@ -25,39 +25,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Dummy Packages
-        Package::firstOrCreate(
-            ['name' => 'Paket Hemat'],
-            [
-                'speed' => 20,
-                'price' => 150000,
-                'duration' => 'bulan',
-                'features' => 'Unlimited Kuota,Router Gratis,Cocok untuk 1-3 Perangkat',
-                'is_active' => true,
-            ]
-        );
 
-        Package::firstOrCreate(
-            ['name' => 'Paket Keluarga'],
-            [
-                'speed' => 50,
-                'price' => 250000,
-                'duration' => 'bulan',
-                'features' => 'Unlimited Kuota,Router Dual Band,Cocok untuk 4-7 Perangkat,Gratis Instalasi',
-                'is_active' => true,
-            ]
-        );
-
-        Package::firstOrCreate(
-            ['name' => 'Paket Ultimate'],
-            [
-                'speed' => 100,
-                'price' => 450000,
-                'duration' => 'bulan',
-                'features' => 'Unlimited Kuota,Router Dual Band Wi-Fi 6,Cocok untuk 8+ Perangkat,Gratis Instalasi,Dedicated Gaming Route',
-                'is_active' => true,
-            ]
-        );
 
         // Dummy FAQ
         Faq::firstOrCreate(

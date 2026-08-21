@@ -49,7 +49,7 @@
                     <!-- Popular Badge -->
                     @if($isPopular)
                     <div class="absolute top-0 inset-x-0 flex justify-center -mt-0">
-                        <div class="bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-extrabold px-6 py-2 rounded-b-2xl text-xs uppercase tracking-widest shadow-lg border-x border-b border-blue-400/30 backdrop-blur-sm">
+                        <div class="bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-extrabold px-6 py-2 rounded-b-2xl text-xs uppercase tracking-widest shadow-lg border-x border-blue-400/30 backdrop-blur-sm">
                             Pilihan Terfavorit
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                     <div class="relative z-10 flex-grow mb-8 min-h-[120px]">
                         <ul class="space-y-3">
                             @php
-                                $features = $package->features ? (is_array(json_decode($package->features, true)) ? json_decode($package->features, true) : explode(',', $package->features)) : ['Unlimited Kuota, Tanpa FUP', 'Peminjaman Router Gratis', 'Support 24/7 Hari'];
+                                $features = $package->features ? (is_array(json_decode($package->features, true)) ? json_decode($package->features, true) : explode(',', $package->features)) : [];
                             @endphp
                             @foreach($features as $feature)
                             <li class="flex items-start group/item">
@@ -109,16 +109,23 @@
                 </div>
             </div>
             @endforeach
-        </div>
-        @else
-        <div class="text-center py-20 bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 max-w-2xl mx-auto">
-            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class='bx bx-package text-5xl text-slate-300'></i>
             </div>
-            <h3 class="text-2xl font-bold text-slate-800 mb-3">Paket Belum Tersedia</h3>
-            <p class="text-slate-500 mb-8 max-w-md mx-auto">Saat ini kami sedang memperbarui daftar paket internet. Silakan kembali lagi nanti atau hubungi kami.</p>
-            <a href="/hubungi-kami" class="inline-block py-3 px-8 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">Hubungi CS</a>
-        </div>
+        @else
+            <!-- Clean Inline Notice (No Card / No Box Container) -->
+            <div class="text-center py-12 max-w-xl mx-auto space-y-4">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-100 text-slate-400 text-2xl mb-1">
+                    <i class='bx bx-info-circle'></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800">Daftar Paket Sedang Disiapkan</h3>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                    Saat ini kami sedang memperbarui informasi paket internet terbaik untuk wilayah Anda. Butuh info paket khusus atau bantuan pendaftaran?
+                </p>
+                <div class="pt-2">
+                    <a href="/hubungi-kami" class="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
+                        Hubungi Tim Kami <i class='bx bx-right-arrow-alt text-lg'></i>
+                    </a>
+                </div>
+            </div>
         @endif
     </div>
 </section>
