@@ -777,10 +777,6 @@
             <div class="branding-content">
                 <img src="{{ asset('images/logo.png') }}" alt="LancarWiFi Logo" class="branding-logo">
                 
-                <div class="branding-badge">
-                    <i class='bx bx-shield-quarter'></i>
-                    ADMIN PORTAL
-                </div>
 
                 <h2 class="branding-title">
                     Kelola Layanan<br>

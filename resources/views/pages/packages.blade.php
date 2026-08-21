@@ -18,7 +18,7 @@
 
         @if(isset($packages) && count($packages) > 0)
         <!-- Grid setup for 3 cards max horizontally -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 max-w-6xl mx-auto items-center relative z-20">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 max-w-6xl mx-auto items-stretch relative z-20">
             @foreach($packages as $package)
             @php
                 $isPopular = $package->is_popular;
@@ -27,14 +27,14 @@
                 if($package->speed >= 100) $deviceCount = '8+';
             @endphp
             
-            <div class="relative group rounded-[2.5rem] transition-all duration-500 {{ $isPopular ? 'md:scale-105 z-20' : 'hover:-translate-y-3 z-10' }}">
+            <div class="relative group rounded-[2.5rem] transition-all duration-500 hover:-translate-y-2 z-10 flex flex-col">
                 
                 @if($isPopular)
                 <!-- Animated magical border glow for popular card -->
                 <div class="absolute -inset-[2px] bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 rounded-[2.6rem] blur-md opacity-70 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
                 @endif
 
-                <div class="relative h-full flex flex-col p-8 sm:p-10 rounded-[2.5rem] overflow-hidden {{ $isPopular ? 'bg-gradient-to-b from-slate-900 via-blue-900 to-indigo-950 text-white border border-slate-700/50' : 'bg-white text-slate-800 border border-slate-100 shadow-[0_20px_50px_rgb(0,0,0,0.08)]' }}">
+                <div class="relative h-full flex flex-col justify-between p-8 sm:p-9 rounded-[2.5rem] overflow-hidden {{ $isPopular ? 'bg-gradient-to-b from-slate-900 via-blue-900 to-indigo-950 text-white border border-slate-700/50' : 'bg-white text-slate-800 border border-slate-100 shadow-[0_20px_50px_rgb(0,0,0,0.08)]' }}">
                     
                     <!-- Decorative background elements inside card -->
                     @if($isPopular)
@@ -55,7 +55,7 @@
                     </div>
                     @endif
 
-                    <div class="relative z-10 flex flex-col mb-8 {{ $isPopular ? 'pt-6' : '' }}">
+                    <div class="relative z-10 flex flex-col mb-6 {{ $isPopular ? 'pt-4' : '' }}">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-xl font-black uppercase tracking-wider {{ $isPopular ? 'text-white' : 'text-slate-800' }}">
                                 {{ $package->name }}
@@ -66,10 +66,10 @@
                         </div>
 
                         <div class="flex items-start gap-1 mb-2">
-                            <span class="text-sm font-bold tracking-widest uppercase mt-2 {{ $isPopular ? 'text-blue-300' : 'text-slate-400' }}">UP TO</span>
+                            <span class="text-xs font-bold tracking-widest uppercase mt-2 {{ $isPopular ? 'text-blue-300' : 'text-slate-400' }}">UP TO</span>
                             <div class="flex items-baseline">
-                                <span class="text-7xl font-black tracking-tighter leading-none {{ $isPopular ? 'text-white' : 'text-slate-900' }}">{{ $package->speed }}</span>
-                                <span class="text-xl font-bold ml-1 {{ $isPopular ? 'text-blue-200' : 'text-slate-500' }}">Mbps</span>
+                                <span class="text-6xl font-black tracking-tighter leading-none {{ $isPopular ? 'text-white' : 'text-slate-900' }}">{{ $package->speed }}</span>
+                                <span class="text-lg font-bold ml-1 {{ $isPopular ? 'text-blue-200' : 'text-slate-500' }}">Mbps</span>
                             </div>
                         </div>
                         
@@ -78,29 +78,29 @@
                         </div>
                     </div>
 
-                    <div class="relative z-10 py-6 border-y {{ $isPopular ? 'border-white/10' : 'border-slate-100' }} mb-8 flex items-end gap-2">
-                        <span class="text-lg font-bold {{ $isPopular ? 'text-blue-300' : 'text-slate-400' }}">Rp</span> 
-                        <span class="text-4xl font-black leading-none tracking-tight {{ $isPopular ? 'text-white' : 'text-slate-800' }}">{{ number_format($package->price, 0, ',', '.') }}</span> 
-                        <span class="text-sm font-medium {{ $isPopular ? 'text-blue-300' : 'text-slate-500' }}">/ {{ $package->duration }}</span>
+                    <div class="relative z-10 py-5 border-y {{ $isPopular ? 'border-white/10' : 'border-slate-100' }} mb-6 flex items-baseline gap-1.5">
+                        <span class="text-base font-bold {{ $isPopular ? 'text-blue-300' : 'text-slate-400' }}">Rp</span> 
+                        <span class="text-3xl font-black leading-none tracking-tight {{ $isPopular ? 'text-white' : 'text-slate-800' }}">{{ number_format($package->price, 0, ',', '.') }}</span> 
+                        <span class="text-xs font-medium {{ $isPopular ? 'text-blue-300' : 'text-slate-500' }}">/ {{ $package->duration }}</span>
                     </div>
                     
-                    <div class="relative z-10 flex-grow">
-                        <ul class="space-y-4">
+                    <div class="relative z-10 flex-grow mb-8 min-h-[120px]">
+                        <ul class="space-y-3">
                             @php
                                 $features = $package->features ? (is_array(json_decode($package->features, true)) ? json_decode($package->features, true) : explode(',', $package->features)) : ['Unlimited Kuota, Tanpa FUP', 'Peminjaman Router Gratis', 'Support 24/7 Hari'];
                             @endphp
                             @foreach($features as $feature)
                             <li class="flex items-start group/item">
-                                <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 mr-3 transition-colors {{ $isPopular ? 'bg-blue-500/20 text-cyan-300 group-hover/item:bg-cyan-400 group-hover/item:text-slate-900' : 'bg-blue-50 text-blue-600 group-hover/item:bg-blue-600 group-hover/item:text-white' }}">
-                                    <i class='bx bx-check text-sm font-bold'></i>
+                                <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 mr-2.5 transition-colors {{ $isPopular ? 'bg-blue-500/20 text-cyan-300 group-hover/item:bg-cyan-400 group-hover/item:text-slate-900' : 'bg-blue-50 text-blue-600 group-hover/item:bg-blue-600 group-hover/item:text-white' }}">
+                                    <i class='bx bx-check text-xs font-bold'></i>
                                 </div>
-                                <span class="font-medium text-sm leading-relaxed {{ $isPopular ? 'text-blue-50 group-hover/item:text-white' : 'text-slate-600 group-hover/item:text-slate-900' }} transition-colors">{{ trim($feature) }}</span>
+                                <span class="font-medium text-xs sm:text-sm leading-relaxed {{ $isPopular ? 'text-blue-50 group-hover/item:text-white' : 'text-slate-600 group-hover/item:text-slate-900' }} transition-colors">{{ trim($feature) }}</span>
                             </li>
                             @endforeach
                         </ul>
                     </div>
                     
-                    <div class="relative z-10 mt-10">
+                    <div class="relative z-10 mt-auto">
                         <a href="/hubungi-kami" class="flex items-center justify-center gap-2 w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform group-hover:-translate-y-1 !text-white hover:!text-white {{ $isPopular ? 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 shadow-[0_10px_20px_rgba(59,130,246,0.4)]' : 'bg-slate-900 hover:bg-slate-800 shadow-xl' }}" style="color: white !important;">
                             <span class="!text-white hover:!text-white">Berlangganan Sekarang</span>
                             <i class='bx bx-right-arrow-alt text-xl !text-white group-hover:translate-x-1 transition-transform'></i>

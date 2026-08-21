@@ -1495,3 +1495,388 @@ img {
     font-size: 14px;
     color: rgba(255, 255, 255, 0.5);
 }
+
+/* ==========================================================================
+   LANCARWIFI - 5-SLOT PACKAGE SHOWCASE CAROUSEL STYLES
+   ========================================================================== */
+#pkg-track {
+    gap: 12px; /* Compact mobile gap */
+}
+
+@media (min-width: 640px) {
+    #pkg-track {
+        gap: 14px;
+    }
+}
+
+@media (min-width: 1024px) {
+    #pkg-track {
+        gap: 16px; /* Tighter desktop gap (reduced from 32px) */
+    }
+}
+
+.pkg-card-item {
+    /* Mobile: 82% width */
+    width: 82%;
+    max-width: 390px;
+    transform-origin: center center;
+    transition: opacity 0.45s ease, 
+                filter 0.45s ease;
+}
+
+@media (min-width: 640px) {
+    .pkg-card-item {
+        /* Tablet: ~320px width */
+        width: 320px;
+    }
+}
+
+@media (min-width: 1024px) {
+    /* Desktop: Uniform width for all cards */
+    .pkg-card-item {
+        width: 330px;
+    }
+}
+
+/* Base card geometry & transition */
+.pkg-card-item .pkg-card-inner {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    min-height: 530px;
+    padding: 2rem !important; /* 32px standard comfortable padding */
+    transition: opacity 0.45s ease, 
+                box-shadow 0.45s ease,
+                filter 0.45s ease;
+}
+
+/* ==========================================================================
+   1. VISUAL HIERARCHY BY CAROUSEL POSITION:
+   [1] Edge (Partial/Blur) -> [2] Side (Visible) -> [3] Center Active (Focal Glow) -> [4] Side -> [5] Edge
+   Semua ukuran card SAMA RATA (Uniform Width & Height), hanya visual focus (opacity/glow) yang membedakan.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   A. SIDE CARDS (Card 2 & Card 4)
+   -------------------------------------------------------------------------- */
+.pkg-card-item.is-side {
+    z-index: 20 !important;
+    opacity: 0.85 !important;
+    filter: blur(0px) !important;
+    pointer-events: auto !important;
+}
+
+.pkg-card-item.is-side .pkg-card-inner {
+    box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* --------------------------------------------------------------------------
+   B. ACTIVE CENTER CARD (Card 3 - Focal Point with Glow & 100% Opacity)
+   -------------------------------------------------------------------------- */
+.pkg-card-item.is-active {
+    z-index: 30 !important;
+    opacity: 1 !important;
+    filter: blur(0px) !important;
+    pointer-events: auto !important;
+}
+
+.pkg-card-item.is-active .pkg-card-inner {
+    box-shadow: 0 25px 60px -10px rgba(15, 82, 186, 0.28), 0 0 35px -5px rgba(0, 210, 211, 0.2) !important;
+}
+
+/* --------------------------------------------------------------------------
+   C. EDGE CARDS (Card 1 & Card 5 - Partial visible, blur, 35% opacity)
+   -------------------------------------------------------------------------- */
+.pkg-card-item.is-edge,
+.pkg-card-item.is-distant {
+    z-index: 10 !important;
+    opacity: 0.35 !important;
+    filter: blur(4px) !important;
+    pointer-events: none !important;
+}
+
+.pkg-card-item.is-edge .pkg-card-inner,
+.pkg-card-item.is-distant .pkg-card-inner {
+    box-shadow: 0 4px 15px -2px rgba(15, 23, 42, 0.04) !important;
+}
+
+/* --------------------------------------------------------------------------
+   UNIFORM CARD TYPOGRAPHY (Clean, Consistent, No Jumps)
+   -------------------------------------------------------------------------- */
+.pkg-title {
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    line-height: 1.3 !important;
+}
+
+.pkg-speed-val {
+    font-size: 52px !important;
+    line-height: 0.95 !important;
+}
+
+.pkg-speed-unit {
+    font-size: 16px !important;
+}
+
+.pkg-device-pill {
+    font-size: 12px !important;
+    padding: 4px 10px !important;
+}
+
+.pkg-price-row {
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+    margin-bottom: 16px !important;
+}
+
+.pkg-currency {
+    font-size: 15px !important;
+}
+
+.pkg-price-val {
+    font-size: 30px !important;
+    line-height: 1 !important;
+}
+
+.pkg-duration {
+    font-size: 13px !important;
+}
+
+.pkg-features-container {
+    min-height: 130px !important;
+}
+
+.pkg-feature-text {
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+}
+
+.pkg-check-wrap {
+    width: 20px !important;
+    height: 20px !important;
+    margin-right: 10px !important;
+}
+
+.pkg-cta-btn {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    font-size: 14px !important;
+    min-height: 48px !important;
+}
+
+/* ==========================================================================
+   2. FEATURED STATUS (Governs Badge, Dark Theme, Glow - Bound to is_popular)
+   ========================================================================== */
+.pkg-card-item.is-featured .pkg-card-inner {
+    background: linear-gradient(180deg, #070d1e 0%, #0c1a3a 50%, #0a1128 100%) !important;
+    border-color: rgba(59, 130, 246, 0.4) !important;
+}
+
+/* Side Card when Featured: extra top padding for badge clearance */
+.pkg-card-item.is-side.is-featured .pkg-card-inner {
+    padding-top: 2.25rem !important;
+}
+
+.pkg-card-item.is-side.is-featured .pkg-header-content {
+    margin-top: 6px !important;
+}
+
+/* When featured card is in center: extra shadow pop */
+.pkg-card-item.is-active.is-featured .pkg-card-inner {
+    padding-top: 2.5rem !important;
+    box-shadow: 0 25px 60px -10px rgba(15, 82, 186, 0.45), 0 0 35px -5px rgba(0, 210, 211, 0.3) !important;
+}
+
+/* --------------------------------------------------------------------------
+   GENERAL TYPOGRAPHY & NO-OVERFLOW GUARDS
+   -------------------------------------------------------------------------- */
+.pkg-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: normal;
+    overflow-wrap: break-word;
+    text-overflow: clip; /* Do not truncate to 'PAKET KELUAR...' */
+    transition: font-size 0.45s ease;
+}
+
+.pkg-speed-value {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    line-height: 1;
+}
+
+.pkg-speed-val {
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    transition: font-size 0.45s ease;
+}
+
+.pkg-speed-unit {
+    line-height: 1;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: font-size 0.45s ease;
+}
+
+.pkg-price-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    gap: 4px;
+    transition: padding 0.45s ease, margin 0.45s ease;
+}
+
+.pkg-currency {
+    font-weight: 700;
+    white-space: nowrap;
+    transition: font-size 0.45s ease;
+}
+
+.pkg-price-val {
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    transition: font-size 0.45s ease;
+}
+
+.pkg-duration {
+    font-weight: 600;
+    white-space: nowrap;
+    transition: font-size 0.45s ease;
+}
+
+.pkg-features-container {
+    display: flex;
+    flex-direction: column;
+    transition: min-height 0.45s ease;
+}
+
+.pkg-feature-text {
+    word-break: normal;
+    overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: font-size 0.45s ease;
+}
+
+.pkg-cta-btn {
+    transition: all 0.3s ease;
+}
+
+/* Featured card color overrides */
+.pkg-card-item.is-featured .pkg-active-glow {
+    opacity: 0.85 !important;
+    animation: pkgPulse 3s ease-in-out infinite alternate;
+}
+
+.pkg-card-item.is-featured .pkg-dark-bg {
+    opacity: 1 !important;
+}
+
+.pkg-card-item.is-featured .pkg-orb-1 {
+    background-color: rgba(59, 130, 246, 0.22) !important;
+}
+
+.pkg-card-item.is-featured .pkg-orb-2 {
+    background-color: rgba(0, 210, 211, 0.2) !important;
+}
+
+.pkg-card-item.is-featured .pkg-watermark {
+    color: rgba(255, 255, 255, 0.04) !important;
+}
+
+.pkg-card-item.is-featured .pkg-badge {
+    opacity: 1 !important;
+}
+
+.pkg-card-item.is-featured .pkg-badge > div {
+    font-size: 10.5px !important;
+    padding: 3px 12px !important;
+}
+
+.pkg-card-item.is-active.is-featured .pkg-badge > div {
+    font-size: 11.5px !important;
+    padding: 4px 16px !important;
+}
+
+.pkg-card-item.is-featured .pkg-title {
+    color: #ffffff !important;
+}
+
+.pkg-card-item.is-featured .pkg-icon-wrap {
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    color: #38bdf8 !important;
+}
+
+.pkg-card-item.is-featured .pkg-speed-upto {
+    color: #93c5fd !important;
+}
+
+.pkg-card-item.is-featured .pkg-speed-val {
+    color: #ffffff !important;
+}
+
+.pkg-card-item.is-featured .pkg-speed-unit {
+    color: #bfdbfe !important;
+}
+
+.pkg-card-item.is-featured .pkg-device-pill {
+    background-color: rgba(255, 255, 255, 0.12) !important;
+    color: #e0f2fe !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.pkg-card-item.is-featured .pkg-price-row {
+    border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.pkg-card-item.is-featured .pkg-currency {
+    color: #93c5fd !important;
+}
+
+.pkg-card-item.is-featured .pkg-price-val {
+    color: #ffffff !important;
+}
+
+.pkg-card-item.is-featured .pkg-duration {
+    color: #93c5fd !important;
+}
+
+.pkg-card-item.is-featured .pkg-check-wrap {
+    background-color: rgba(59, 130, 246, 0.25) !important;
+    color: #38bdf8 !important;
+}
+
+.pkg-card-item.is-featured .pkg-feature-text {
+    color: #f1f5f9 !important;
+}
+
+.pkg-card-item.is-featured .pkg-cta-btn {
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #4f46e5 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.45) !important;
+}
+
+.pkg-card-item.is-featured .pkg-cta-btn:hover {
+    background: linear-gradient(135deg, #38bdf8 0%, #3b82f6 50%, #6366f1 100%) !important;
+    box-shadow: 0 15px 30px rgba(37, 99, 235, 0.6) !important;
+}
+
+@keyframes pkgPulse {
+    0% {
+        opacity: 0.7;
+        transform: scale(0.99);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1.01);
+    }
+}

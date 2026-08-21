@@ -17,6 +17,8 @@
                 <tr>
                     <th class="py-4 px-6 w-16 text-center">No</th>
                     <th class="py-4 px-6">Nama Area</th>
+                    <th class="py-4 px-6">Kota / Wilayah</th>
+                    <th class="py-4 px-6">Koordinat & Radius</th>
                     <th class="py-4 px-6 text-center">Status</th>
                     <th class="py-4 px-6 text-right">Aksi</th>
                 </tr>
@@ -26,6 +28,14 @@
                 <tr class="hover:bg-slate-50 transition-colors group">
                     <td class="py-4 px-6 text-center text-slate-500">{{ $loop->iteration + $coverages->firstItem() - 1 }}</td>
                     <td class="py-4 px-6 text-slate-800 font-medium">{{ $coverage->area_name }}</td>
+                    <td class="py-4 px-6 text-slate-600">{{ $coverage->region ?? '-' }}</td>
+                    <td class="py-4 px-6 text-slate-600 text-xs font-mono">
+                        @if($coverage->latitude && $coverage->longitude)
+                            {{ $coverage->latitude }}, {{ $coverage->longitude }} <span class="text-slate-400">({{ $coverage->radius ?? 2500 }}m)</span>
+                        @else
+                            <span class="text-slate-400 italic">Default Zone</span>
+                        @endif
+                    </td>
                     <td class="py-4 px-6 text-center">
                         @if($coverage->status == 'available')
                             <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs rounded-full font-bold">Ready</span>

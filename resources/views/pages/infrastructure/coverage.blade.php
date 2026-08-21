@@ -516,13 +516,14 @@ document.addEventListener('DOMContentLoaded', function () {
     if (Array.isArray(dbCoverages) && dbCoverages.length > 0) {
         coverageAreas = dbCoverages.map((item, idx) => {
             let matched = defaultCoverageData.find(d => d.area_name.toLowerCase() === item.area_name.toLowerCase());
-            let lat = matched ? matched.lat : -7.5460 + (idx * 0.02);
-            let lng = matched ? matched.lng : 112.2330 + (idx * 0.02);
-            let radius = matched ? matched.radius : 2500;
+            let lat = item.latitude ? parseFloat(item.latitude) : (matched ? matched.lat : -7.5460 + (idx * 0.02));
+            let lng = item.longitude ? parseFloat(item.longitude) : (matched ? matched.lng : 112.2330 + (idx * 0.02));
+            let radius = item.radius ? parseInt(item.radius) : (matched ? matched.radius : 2500);
+            let region = item.region ? item.region : (matched ? matched.region : 'Jombang');
             return {
                 id: item.id || 'db_' + idx,
                 area_name: item.area_name,
-                region: 'Jombang',
+                region: region,
                 status: item.status || 'available',
                 lat: lat,
                 lng: lng,
@@ -533,8 +534,10 @@ document.addEventListener('DOMContentLoaded', function () {
         coverageAreas = defaultCoverageData;
     }
 
-    // Default map center
-    const defaultCenter = [-7.5460, 112.2330];
+    // Default map center (center to first area if exists, else Jombang)
+    const defaultCenter = (coverageAreas.length > 0 && coverageAreas[0].lat && coverageAreas[0].lng)
+        ? [coverageAreas[0].lat, coverageAreas[0].lng]
+        : [-7.5460, 112.2330];
     const defaultZoom = 12;
 
     // 2. Initialize Leaflet Map

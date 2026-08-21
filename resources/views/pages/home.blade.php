@@ -118,110 +118,147 @@
     </div>
 </section>
 
-<!-- 3. PAKET INTERNET (PRICING GRID - CARD ORIENTED) -->
-<section class="py-24 sm:py-28 lg:py-32 bg-slate-50/80 border-b border-slate-200" id="paket">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+<!-- 3. PAKET INTERNET (PACKAGE SHOWCASE CAROUSEL) -->
+<section class="py-20 sm:py-24 lg:py-28 bg-slate-50/80 border-b border-slate-200 overflow-hidden relative" id="paket">
+    <!-- Subtle Background Glow Behind Carousel Center -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-r from-blue-400/10 via-cyan-400/10 to-indigo-500/10 rounded-full blur-3xl pointer-events-none -z-0"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
+            <span class="inline-block px-4 py-1.5 bg-blue-100 text-blue-700 font-bold text-xs uppercase tracking-widest rounded-full shadow-sm">
+                Pilihan Kecepatan Terbaik
+            </span>
             <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight">Pilih Kecepatan yang Pas untuk Kebutuhanmu</h2>
             <p class="text-slate-600 text-base sm:text-lg">Dari kebutuhan harian hingga rumah dengan banyak perangkat, pilih paket LancarWifi yang sesuai dengan kebutuhanmu.</p>
         </div>
         
         @if(isset($packages) && count($packages) > 0)
-        <!-- Grid setup for 3 cards max horizontally -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 max-w-6xl mx-auto items-center relative z-20">
-            @foreach($packages as $package)
-            @php
-                $isPopular = $loop->iteration == 2;
-                $deviceCount = '1-3';
-                if($package->speed >= 50) $deviceCount = '4-7';
-                if($package->speed >= 100) $deviceCount = '8+';
-            @endphp
+        <!-- Package Carousel Container (5-Slot Premium Showcase) -->
+        <div class="relative w-full max-w-7xl mx-auto px-2 sm:px-4" id="package-carousel-root">
             
-            <div class="relative group rounded-[2.5rem] transition-all duration-500 {{ $isPopular ? 'md:scale-105 z-20' : 'hover:-translate-y-3 z-10' }}">
+            <!-- Navigation Buttons (Desktop Floating & Visible) -->
+            <button id="pkg-prev-btn" aria-label="Paket Sebelumnya" class="absolute left-2 sm:left-4 lg:left-6 top-1/2 -translate-y-1/2 z-40 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/95 backdrop-blur shadow-[0_10px_30px_rgba(0,0,0,0.18)] border border-slate-200/80 text-slate-700 hover:text-blue-600 hover:bg-white hover:scale-110 active:scale-95 transition-all flex items-center justify-center cursor-pointer group">
+                <i class='bx bx-chevron-left text-3xl group-hover:-translate-x-0.5 transition-transform'></i>
+            </button>
+            <button id="pkg-next-btn" aria-label="Paket Berikutnya" class="absolute right-2 sm:right-4 lg:right-6 top-1/2 -translate-y-1/2 z-40 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/95 backdrop-blur shadow-[0_10px_30px_rgba(0,0,0,0.18)] border border-slate-200/80 text-slate-700 hover:text-blue-600 hover:bg-white hover:scale-110 active:scale-95 transition-all flex items-center justify-center cursor-pointer group">
+                <i class='bx bx-chevron-right text-3xl group-hover:translate-x-0.5 transition-transform'></i>
+            </button>
+
+            <!-- Viewport with 5-Slot View & Left/Right Gradient Fade Mask -->
+            <div class="w-full overflow-hidden py-12 px-0 select-none [mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)]" id="pkg-viewport">
                 
-                @if($isPopular)
-                <!-- Animated magical border glow for popular card -->
-                <div class="absolute -inset-[2px] bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 rounded-[2.6rem] blur-md opacity-70 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
-                @endif
-
-                <div class="relative h-full flex flex-col p-8 sm:p-10 rounded-[2.5rem] overflow-hidden {{ $isPopular ? 'bg-gradient-to-b from-slate-900 via-blue-900 to-indigo-950 text-white border border-slate-700/50' : 'bg-white text-slate-800 border border-slate-100 shadow-[0_20px_50px_rgb(0,0,0,0.08)]' }}">
+                <!-- Carousel Track -->
+                <div class="flex items-center cursor-grab active:cursor-grabbing will-change-transform" id="pkg-track" style="touch-action: pan-y;">
+                    @foreach($packages as $package)
+                    @php
+                        $isFeatured = (bool)($package->is_popular ?? false);
+                        $deviceCount = '1-3';
+                        if($package->speed >= 50) $deviceCount = '4-7';
+                        if($package->speed >= 100) $deviceCount = '8+';
+                    @endphp
                     
-                    <!-- Decorative background elements inside card -->
-                    @if($isPopular)
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl -mr-20 -mt-20"></div>
-                        <div class="absolute bottom-0 left-0 w-48 h-48 bg-cyan-500/20 rounded-full blur-3xl -ml-10 -mb-10"></div>
-                        <i class='bx bx-rocket absolute -right-6 top-20 text-[180px] text-white/[0.03] rotate-12 pointer-events-none'></i>
-                    @else
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-slate-100/50 rounded-full blur-3xl -mr-20 -mt-20"></div>
-                        <i class='bx bx-wifi absolute -right-10 top-20 text-[180px] text-slate-900/[0.02] -rotate-12 pointer-events-none'></i>
-                    @endif
-
-                    <!-- Popular Badge -->
-                    @if($isPopular)
-                    <div class="absolute top-0 inset-x-0 flex justify-center -mt-0">
-                        <div class="bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-extrabold px-6 py-2 rounded-b-2xl text-xs uppercase tracking-widest shadow-lg border-x border-b border-blue-400/30 backdrop-blur-sm">
-                            Pilihan Terfavorit
-                        </div>
-                    </div>
-                    @endif
-
-                    <div class="relative z-10 flex flex-col mb-8 {{ $isPopular ? 'pt-6' : '' }}">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-xl font-black uppercase tracking-wider {{ $isPopular ? 'text-white' : 'text-slate-800' }}">
-                                {{ $package->name }}
-                            </h3>
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center {{ $isPopular ? 'bg-white/10 text-cyan-300' : 'bg-slate-50 text-blue-600' }}">
-                                <i class='bx {{ $isPopular ? "bx-rocket" : "bx-wifi" }} text-xl'></i>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-1 mb-2">
-                            <span class="text-sm font-bold tracking-widest uppercase mt-2 {{ $isPopular ? 'text-blue-300' : 'text-slate-400' }}">UP TO</span>
-                            <div class="flex items-baseline">
-                                <span class="text-7xl font-black tracking-tighter leading-none {{ $isPopular ? 'text-white' : 'text-slate-900' }}">{{ $package->speed }}</span>
-                                <span class="text-xl font-bold ml-1 {{ $isPopular ? 'text-blue-200' : 'text-slate-500' }}">Mbps</span>
-                            </div>
-                        </div>
+                    <!-- Package Card Item -->
+                    <div class="pkg-card-item shrink-0 px-2 sm:px-3 md:px-4 transition-[transform,opacity,filter] duration-500 will-change-transform {{ $isFeatured ? 'is-featured' : '' }}" data-pkg-id="{{ $package->id }}" data-is-featured="{{ $isFeatured ? '1' : '0' }}" data-index="{{ $loop->index }}">
                         
-                        <div class="inline-flex items-center self-start px-3 py-1 mt-2 rounded-lg text-xs font-bold {{ $isPopular ? 'bg-white/10 text-cyan-100 border border-white/10' : 'bg-slate-100 text-slate-600 border border-slate-200' }}">
-                            <i class='bx bx-devices mr-1.5'></i> Ideal untuk {{ $deviceCount }} Perangkat
+                        <div class="pkg-card-inner relative rounded-[2.5rem] p-6 sm:p-8 md:p-9 overflow-hidden flex flex-col justify-between transition-all duration-500 bg-white text-slate-800 border border-slate-200/80 shadow-[0_15px_35px_rgba(15,23,42,0.06)] h-full">
+                            
+                            <!-- Magical border glow element (controlled dynamically or in active state) -->
+                            <div class="pkg-active-glow absolute -inset-[2px] bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 rounded-[2.6rem] blur-md opacity-0 pointer-events-none transition-opacity duration-500"></div>
+
+                            <!-- Decorative card background orbs & watermark icons -->
+                            <div class="pkg-dark-bg absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950 opacity-0 transition-opacity duration-500 pointer-events-none"></div>
+                            
+                            <div class="pkg-orb-1 absolute top-0 right-0 w-64 h-64 bg-slate-100/60 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none transition-all duration-500"></div>
+                            <div class="pkg-orb-2 absolute bottom-0 left-0 w-48 h-48 bg-blue-500/0 rounded-full blur-3xl -ml-10 -mb-10 pointer-events-none transition-all duration-500"></div>
+                            
+                            <i class='bx bx-wifi pkg-watermark absolute -right-8 top-16 text-[170px] text-slate-900/[0.03] -rotate-12 pointer-events-none transition-colors duration-500'></i>
+
+                            <!-- Popular / Featured Badge -->
+                            <div class="pkg-badge absolute top-0 inset-x-0 flex justify-center -mt-0 opacity-0 transition-all duration-500 z-20">
+                                <div class="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-white font-black px-6 py-2 rounded-b-2xl text-xs uppercase tracking-widest shadow-lg border-x border-b border-blue-400/30 backdrop-blur-sm">
+                                    Paket Unggulan
+                                </div>
+                            </div>
+
+                            <!-- Card Top/Header Area -->
+                            <div class="relative z-10 flex flex-col mb-5 pkg-header-content transition-all duration-500">
+                                <div class="flex items-start justify-between gap-3 mb-4">
+                                    <h3 class="pkg-title font-black uppercase tracking-wider text-slate-800 transition-colors duration-500">
+                                        {{ $package->name }}
+                                    </h3>
+                                    <div class="pkg-icon-wrap w-10 h-10 rounded-full flex items-center justify-center bg-slate-100 text-blue-600 shrink-0 transition-colors duration-500">
+                                        <i class='bx bx-wifi text-xl pkg-icon'></i>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col mb-2">
+                                    <span class="pkg-speed-upto text-xs font-bold tracking-widest uppercase mb-1 text-slate-400 transition-colors duration-500">UP TO</span>
+                                    <div class="pkg-speed-value flex items-baseline gap-1.5 flex-nowrap whitespace-nowrap">
+                                        <span class="pkg-speed-val font-black tracking-tighter text-slate-900 transition-colors duration-500">{{ $package->speed }}</span>
+                                        <span class="pkg-speed-unit font-bold text-slate-500 transition-colors duration-500">Mbps</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="pkg-device-pill inline-flex items-center self-start px-3 py-1 mt-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200 transition-colors duration-500 whitespace-nowrap">
+                                    <i class='bx bx-devices mr-1.5 shrink-0'></i> Ideal untuk {{ $deviceCount }} Perangkat
+                                </div>
+                            </div>
+
+                            <!-- Card Price Row -->
+                            <div class="pkg-price-row relative z-10 py-4 border-y border-slate-100 mb-5 flex items-baseline gap-1.5 flex-nowrap whitespace-nowrap transition-colors duration-500">
+                                <span class="pkg-currency font-bold text-slate-400 transition-colors duration-500">Rp</span> 
+                                <span class="pkg-price-val font-black tracking-tight text-slate-900 transition-colors duration-500">{{ number_format($package->price, 0, ',', '.') }}</span> 
+                                <span class="pkg-duration font-medium text-slate-500 transition-colors duration-500">/ {{ $package->duration }}</span>
+                            </div>
+                            
+                            <!-- Features List (Consistent middle area, clean 2-line wraps) -->
+                            <div class="relative z-10 flex-1 flex flex-col justify-start mb-6 pkg-features-container">
+                                <ul class="space-y-3">
+                                    @php
+                                        $features = $package->features ? (is_array(json_decode($package->features, true)) ? json_decode($package->features, true) : explode(',', $package->features)) : ['Unlimited Kuota, Tanpa FUP', 'Peminjaman Router Gratis', 'Support 24/7 Hari'];
+                                    @endphp
+                                    @foreach($features as $feature)
+                                    <li class="flex items-start group/item">
+                                        <div class="pkg-check-wrap w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 mr-2.5 bg-blue-50 text-blue-600 transition-colors duration-500">
+                                            <i class='bx bx-check text-xs font-bold'></i>
+                                        </div>
+                                        <span class="pkg-feature-text font-medium text-xs sm:text-sm text-slate-600 transition-colors duration-500">{{ trim($feature) }}</span>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            
+                            <!-- CTA Button (Pinned securely to Bottom) -->
+                            <div class="relative z-10 mt-auto pt-2">
+                                <a href="/hubungi-kami" class="pkg-cta-btn flex items-center justify-center gap-2 w-full py-3.5 sm:py-4 px-5 text-center font-bold rounded-2xl transition-all duration-300 transform hover:-translate-y-0.5 bg-slate-900 text-white hover:bg-slate-800 shadow-md">
+                                    <span class="whitespace-nowrap">Berlangganan Sekarang</span>
+                                    <i class='bx bx-right-arrow-alt text-xl group-hover:translate-x-1 transition-transform'></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="relative z-10 py-6 border-y {{ $isPopular ? 'border-white/10' : 'border-slate-100' }} mb-8 flex items-end gap-2">
-                        <span class="text-lg font-bold {{ $isPopular ? 'text-blue-300' : 'text-slate-400' }}">Rp</span> 
-                        <span class="text-4xl font-black leading-none tracking-tight {{ $isPopular ? 'text-white' : 'text-slate-800' }}">{{ number_format($package->price, 0, ',', '.') }}</span> 
-                        <span class="text-sm font-medium {{ $isPopular ? 'text-blue-300' : 'text-slate-500' }}">/ {{ $package->duration }}</span>
-                    </div>
-                    
-                    <div class="relative z-10 flex-grow">
-                        <ul class="space-y-4">
-                            @php
-                                $features = $package->features ? (is_array(json_decode($package->features, true)) ? json_decode($package->features, true) : explode(',', $package->features)) : ['Unlimited Kuota, Tanpa FUP', 'Peminjaman Router Gratis', 'Support 24/7 Hari'];
-                            @endphp
-                            @foreach($features as $feature)
-                            <li class="flex items-start group/item">
-                                <div class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 mr-3 transition-colors {{ $isPopular ? 'bg-blue-500/20 text-cyan-300 group-hover/item:bg-cyan-400 group-hover/item:text-slate-900' : 'bg-blue-50 text-blue-600 group-hover/item:bg-blue-600 group-hover/item:text-white' }}">
-                                    <i class='bx bx-check text-sm font-bold'></i>
-                                </div>
-                                <span class="font-medium text-sm leading-relaxed {{ $isPopular ? 'text-blue-50 group-hover/item:text-white' : 'text-slate-600 group-hover/item:text-slate-900' }} transition-colors">{{ trim($feature) }}</span>
-                            </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    
-                    <div class="relative z-10 mt-10">
-                        <a href="/hubungi-kami" class="flex items-center justify-center gap-2 w-full py-4 px-6 text-center font-bold rounded-2xl transition-all duration-300 transform group-hover:-translate-y-1 !text-white hover:!text-white {{ $isPopular ? 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 shadow-[0_10px_20px_rgba(59,130,246,0.4)]' : 'bg-slate-900 hover:bg-slate-800 hover:shadow-xl' }}" style="color: white !important;">
-                            <span class="!text-white hover:!text-white">Berlangganan Sekarang</span>
-                            <i class='bx bx-right-arrow-alt text-xl !text-white group-hover:translate-x-1 transition-transform'></i>
-                        </a>
-                    </div>
+                    @endforeach
                 </div>
             </div>
-            @endforeach
+
+            <!-- Dots Pagination / Indicator Below Carousel -->
+            <div class="flex items-center justify-center gap-2 mt-4" id="pkg-dots">
+                @foreach($packages as $package)
+                <button type="button" aria-label="Lihat paket {{ $package->name }}" class="pkg-dot w-3 h-3 rounded-full bg-slate-300 hover:bg-slate-400 transition-all duration-300 cursor-pointer" data-index="{{ $loop->index }}"></button>
+                @endforeach
+            </div>
+
+        </div>
+        @else
+        <div class="text-center py-20 bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 max-w-2xl mx-auto">
+            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class='bx bx-package text-5xl text-slate-300'></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-800 mb-3">Paket Belum Tersedia</h3>
+            <p class="text-slate-500 mb-8 max-w-md mx-auto">Saat ini kami sedang memperbarui daftar paket internet. Silakan kembali lagi nanti atau hubungi kami.</p>
+            <a href="/hubungi-kami" class="inline-block py-3 px-8 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">Hubungi CS</a>
         </div>
         @endif
-        </div>
     </div>
 </section>
 
@@ -686,7 +723,7 @@
 
             // Autoplay (3 seconds)
             const startAutoplay = () => {
-                slideInterval = setInterval(goToNext, 3000);
+                slideInterval = setInterval(goToNext, 5000);
             };
 
             const stopAutoplay = () => {
@@ -704,7 +741,286 @@
             startAutoplay();
         }
 
+        // =========================================================================
+        // PACKAGE SHOWCASE CAROUSEL (Active Center-Focus Carousel)
+        // =========================================================================
+        const pkgTrack = document.getElementById('pkg-track');
+        const pkgViewport = document.getElementById('pkg-viewport');
+        const pkgPrevBtn = document.getElementById('pkg-prev-btn');
+        const pkgNextBtn = document.getElementById('pkg-next-btn');
+        const pkgDotsContainer = document.getElementById('pkg-dots');
+        const pkgDots = pkgDotsContainer ? Array.from(pkgDotsContainer.children) : [];
+
+        if (pkgTrack) {
+            const origPkgCards = Array.from(pkgTrack.children);
+            const totalPkgCount = origPkgCards.length;
+
+            if (totalPkgCount > 0) {
+                let activeIndex = 0; // Index in activeTrackCards
+                let isCloned = false;
+                let activeTrackCards = origPkgCards;
+
+                // Find initial featured package index from data-is-featured
+                const featuredOriginalIndex = origPkgCards.findIndex(card => card.getAttribute('data-is-featured') === '1');
+                const defaultOrigTargetIndex = featuredOriginalIndex !== -1 ? featuredOriginalIndex : (totalPkgCount >= 2 ? 1 : 0);
+
+                if (totalPkgCount > 1) {
+                    isCloned = true;
+                    // Prepend 4 sets and append 4 sets for a massive 9-set buffer (45 cards)
+                    // This allows endless continuous clicking with zero boundary collision
+                    const CLONE_SETS = 4;
+                    const prependFrag = document.createDocumentFragment();
+                    for (let s = 0; s < CLONE_SETS; s++) {
+                        origPkgCards.forEach(card => {
+                            const clone = card.cloneNode(true);
+                            clone.classList.add('pkg-clone');
+                            prependFrag.appendChild(clone);
+                        });
+                    }
+                    pkgTrack.insertBefore(prependFrag, origPkgCards[0]);
+
+                    const appendFrag = document.createDocumentFragment();
+                    for (let s = 0; s < CLONE_SETS; s++) {
+                        origPkgCards.forEach(card => {
+                            const clone = card.cloneNode(true);
+                            clone.classList.add('pkg-clone');
+                            appendFrag.appendChild(clone);
+                        });
+                    }
+                    pkgTrack.appendChild(appendFrag);
+
+                    activeTrackCards = Array.from(pkgTrack.children);
+                    // Start in the original middle set (index: 4 * totalPkgCount + initial target)
+                    activeIndex = (CLONE_SETS * totalPkgCount) + defaultOrigTargetIndex;
+                } else {
+                    activeIndex = 0;
+                }
+
+                let isPkgAnimating = false;
+
+                // Pure mathematical offset calculation using exact container width + gap
+                const getPkgOffset = (targetIndex) => {
+                    if (!pkgViewport || activeTrackCards.length === 0) return 0;
+                    const vWidth = pkgViewport.clientWidth;
+                    const firstCard = activeTrackCards[0];
+                    if (!firstCard) return 0;
+
+                    const cardWidth = firstCard.offsetWidth;
+                    // Read actual CSS gap from track
+                    const trackStyles = window.getComputedStyle(pkgTrack);
+                    const gap = parseFloat(trackStyles.gap) || (trackStyles.columnGap ? parseFloat(trackStyles.columnGap) : 16);
+                    const stride = cardWidth + gap;
+                    const centerOffset = (vWidth - cardWidth) / 2;
+
+                    return centerOffset - (targetIndex * stride);
+                };
+
+                const updatePkgVisuals = (activeIdx) => {
+                    const realIndex = isCloned ? ((activeIdx % totalPkgCount + totalPkgCount) % totalPkgCount) : activeIdx;
+
+                    activeTrackCards.forEach((card, i) => {
+                        const distFromActive = Math.abs(i - activeIdx);
+                        const isCenter = (distFromActive === 0);
+                        const isSide = (distFromActive === 1);
+                        const isEdge = (distFromActive >= 2);
+
+                        // Position-only classes
+                        card.classList.remove('is-active', 'is-side', 'is-edge', 'is-distant');
+
+                        if (isCenter) {
+                            card.classList.add('is-active');
+                        } else if (isSide) {
+                            card.classList.add('is-side');
+                        } else if (isEdge) {
+                            card.classList.add('is-edge');
+                        }
+                    });
+
+                    // Update dots pagination indicator
+                    pkgDots.forEach((dot, idx) => {
+                        if (idx === realIndex) {
+                            dot.classList.remove('bg-slate-300');
+                            dot.classList.add('bg-blue-600', 'w-8');
+                        } else {
+                            dot.classList.remove('bg-blue-600', 'w-8');
+                            dot.classList.add('bg-slate-300', 'w-3');
+                        }
+                    });
+                };
+
+                const goToPkgSlide = (targetIdx, immediate = false) => {
+                    if (isPkgAnimating && !immediate) return;
+
+                    if (!isCloned) {
+                        if (targetIdx < 0) targetIdx = 0;
+                        if (targetIdx >= totalPkgCount) targetIdx = totalPkgCount - 1;
+                    }
+
+                    // Update visual state for target index
+                    updatePkgVisuals(targetIdx);
+                    const targetX = getPkgOffset(targetIdx);
+
+                    if (window.gsap && !immediate) {
+                        isPkgAnimating = true;
+
+                        gsap.to(pkgTrack, {
+                            x: targetX,
+                            duration: 0.48,
+                            ease: 'power2.out',
+                            onComplete: () => {
+                                activeIndex = targetIdx;
+
+                                if (isCloned) {
+                                    // If activeIndex is reaching outer buffers (< 2*totalPkgCount or >= 7*totalPkgCount)
+                                    // silently warp to middle set (4 * totalPkgCount + realIndex)
+                                    if (activeIndex < 2 * totalPkgCount || activeIndex >= 7 * totalPkgCount) {
+                                        const realIndex = ((activeIndex % totalPkgCount) + totalPkgCount) % totalPkgCount;
+                                        activeIndex = (4 * totalPkgCount) + realIndex;
+                                        updatePkgVisuals(activeIndex);
+                                        gsap.set(pkgTrack, { x: getPkgOffset(activeIndex) });
+                                    }
+                                }
+                                isPkgAnimating = false;
+                            }
+                        });
+                    } else {
+                        activeIndex = targetIdx;
+                        updatePkgVisuals(targetIdx);
+                        if (window.gsap) {
+                            gsap.set(pkgTrack, { x: getPkgOffset(targetIdx) });
+                        } else {
+                            pkgTrack.style.transform = `translateX(${getPkgOffset(targetIdx)}px)`;
+                        }
+                        isPkgAnimating = false;
+                    }
+                };
+
+                const pkgNext = () => {
+                    if (isPkgAnimating) return;
+                    if (isCloned) {
+                        goToPkgSlide(activeIndex + 1);
+                    } else {
+                        const nextIdx = (activeIndex + 1) % totalPkgCount;
+                        goToPkgSlide(nextIdx);
+                    }
+                };
+
+                const pkgPrev = () => {
+                    if (isPkgAnimating) return;
+                    if (isCloned) {
+                        goToPkgSlide(activeIndex - 1);
+                    } else {
+                        const prevIdx = (activeIndex - 1 + totalPkgCount) % totalPkgCount;
+                        goToPkgSlide(prevIdx);
+                    }
+                };
+
+                if (pkgNextBtn) pkgNextBtn.addEventListener('click', pkgNext);
+                if (pkgPrevBtn) pkgPrevBtn.addEventListener('click', pkgPrev);
+
+                // Clicking on any card makes it the active center card
+                activeTrackCards.forEach((card, idx) => {
+                    card.addEventListener('click', (e) => {
+                        if (e.target.closest('a') || e.target.closest('button')) return;
+                        if (idx !== activeIndex) {
+                            goToPkgSlide(idx);
+                        }
+                    });
+                });
+
+                // Dot click
+                pkgDots.forEach((dot, i) => {
+                    dot.addEventListener('click', () => {
+                        const targetIdx = isCloned ? (totalPkgCount + i) : i;
+                        goToPkgSlide(targetIdx);
+                    });
+                });
+
+                // Touch & Mouse Drag (Safe gesture detection that doesn't conflict with vertical scrolling)
+                let isDragging = false;
+                let startX = 0;
+                let currentTranslateX = 0;
+                let dragDistance = 0;
+                let isHorizontalSwipe = null;
+                let startY = 0;
+
+                const onDragStart = (e) => {
+                    if (isPkgAnimating) return;
+                    isDragging = true;
+                    startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                    startY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                    dragDistance = 0;
+                    isHorizontalSwipe = null;
+                    currentTranslateX = getPkgOffset(activeIndex);
+                };
+
+                const onDragMove = (e) => {
+                    if (!isDragging) return;
+                    const currentX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                    const currentY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                    const diffX = currentX - startX;
+                    const diffY = currentY - startY;
+
+                    if (isHorizontalSwipe === null) {
+                        if (Math.abs(diffX) > 8 || Math.abs(diffY) > 8) {
+                            isHorizontalSwipe = Math.abs(diffX) > Math.abs(diffY);
+                        }
+                    }
+
+                    if (isHorizontalSwipe) {
+                        if (e.cancelable && e.type.includes('touch')) {
+                            e.preventDefault();
+                        }
+                        dragDistance = diffX;
+                        const newX = currentTranslateX + diffX;
+                        if (window.gsap) {
+                            gsap.set(pkgTrack, { x: newX });
+                        } else {
+                            pkgTrack.style.transform = `translateX(${newX}px)`;
+                        }
+                    }
+                };
+
+                const onDragEnd = () => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    if (isHorizontalSwipe) {
+                        const threshold = 40;
+                        if (dragDistance < -threshold) {
+                            pkgNext();
+                        } else if (dragDistance > threshold) {
+                            pkgPrev();
+                        } else {
+                            goToPkgSlide(activeIndex);
+                        }
+                    }
+                    isHorizontalSwipe = null;
+                    dragDistance = 0;
+                };
+
+                pkgTrack.addEventListener('mousedown', onDragStart);
+                window.addEventListener('mousemove', onDragMove);
+                window.addEventListener('mouseup', onDragEnd);
+
+                pkgTrack.addEventListener('touchstart', onDragStart, { passive: true });
+                pkgTrack.addEventListener('touchmove', onDragMove, { passive: false });
+                pkgTrack.addEventListener('touchend', onDragEnd);
+
+                // Window Resize Handler
+                window.addEventListener('resize', () => {
+                    goToPkgSlide(activeIndex, true);
+                });
+
+                // Initial alignment to center active card immediately
+                setTimeout(() => {
+                    goToPkgSlide(activeIndex, true);
+                }, 50);
+            }
+        }
+
+        // =========================================================================
         // FAQ Accordion Script
+        // =========================================================================
         const faqAccordion = document.getElementById('faq-accordion');
         if (faqAccordion) {
             const faqItems = faqAccordion.querySelectorAll('.faq-item');

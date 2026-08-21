@@ -23,11 +23,18 @@ class CoverageController extends Controller
     {
         $validated = $request->validate([
             'area_name' => 'required|string|max:255',
+            'region' => 'nullable|string|max:255',
             'status' => 'required|string|in:available,planned,maintenance',
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
+            'radius' => 'nullable|integer|min:100|max:100000',
             'map_url' => 'nullable|url',
         ], [
             'area_name.required' => 'Nama area wajib diisi.',
             'status.required' => 'Status wajib dipilih.',
+            'latitude.numeric' => 'Latitude harus berupa angka koordinat.',
+            'longitude.numeric' => 'Longitude harus berupa angka koordinat.',
+            'radius.integer' => 'Radius harus berupa angka (meter).',
             'map_url.url' => 'Format URL peta tidak valid.',
         ]);
 
@@ -49,11 +56,18 @@ class CoverageController extends Controller
     {
         $validated = $request->validate([
             'area_name' => 'required|string|max:255',
+            'region' => 'nullable|string|max:255',
             'status' => 'required|string|in:available,planned,maintenance',
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
+            'radius' => 'nullable|integer|min:100|max:100000',
             'map_url' => 'nullable|url',
         ], [
             'area_name.required' => 'Nama area wajib diisi.',
             'status.required' => 'Status wajib dipilih.',
+            'latitude.numeric' => 'Latitude harus berupa angka koordinat.',
+            'longitude.numeric' => 'Longitude harus berupa angka koordinat.',
+            'radius.integer' => 'Radius harus berupa angka (meter).',
             'map_url.url' => 'Format URL peta tidak valid.',
         ]);
 
